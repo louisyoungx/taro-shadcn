@@ -1,4 +1,8 @@
 @import url('tailwindcss');
+/*
+ ---break---
+ */
+@custom-variant dark (&:is(.dark *));
 
 /*
  * H5 端 rem 适配：与小程序 rpx 缩放一致
@@ -49,4 +53,121 @@ button {
 taro-button-core::after,
 button::after {
   border: none;
+}
+
+/*
+ ---break---
+ */
+
+:root {
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  --background: hsl(36 39% 88%);
+  --foreground: hsl(36 45% 15%);
+  --primary: hsl(36 45% 70%);
+  --primary-foreground: hsl(36 45% 11%);
+  --secondary: hsl(40 35% 77%);
+  --secondary-foreground: hsl(36 45% 25%);
+  --accent: hsl(36 64% 57%);
+  --accent-foreground: hsl(36 72% 17%);
+  --destructive: hsl(0 84% 37%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --muted: hsl(36 33% 75%);
+  --muted-foreground: hsl(36 45% 25%);
+  --card: hsl(36 46% 82%);
+  --card-foreground: hsl(36 45% 20%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(240 10% 3.9%);
+  --border: hsl(36 45% 60%);
+  --input: hsl(36 45% 60%);
+  --ring: hsl(36 45% 30%);
+  --chart-1: hsl(25 34% 28%);
+  --chart-2: hsl(26 36% 34%);
+  --chart-3: hsl(28 40% 40%);
+  --chart-4: hsl(31 41% 48%);
+  --chart-5: hsl(35 43% 53%);
+}
+
+/*
+ ---break---
+ */
+
+.dark {
+  --sidebar: hsl(240 5.9% 10%);
+  --sidebar-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-primary: hsl(224.3 76.3% 48%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(240 3.7% 15.9%);
+  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-border: hsl(240 3.7% 15.9%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  --background: hsl(36 39% 88%);
+  --foreground: hsl(36 45% 15%);
+  --primary: hsl(36 45% 70%);
+  --primary-foreground: hsl(36 45% 11%);
+  --secondary: hsl(40 35% 77%);
+  --secondary-foreground: hsl(36 45% 25%);
+  --accent: hsl(36 64% 57%);
+  --accent-foreground: hsl(36 72% 17%);
+  --destructive: hsl(0 84% 37%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --muted: hsl(36 33% 75%);
+  --muted-foreground: hsl(36 45% 25%);
+  --card: hsl(36 46% 82%);
+  --card-foreground: hsl(36 45% 20%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(240 10% 3.9%);
+  --border: hsl(36 45% 60%);
+  --input: hsl(36 45% 60%);
+  --ring: hsl(36 45% 30%);
+  --chart-1: hsl(25 34% 28%);
+  --chart-2: hsl(26 36% 34%);
+  --chart-3: hsl(28 40% 40%);
+  --chart-4: hsl(31 41% 48%);
+  --chart-5: hsl(35 43% 53%);
+}
+
+/*
+ ---break---
+ */
+
+@theme inline {
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
 }
