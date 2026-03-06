@@ -1,0 +1,14 @@
+[project]
+entrypoint = "server.js"
+requires = ["nodejs-24"]
+
+[dev]
+build = ["bash", ".cozeproj/scripts/dev_build.sh"]
+run = ["bash", ".cozeproj/scripts/dev_run.sh"]
+deps = ["git"] # -> apt install git
+pack = ["bash", ".cozeproj/scripts/pack.sh"]
+
+[deploy]
+build = ["bash", ".cozeproj/scripts/deploy_build.sh"]
+run = ["bash", ".cozeproj/scripts/deploy_run.sh"]
+deps = ["git"] # -> apt install git

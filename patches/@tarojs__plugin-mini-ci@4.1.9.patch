@@ -1,0 +1,30 @@
+diff --git a/dist/TTCI.js b/dist/TTCI.js
+index e5fe6a5f9a0ca8670ffa2b7e14cdfd8d49d0d792..6f24020a3388ea8fc7d1cbc41c1df104a8c37cb8 100644
+--- a/dist/TTCI.js
++++ b/dist/TTCI.js
+@@ -63,7 +63,10 @@ class TTCI extends BaseCi_1.default {
+                     output: previewQrcodePath,
+                 },
+                 copyToClipboard: true,
+-                cache: true
++                cache: true,
++                ideConfig: {
++                    skipDomainCheck: this.pluginOpts.tt && this.pluginOpts.tt.setting && this.pluginOpts.tt.setting.skipDomainCheck
++                }
+             });
+             console.log(chalk.green(`开发版上传成功 ${new Date().toLocaleString()}\n`));
+             const qrContent = previewResult.shortUrl;
+diff --git a/dist/index.js b/dist/index.js
+index bb245e34a477bcd738b18fdd754b252a456efe4f..588fe56131be52de2d798ee959ef257b4fa53313 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -43,7 +43,8 @@ exports.default = (ctx, _pluginOpts) => {
+             /** 字节跳动小程序上传配置 */
+             tt: joi.object({
+                 email: joi.string().required(),
+-                password: joi.string().required()
++                password: joi.string().required(),
++                setting: joi.object()
+             }),
+             /** 阿里小程序上传配置 */
+             alipay: joi.alternatives().try(joi.object({

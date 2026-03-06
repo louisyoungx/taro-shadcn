@@ -1,0 +1,107 @@
+{
+  "name": "coze-mini-program",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Coze Mini Program Application",
+  "scripts": {
+    "build": "pnpm exec concurrently --kill-others-on-fail --kill-signal SIGKILL -n lint,tsc,web,weapp,tt,server -c red,blue,green,yellow,cyan,magenta \"pnpm lint:build\" \"pnpm tsc\" \"pnpm build:web\" \"pnpm build:weapp\" \"pnpm build:tt\" \"pnpm build:server\"",
+    "build:server": "pnpm --filter server build",
+    "build:tt": "taro build --type tt",
+    "build:weapp": "taro build --type weapp",
+    "build:web": "taro build --type h5",
+    "dev": "pnpm exec concurrently --kill-others --kill-signal SIGKILL -n web,server -c blue,green \"pnpm dev:web\" \"pnpm dev:server\"",
+    "dev:server": "pnpm --filter server dev",
+    "dev:tt": "taro build --type tt --watch",
+    "dev:weapp": "taro build --type weapp --watch",
+    "dev:web": "taro build --type h5 --watch",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "weapp-tw patch",
+    "kill:all": "pkill -9 -f 'concurrently' 2>/dev/null || true; pkill -9 -f 'nest start' 2>/dev/null || true; pkill -9 -f 'taro build' 2>/dev/null || true; pkill -9 -f 'node.*dev' 2>/dev/null || true; echo 'All dev processes cleaned'",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:build": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --max-warnings=0",
+    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
+    "new": "taro new",
+    "preview:tt": "taro build --type tt --preview",
+    "preview:weapp": "taro build --type weapp --preview",
+    "tsc": "npx tsc --noEmit --skipLibCheck",
+    "validate": "pnpm exec concurrently --kill-others-on-fail --kill-signal SIGKILL -n lint,tsc -c red,blue \"pnpm lint:build\" \"pnpm tsc\""
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint"
+    ]
+  },
+  "browserslist": [
+    "last 3 versions",
+    "Android >= 4.1",
+    "ios >= 8"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.24.4",
+    "@tarojs/components": "4.1.9",
+    "@tarojs/helper": "4.1.9",
+    "@tarojs/plugin-framework-react": "4.1.9",
+    "@tarojs/plugin-platform-h5": "4.1.9",
+    "@tarojs/plugin-platform-tt": "4.1.9",
+    "@tarojs/plugin-platform-weapp": "4.1.9",
+    "@tarojs/react": "4.1.9",
+    "@tarojs/runtime": "4.1.9",
+    "@tarojs/shared": "4.1.9",
+    "@tarojs/taro": "4.1.9",
+    "drizzle-kit": "^0.31.8",
+    "lucide-react-taro": "^1.2.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/plugin-transform-class-properties": "7.25.9",
+    "@babel/preset-react": "^7.24.1",
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@tarojs/cli": "4.1.9",
+    "@tarojs/plugin-generator": "4.1.9",
+    "@tarojs/plugin-mini-ci": "^4.1.9",
+    "@tarojs/vite-runner": "4.1.9",
+    "@types/minimatch": "^5",
+    "@types/react": "^18.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "babel-preset-taro": "4.1.9",
+    "concurrently": "^9.2.1",
+    "dotenv": "^17.2.3",
+    "eslint": "^8.57.0",
+    "eslint-config-taro": "4.1.9",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "less": "^4.2.0",
+    "lint-staged": "^16.1.2",
+    "miniprogram-ci": "^2.1.26",
+    "only-allow": "^1.2.2",
+    "postcss": "^8.5.6",
+    "react-refresh": "^0.14.0",
+    "stylelint": "^16.4.0",
+    "stylelint-config-standard": "^38.0.0",
+    "tailwindcss": "^4.1.18",
+    "terser": "^5.30.4",
+    "tt-ide-cli": "^0.1.31",
+    "typescript": "^5.4.5",
+    "vite": "^4.2.0",
+    "weapp-tailwindcss": "^4.9.2"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "pnpm": ">=9.0.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@tarojs/plugin-mini-ci@4.1.9": "patches/@tarojs__plugin-mini-ci@4.1.9.patch"
+    }
+  },
+  "templateInfo": {
+    "name": "default",
+    "typescript": true,
+    "css": "Less",
+    "framework": "React"
+  }
+}
