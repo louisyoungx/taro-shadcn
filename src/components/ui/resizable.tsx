@@ -1,6 +1,6 @@
 "use client"
 
-import { GripVertical } from "lucide-react"
+import { GripVertical } from "lucide-react-taro"
 import {
   Group as ResizableGroup,
   Panel as ResizablePanelPrimitive,

@@ -6,7 +6,7 @@ import {
   LoaderCircle,
   OctagonX,
   TriangleAlert,
-} from "lucide-react"
+} from "lucide-react-taro"
 import { useTheme } from "next-themes"
 import { Toaster as Sonner } from "sonner"
 

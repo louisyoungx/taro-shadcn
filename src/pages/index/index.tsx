@@ -1,33 +1,49 @@
-import { View, Text, Image } from '@tarojs/components';
-import { useLoad } from '@tarojs/taro';
-import { Network } from '@/network';
-import './index.css';
 
-/**
- * 默认首页，直接覆盖本页内容
- */
-const IndexPage = () => {
-  useLoad(async () => {
-    const res = await Network.request({ url: '/api/hello' });
-    console.log(res.data);
+import { View, Text, ScrollView } from "@tarojs/components";
+import { useLoad, navigateTo } from "@tarojs/taro";
+import { components } from "@/lib/routes";
+import { ChevronRight } from "lucide-react-taro";
+import "./index.css";
+
+export default function IndexPage() {
+  useLoad(() => {
+    console.log("Page loaded.");
   });
 
   return (
-    <View className="w-full h-full flex flex-col justify-center items-center gap-1">
-      <Image
-        className="w-32 h-28"
-        src="https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze-coding/icon/coze-coding.gif"
-      />
-      <View className="self-stretch flex flex-col justify-start items-start gap-2">
-        <Text className="self-stretch text-center justify-start text-base-accent-foreground text-base font-bold">
-          应用开发中
-        </Text>
-        <Text className="self-stretch text-center justify-start text-base-muted-foreground text-sm font-normal">
-          请稍候，界面即将呈现
-        </Text>
-      </View>
-    </View>
-  );
-};
+    <ScrollView className="h-full bg-background" scrollY>
+      <View className="p-4 space-y-6 pb-10">
+        <View className="space-y-2">
+          <View className="text-2xl font-bold text-foreground">shadcn/ui</View>
+          <View className="text-sm text-muted-foreground">
+            A collection of re-usable components built with Radix UI and Tailwind CSS.
+          </View>
+        </View>
 
-export default IndexPage;
+        {components.map((section) => (
+          <View key={section.title} className="space-y-3">
+            <Text className="text-sm font-medium text-muted-foreground px-1">
+              {section.title}
+            </Text>
+            <View className="grid gap-2">
+              {section.items.map((item) => (
+                <View
+                  key={item.name}
+                  className="flex flex-row items-center justify-between p-4 bg-card rounded-xl border border-border active:opacity-70"
+                  onClick={() => {
+                    navigateTo({ url: item.path });
+                  }}
+                >
+                  <Text className="text-sm font-medium text-card-foreground">
+                    {item.name}
+                  </Text>
+                  <ChevronRight size={16} className="text-muted-foreground" />
+                </View>
+              ))}
+            </View>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
+  );
+}
