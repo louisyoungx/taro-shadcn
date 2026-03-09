@@ -33,11 +33,11 @@ export default function CardPage() {
         <CardContent>
           <View className="grid w-full items-center gap-4">
             <View className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
+              <Label>Name</Label>
               <Input id="name" placeholder="Name of your project" />
             </View>
             <View className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Framework</Label>
+              <Label>Framework</Label>
               <Select>
                 <SelectTrigger id="framework">
                   <SelectValue placeholder="Select" />

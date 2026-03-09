@@ -30,7 +30,7 @@ export default function DialogPage() {
           </DialogHeader>
           <View className="grid gap-4 py-4">
             <View className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
+              <Label className="text-right">
                 Name
               </Label>
               <Input
@@ -40,7 +40,7 @@ export default function DialogPage() {
               />
             </View>
             <View className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
+              <Label className="text-right">
                 Username
               </Label>
               <Input

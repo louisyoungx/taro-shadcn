@@ -22,7 +22,7 @@ export default function LabelPage() {
                 checked={checked1}
                 onCheckedChange={setChecked1}
               />
-              <Label htmlFor="terms" onClick={() => setChecked1(!checked1)}>
+              <Label onClick={() => setChecked1(!checked1)}>
                 Accept terms and conditions
               </Label>
             </View>
@@ -32,7 +32,7 @@ export default function LabelPage() {
                 checked={checked2}
                 onCheckedChange={setChecked2}
               />
-              <Label htmlFor="privacy" onClick={() => setChecked2(!checked2)}>
+              <Label onClick={() => setChecked2(!checked2)}>
                 Agree to privacy policy
               </Label>
             </View>
@@ -43,7 +43,6 @@ export default function LabelPage() {
                 onCheckedChange={setChecked3}
               />
               <Label
-                htmlFor="notifications"
                 onClick={() => setChecked3(!checked3)}
               >
                 Receive notifications
@@ -55,7 +54,7 @@ export default function LabelPage() {
         <View className="space-y-2">
           <View className="text-sm text-muted-foreground mb-2">配合输入框</View>
           <View className="grid w-full max-w-sm items-center gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label>Email</Label>
             <Input type="email" id="email" placeholder="Email" />
           </View>
         </View>
@@ -63,7 +62,7 @@ export default function LabelPage() {
         <View className="space-y-2">
           <View className="text-sm text-muted-foreground mb-2">必填项</View>
           <View className="grid w-full max-w-sm items-center gap-2">
-            <Label htmlFor="username">
+            <Label>
               Username <Text className="text-red-500">*</Text>
             </Label>
             <Input type="text" id="username" placeholder="Username" />
@@ -73,7 +72,7 @@ export default function LabelPage() {
         <View className="space-y-2">
           <View className="text-sm text-muted-foreground mb-2">自定义样式</View>
           <View className="grid w-full max-w-sm items-center gap-2">
-            <Label htmlFor="custom" className="text-lg text-primary font-bold">
+            <Label className="text-lg text-primary font-bold">
               Custom Style Label
             </Label>
             <Input type="text" id="custom" placeholder="Custom styled label" />

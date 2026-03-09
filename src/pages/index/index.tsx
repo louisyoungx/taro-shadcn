@@ -1,11 +1,26 @@
 
 import { View, Text, ScrollView } from "@tarojs/components";
-import { useLoad, navigateTo } from "@tarojs/taro";
-import { components } from "@/lib/routes";
+import Taro, { useLoad, navigateTo } from "@tarojs/taro";
 import { ChevronRight } from "lucide-react-taro";
 import "./index.css";
 
 export default function IndexPage() {
+  const app = Taro.getApp();
+  const pages = (app.config?.pages || [])
+    .filter((p) => p !== "pages/index/index")
+    .map((page) => {
+      const parts = page.split("/");
+      const name = parts[parts.length - 2];
+      const title = name
+        .split("-")
+        .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+        .join("");
+      return {
+        name: title,
+        path: "/" + page,
+      };
+    });
+
   useLoad(() => {
     console.log("Page loaded.");
   });
@@ -20,29 +35,22 @@ export default function IndexPage() {
           </View>
         </View>
 
-        {components.map((section) => (
-          <View key={section.title} className="space-y-3">
-            <Text className="text-sm font-medium text-muted-foreground px-1">
-              {section.title}
-            </Text>
-            <View className="grid gap-2">
-              {section.items.map((item) => (
-                <View
-                  key={item.name}
-                  className="flex flex-row items-center justify-between p-4 bg-card rounded-xl border border-border active:opacity-70"
-                  onClick={() => {
-                    navigateTo({ url: item.path });
-                  }}
-                >
-                  <Text className="text-sm font-medium text-card-foreground">
-                    {item.name}
-                  </Text>
-                  <ChevronRight size={16} className="text-muted-foreground" />
-                </View>
-              ))}
+        <View className="grid gap-2">
+          {pages.map((item) => (
+            <View
+              key={item.name}
+              className="flex flex-row items-center justify-between p-4 bg-card rounded-xl border border-border active:opacity-70"
+              onClick={() => {
+                navigateTo({ url: item.path });
+              }}
+            >
+              <Text className="text-sm font-medium text-card-foreground">
+                {item.name}
+              </Text>
+              <ChevronRight size={16} className="text-muted-foreground" />
             </View>
-          </View>
-        ))}
+          ))}
+        </View>
       </View>
     </ScrollView>
   );

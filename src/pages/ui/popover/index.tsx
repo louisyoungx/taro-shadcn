@@ -27,7 +27,7 @@ export default function PopoverPage() {
             </View>
             <View className="grid gap-2">
               <View className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="width">Width</Label>
+                <Label>Width</Label>
                 <Input
                   id="width"
                   defaultValue="100%"
@@ -35,7 +35,7 @@ export default function PopoverPage() {
                 />
               </View>
               <View className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="maxWidth">Max. width</Label>
+                <Label>Max. width</Label>
                 <Input
                   id="maxWidth"
                   defaultValue="300px"
@@ -43,7 +43,7 @@ export default function PopoverPage() {
                 />
               </View>
               <View className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="height">Height</Label>
+                <Label>Height</Label>
                 <Input
                   id="height"
                   defaultValue="25px"
@@ -51,7 +51,7 @@ export default function PopoverPage() {
                 />
               </View>
               <View className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="maxHeight">Max. height</Label>
+                <Label>Max. height</Label>
                 <Input
                   id="maxHeight"
                   defaultValue="none"

@@ -32,11 +32,11 @@ export default function TabsPage() {
             </CardHeader>
             <CardContent className="space-y-2">
               <View className="space-y-1">
-                <Label htmlFor="name">Name</Label>
+                <Label>Name</Label>
                 <Input id="name" defaultValue="Pedro Duarte" />
               </View>
               <View className="space-y-1">
-                <Label htmlFor="username">Username</Label>
+                <Label>Username</Label>
                 <Input id="username" defaultValue="@peduarte" />
               </View>
             </CardContent>
@@ -55,11 +55,11 @@ export default function TabsPage() {
             </CardHeader>
             <CardContent className="space-y-2">
               <View className="space-y-1">
-                <Label htmlFor="current">Current password</Label>
+                <Label>Current password</Label>
                 <Input id="current" type="password" />
               </View>
               <View className="space-y-1">
-                <Label htmlFor="new">New password</Label>
+                <Label>New password</Label>
                 <Input id="new" type="password" />
               </View>
             </CardContent>

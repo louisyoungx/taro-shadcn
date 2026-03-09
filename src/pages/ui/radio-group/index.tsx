@@ -8,17 +8,17 @@ export default function RadioGroupPage() {
   return (
     <PageLayout title="RadioGroup">
       <RadioGroup defaultValue="comfortable">
-        <View className="flex items-center space-x-2">
+        <View className="flex items-center gap-2">
           <RadioGroupItem value="default" id="r1" />
-          <Label htmlFor="r1">Default</Label>
+          <Label>Default</Label>
         </View>
-        <View className="flex items-center space-x-2">
+        <View className="flex items-center gap-2">
           <RadioGroupItem value="comfortable" id="r2" />
-          <Label htmlFor="r2">Comfortable</Label>
+          <Label>Comfortable</Label>
         </View>
-        <View className="flex items-center space-x-2">
+        <View className="flex items-center gap-2">
           <RadioGroupItem value="compact" id="r3" />
-          <Label htmlFor="r3">Compact</Label>
+          <Label>Compact</Label>
         </View>
       </RadioGroup>
     </PageLayout>

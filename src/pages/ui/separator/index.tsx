@@ -8,7 +8,8 @@ export default function SeparatorPage() {
     <PageLayout title="Separator">
       <View>
         <View className="space-y-1">
-          <Text className="text-sm font-medium leading-none">Radix Primitives</Text>
+          <Text className="text-sm font-medium leading-none">Taro Shadcn UI Separator</Text>
+          <Separator className="my-4" />
           <Text className="text-sm text-muted-foreground">
             An open-source UI component library.
           </Text>
