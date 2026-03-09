@@ -26,7 +26,7 @@ export default defineAppConfig({
         // 'pages/ui/toast/index',
         // 'pages/ui/sonner/index',
         // 'pages/ui/progress/index',
-        // 'pages/ui/slider/index',
+        'pages/ui/slider/index',
         // 'pages/ui/toggle/index',
         // 'pages/ui/toggle-group/index',
         // 'pages/ui/collapsible/index',

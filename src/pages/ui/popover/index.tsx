@@ -20,10 +20,10 @@ export default function PopoverPage() {
         <PopoverContent className="w-80">
           <View className="grid gap-4">
             <View className="space-y-2">
-              <Text className="font-medium leading-none">Dimensions</Text>
-              <Text className="text-sm text-muted-foreground">
+              <View className="font-medium leading-none">Dimensions</View>
+              <View className="text-sm text-muted-foreground">
                 Set the dimensions for the layer.
-              </Text>
+              </View>
             </View>
             <View className="grid gap-2">
               <View className="grid grid-cols-3 items-center gap-4">

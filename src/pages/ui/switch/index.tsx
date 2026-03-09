@@ -1,36 +1,8 @@
 
-import * as React from "react"
 import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-
-function SwitchDemo({
-  className,
-  activeClass,
-  defaultValue = false,
-  label,
-  ...props
-}: React.ComponentProps<typeof Switch> & {
-  activeClass?: string
-  defaultValue?: boolean
-  label?: string
-}) {
-  const [checked, setChecked] = React.useState(defaultValue)
-
-  return (
-    <View className="flex items-center gap-2">
-      <Switch
-        checked={checked}
-        onCheckedChange={setChecked}
-        className={cn(className, checked && activeClass)}
-        {...props}
-      />
-      {label && <Label>{label}</Label>}
-    </View>
-  )
-}
 
 export default function SwitchPage() {
   return (
@@ -40,7 +12,10 @@ export default function SwitchPage() {
           <Label className="text-muted-foreground text-xs font-medium uppercase">
             Default
           </Label>
-          <SwitchDemo label="Airplane Mode" />
+          <View className="flex items-center gap-2">
+            <Switch />
+            <Label>Airplane Mode</Label>
+          </View>
         </View>
 
         <View className="flex flex-col gap-3">
@@ -48,10 +23,34 @@ export default function SwitchPage() {
             Colors
           </Label>
           <View className="flex flex-wrap gap-4">
-            <SwitchDemo activeClass="bg-green-500" label="Green" defaultValue />
-            <SwitchDemo activeClass="bg-red-500" label="Red" defaultValue />
-            <SwitchDemo activeClass="bg-blue-500" label="Blue" defaultValue />
-            <SwitchDemo activeClass="bg-orange-500" label="Orange" defaultValue />
+            <View className="flex items-center gap-2">
+              <Switch
+                defaultChecked
+                className="data-[state=checked]:bg-green-500"
+              />
+              <Label>Green</Label>
+            </View>
+            <View className="flex items-center gap-2">
+              <Switch
+                defaultChecked
+                className="data-[state=checked]:bg-red-500"
+              />
+              <Label>Red</Label>
+            </View>
+            <View className="flex items-center gap-2">
+              <Switch
+                defaultChecked
+                className="data-[state=checked]:bg-blue-500"
+              />
+              <Label>Blue</Label>
+            </View>
+            <View className="flex items-center gap-2">
+              <Switch
+                defaultChecked
+                className="data-[state=checked]:bg-orange-500"
+              />
+              <Label>Orange</Label>
+            </View>
           </View>
         </View>
 
@@ -61,11 +60,20 @@ export default function SwitchPage() {
           </Label>
           <View className="flex items-center gap-4">
             <View style={{ transform: 'scale(0.8)', transformOrigin: 'left center' }}>
-              <SwitchDemo label="Small (0.8x)" />
+              <View className="flex items-center gap-2">
+                <Switch />
+                <Label>Small (0.8x)</Label>
+              </View>
             </View>
-            <SwitchDemo label="Normal (1x)" />
+            <View className="flex items-center gap-2">
+              <Switch />
+              <Label>Normal (1x)</Label>
+            </View>
             <View style={{ transform: 'scale(1.2)', transformOrigin: 'left center' }}>
-              <SwitchDemo label="Large (1.2x)" />
+              <View className="flex items-center gap-2">
+                <Switch />
+                <Label>Large (1.2x)</Label>
+              </View>
             </View>
           </View>
         </View>
@@ -75,8 +83,14 @@ export default function SwitchPage() {
             States
           </Label>
           <View className="flex flex-wrap gap-4">
-            <SwitchDemo disabled label="Disabled" />
-            <SwitchDemo disabled defaultValue label="Disabled Checked" />
+            <View className="flex items-center gap-2">
+              <Switch disabled />
+              <Label>Disabled</Label>
+            </View>
+            <View className="flex items-center gap-2">
+              <Switch disabled defaultChecked />
+              <Label>Disabled Checked</Label>
+            </View>
           </View>
         </View>
       </View>

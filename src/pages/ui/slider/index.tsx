@@ -1,5 +1,4 @@
 
-import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
