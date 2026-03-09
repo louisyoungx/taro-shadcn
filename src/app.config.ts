@@ -2,8 +2,8 @@ export default defineAppConfig({
     pages: [
         'pages/index/index',
         'pages/ui/button/index',
-        // 'pages/ui/avatar/index',
-        // 'pages/ui/badge/index',
+        'pages/ui/avatar/index',
+        'pages/ui/badge/index',
         // 'pages/ui/card/index',
         'pages/ui/input/index',
         'pages/ui/label/index',
