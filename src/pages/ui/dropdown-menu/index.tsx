@@ -1,5 +1,4 @@
 
-import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import {
   DropdownMenu,

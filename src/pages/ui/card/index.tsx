@@ -1,5 +1,5 @@
 
-import { View, Text } from "@tarojs/components";
+import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import {
   Card,
@@ -32,11 +32,11 @@ export default function CardPage() {
         </CardHeader>
         <CardContent>
           <View className="grid w-full items-center gap-4">
-            <View className="flex flex-col space-y-1.5">
+            <View className="flex flex-col space-y-2">
               <Label>Name</Label>
               <Input id="name" placeholder="Name of your project" />
             </View>
-            <View className="flex flex-col space-y-1.5">
+            <View className="flex flex-col space-y-2">
               <Label>Framework</Label>
               <Select>
                 <SelectTrigger id="framework">

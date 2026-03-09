@@ -1,5 +1,4 @@
 
-import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import {
   Accordion,
@@ -28,7 +27,7 @@ export default function AccordionPage() {
         <AccordionItem value="item-3">
           <AccordionTrigger>Is it animated?</AccordionTrigger>
           <AccordionContent>
-            Yes. It's animated by default, but you can disable it if you prefer.
+            Yes. It&apos;s animated by default, but you can disable it if you prefer.
           </AccordionContent>
         </AccordionItem>
       </Accordion>

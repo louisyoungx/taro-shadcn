@@ -57,13 +57,13 @@ export default function ToggleGroupPage() {
           <Text className="text-sm font-medium text-muted-foreground">Small</Text>
           <ToggleGroup type="single" size="sm" variant="outline">
             <ToggleGroupItem value="bold" aria-label="Toggle bold">
-              <Bold className="h-3.5 w-3.5" />
+              <Bold className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="italic" aria-label="Toggle italic">
-              <Italic className="h-3.5 w-3.5" />
+              <Italic className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="underline" aria-label="Toggle underline">
-              <Underline className="h-3.5 w-3.5" />
+              <Underline className="h-4 w-4" />
             </ToggleGroupItem>
           </ToggleGroup>
         </View>

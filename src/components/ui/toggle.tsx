@@ -15,7 +15,7 @@ const toggleVariants = cva(
       },
       size: {
         default: "h-10 px-3 min-w-10",
-        sm: "h-9 px-2.5 min-w-9",
+        sm: "h-9 px-3 min-w-9",
         lg: "h-11 px-5 min-w-11",
       },
     },
@@ -51,16 +51,16 @@ const Toggle = React.forwardRef<
 
   return (
     <View
-        ref={ref}
-        className={cn(
+      ref={ref}
+      className={cn(
           toggleVariants({ variant, size, className }),
           pressed && "bg-accent text-accent-foreground",
           disabled && "opacity-50 pointer-events-none"
         )}
-        data-state={pressed ? "on" : "off"}
-        data-disabled={disabled ? "" : undefined}
-        onClick={handleClick}
-        {...props}
+      data-state={pressed ? "on" : "off"}
+      data-disabled={disabled ? "" : undefined}
+      onClick={handleClick}
+      {...props}
     />
   )
 })

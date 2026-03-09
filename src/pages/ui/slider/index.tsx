@@ -29,31 +29,31 @@ export default function SliderPage() {
             thumbClassName="border-green-500 focus:ring-green-500/30" 
           />
            <Slider 
-            defaultValue={[50]} 
-            max={100} 
-            step={1} 
-            className="w-[60%]"
-            rangeClassName="bg-red-500"
-            thumbClassName="border-red-500 focus:ring-red-500/30" 
-          />
+             defaultValue={[50]} 
+             max={100} 
+             step={1} 
+             className="w-[60%]"
+             rangeClassName="bg-red-500"
+             thumbClassName="border-red-500 focus:ring-red-500/30"
+           />
         </View>
 
         <View className="flex flex-col gap-4">
           <View className="text-sm font-medium">Vertical</View>
           <View className="flex h-[200px] flex-row gap-8">
             <Slider 
-                defaultValue={[50]} 
-                max={100} 
-                step={1} 
-                orientation="vertical"
+              defaultValue={[50]} 
+              max={100} 
+              step={1} 
+              orientation="vertical"
             />
             <Slider 
-                defaultValue={[75]} 
-                max={100} 
-                step={1} 
-                orientation="vertical"
-                rangeClassName="bg-blue-500"
-                thumbClassName="border-blue-500 focus:ring-blue-500/30"
+              defaultValue={[75]} 
+              max={100} 
+              step={1} 
+              orientation="vertical"
+              rangeClassName="bg-blue-500"
+              thumbClassName="border-blue-500 focus:ring-blue-500/30"
             />
           </View>
         </View>

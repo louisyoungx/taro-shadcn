@@ -12,7 +12,8 @@ export default function TextareaPage() {
         </Text>
         <Textarea 
           className="h-20"
-          placeholder="Type your message here." />
+          placeholder="Type your message here."
+        />
       </View>
 
       <View className="space-y-2">

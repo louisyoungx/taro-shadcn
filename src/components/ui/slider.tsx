@@ -37,11 +37,11 @@ const Slider = React.forwardRef<
       query
         .select(`#${idRef.current}`)
         .boundingClientRect((res) => {
-          const rect = Array.isArray(res) ? res[0] : res
-          if (rect) {
-            setRect({ left: rect.left, top: rect.top, width: rect.width, height: rect.height })
-          }
-        })
+        const measuredRect = Array.isArray(res) ? res[0] : res
+        if (measuredRect) {
+          setRect({ left: measuredRect.left, top: measuredRect.top, width: measuredRect.width, height: measuredRect.height })
+        }
+      })
         .exec()
     }, 100)
     return () => clearTimeout(timer)
@@ -80,18 +80,18 @@ const Slider = React.forwardRef<
     query
       .select(`#${idRef.current}`)
       .boundingClientRect((res) => {
-        const rect = Array.isArray(res) ? res[0] : res
-        if (rect) {
-          setRect({ left: rect.left, top: rect.top, width: rect.width, height: rect.height })
+        const measuredRect = Array.isArray(res) ? res[0] : res
+        if (measuredRect) {
+          setRect({ left: measuredRect.left, top: measuredRect.top, width: measuredRect.width, height: measuredRect.height })
           // If we have a touch event, update value immediately after getting fresh rect
           const touch = e.touches[0] || e.changedTouches[0]
           if (touch) {
              let percentage = 0
              if (orientation === "horizontal") {
-               const { left, width } = rect
+               const { left, width } = measuredRect
                percentage = Math.min(Math.max((touch.pageX - left) / width, 0), 1)
              } else {
-               const { top, height } = rect
+               const { top, height } = measuredRect
                percentage = Math.min(Math.max(1 - (touch.pageY - top) / height, 0), 1)
              }
              

@@ -1,5 +1,5 @@
 
-import { View, Text } from "@tarojs/components";
+import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +25,7 @@ export default function DialogPage() {
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
+              Make changes to your profile here. Click save when you&apos;re done.
             </DialogDescription>
           </DialogHeader>
           <View className="grid gap-4 py-4">

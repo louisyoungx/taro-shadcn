@@ -1,5 +1,5 @@
 
-import { View, Text } from "@tarojs/components";
+import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
