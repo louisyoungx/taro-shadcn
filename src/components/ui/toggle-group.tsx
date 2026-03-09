@@ -98,6 +98,7 @@ const ToggleGroupItem = React.forwardRef<
           size: context.size || size,
         }),
         className,
+        checked && "bg-accent text-accent-foreground",
         disabled && "opacity-50 pointer-events-none"
       )}
       data-state={checked ? "on" : "off"}

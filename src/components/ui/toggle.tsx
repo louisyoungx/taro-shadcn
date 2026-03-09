@@ -52,7 +52,11 @@ const Toggle = React.forwardRef<
   return (
     <View
         ref={ref}
-        className={cn(toggleVariants({ variant, size, className }), disabled && "opacity-50 pointer-events-none")}
+        className={cn(
+          toggleVariants({ variant, size, className }),
+          pressed && "bg-accent text-accent-foreground",
+          disabled && "opacity-50 pointer-events-none"
+        )}
         data-state={pressed ? "on" : "off"}
         data-disabled={disabled ? "" : undefined}
         onClick={handleClick}
