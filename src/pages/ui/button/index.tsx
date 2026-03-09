@@ -2,7 +2,7 @@
 import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import { Button } from "@/components/ui/button";
-import { LoaderCircle, Mail } from "lucide-react-taro";
+import { ChevronRight, LoaderCircle, Mail } from "lucide-react-taro";
 
 export default function ButtonPage() {
   return (
@@ -43,6 +43,12 @@ export default function ButtonPage() {
           <Button disabled>
             <LoaderCircle className="mr-2 h-4 w-4 animate-spin" color="#fff" />
             Please wait
+          </Button>
+        </View>
+        <View className="space-y-2">
+          <View className="text-sm text-muted-foreground">Icon Button</View>
+          <Button variant="outline" size="icon">
+            <ChevronRight className="h-4 w-4" />
           </Button>
         </View>
       </View>

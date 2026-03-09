@@ -54,10 +54,10 @@ export default [
           selector: "Literal[value=/\\bpeer-[a-z0-9-]+\\b/], TemplateElement[value.raw=/\\bpeer-[a-z0-9-]+\\b/]",
           message: "Tailwind 'peer' modifiers (e.g., peer-checked, peer-disabled) are not supported in WeChat Mini Program."
         },
-        {
-          selector: "Literal[value=/\\bgroup-[a-z0-9-]+\\b/], TemplateElement[value.raw=/\\bgroup-[a-z0-9-]+\\b/]",
-          message: "Tailwind 'group' modifiers (e.g., group-hover) are not supported in WeChat Mini Program."
-        },
+        // {
+        //   selector: "Literal[value=/\\bgroup-[a-z0-9-]+\\b/], TemplateElement[value.raw=/\\bgroup-[a-z0-9-]+\\b/]",
+        //   message: "Tailwind 'group' modifiers (e.g., group-hover) are not supported in WeChat Mini Program."
+        // },
         {
           selector: "Literal[value=/\\b[a-zA-Z0-9-]+\\-[0-9]+\\.[0-9]+\\b/], TemplateElement[value.raw=/\\b[a-zA-Z0-9-]+\\-[0-9]+\\.[0-9]+\\b/]",
           message: "WeChat Mini Program compatibility: Avoid using fractional values in Tailwind classes (e.g., 'space-y-1.5', 'w-0.5'). Use integer values instead (e.g., 'space-y-2', 'w-1')."

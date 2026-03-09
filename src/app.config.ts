@@ -2,10 +2,12 @@ export default defineAppConfig({
     pages: [
         'pages/index/index',
         'pages/ui/button/index',
+        'pages/ui/button-group/index',
         'pages/ui/avatar/index',
         'pages/ui/badge/index',
         'pages/ui/card/index',
         'pages/ui/input/index',
+        'pages/ui/input-group/index',
         'pages/ui/label/index',
         'pages/ui/textarea/index',
         'pages/ui/checkbox/index',
