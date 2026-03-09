@@ -52,6 +52,51 @@ vite-error-overlay::part(window) {
 body.h5-navbar-visible .taro_page {
   padding-top: 44px;
 }
+
+/*
+ * H5 端 rem 适配：与小程序 rpx 缩放一致
+ * 375px 屏幕：1rem = 16px，小程序 32rpx = 16px
+ */
+html {
+    font-size: 4vw !important;
+}
+
+/* H5 端组件默认样式修复 */
+taro-view-core {
+    display: block;
+}
+
+taro-text-core {
+    display: inline;
+}
+
+taro-input-core {
+    display: block;
+    width: 100%;
+}
+
+taro-input-core input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+/* 全局按钮样式重置 */
+taro-button-core,
+button {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+taro-button-core::after,
+button::after {
+    border: none;
+}
 `;
 
 const PC_WIDESCREEN_STYLES = `

@@ -1,6 +1,7 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import tailwind from 'eslint-plugin-tailwindcss';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,12 +12,26 @@ const compat = new FlatCompat({
 
 export default [
   ...compat.extends('taro/react'),
+  ...tailwind.configs['flat/recommended'],
   {
     rules: {
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',
       'jsx-quotes': ['error', 'prefer-double'],
       'react-hooks/exhaustive-deps': 'off',
+      'tailwindcss/classnames-order': 'off',
+      'tailwindcss/no-custom-classname': 'off',
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "Literal[value=/\\bpeer-[a-z0-9-]+\\b/], TemplateElement[value.raw=/\\bpeer-[a-z0-9-]+\\b/]",
+          message: "Tailwind 'peer' modifiers (e.g., peer-checked, peer-disabled) are not supported in WeChat Mini Program."
+        },
+        {
+          selector: "Literal[value=/\\bgroup-[a-z0-9-]+\\b/], TemplateElement[value.raw=/\\bgroup-[a-z0-9-]+\\b/]",
+          message: "Tailwind 'group' modifiers (e.g., group-hover) are not supported in WeChat Mini Program."
+        }
+      ]
     },
   },
   {
@@ -37,6 +52,18 @@ export default [
           message:
             "禁止自行定义 Network，项目已提供 src/network.ts，请直接使用: import { Network } from '@/network'",
         },
+        {
+          selector: "Literal[value=/\\bpeer-[a-z0-9-]+\\b/], TemplateElement[value.raw=/\\bpeer-[a-z0-9-]+\\b/]",
+          message: "Tailwind 'peer' modifiers (e.g., peer-checked, peer-disabled) are not supported in WeChat Mini Program."
+        },
+        {
+          selector: "Literal[value=/\\bgroup-[a-z0-9-]+\\b/], TemplateElement[value.raw=/\\bgroup-[a-z0-9-]+\\b/]",
+          message: "Tailwind 'group' modifiers (e.g., group-hover) are not supported in WeChat Mini Program."
+        },
+        {
+          selector: "Literal[value=/\\b[a-zA-Z0-9-]+\\-[0-9]+\\.[0-9]+\\b/], TemplateElement[value.raw=/\\b[a-zA-Z0-9-]+\\-[0-9]+\\.[0-9]+\\b/]",
+          message: "WeChat Mini Program compatibility: Avoid using fractional values in Tailwind classes (e.g., 'space-y-1.5', 'w-0.5'). Use integer values instead (e.g., 'space-y-2', 'w-1')."
+        }
       ],
       'no-restricted-properties': [
         'error',

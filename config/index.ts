@@ -37,11 +37,11 @@ const generateTTProjectConfig = () => {
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig<'vite'>(async (merge, _env) => {
   const outputRootMap: Record<string, string> = {
-    weapp: 'dist',
+    weapp: 'dist-weapp',
     tt: 'dist-tt',
     h5: 'dist-web',
   };
-  const outputRoot = outputRootMap[process.env.TARO_ENV || ''] || 'dist-web';
+  const outputRoot = outputRootMap[process.env.TARO_ENV || ''] || 'dist';
 
   const buildMiniCIPluginConfig = () => {
     const hasWeappConfig = !!process.env.TARO_APP_WEAPP_APPID

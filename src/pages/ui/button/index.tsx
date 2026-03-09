@@ -35,13 +35,13 @@ export default function ButtonPage() {
         <View className="space-y-2">
           <View className="text-sm text-muted-foreground">With Icon</View>
           <Button>
-            <Mail className="mr-2 h-4 w-4" /> Login with Email
+            <Mail className="mr-2 h-4 w-4" color="#fff" /> Login with Email
           </Button>
         </View>
         <View className="space-y-2">
           <View className="text-sm text-muted-foreground">Loading</View>
           <Button disabled>
-            <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+            <LoaderCircle className="mr-2 h-4 w-4 animate-spin" color="#fff" />
             Please wait
           </Button>
         </View>
