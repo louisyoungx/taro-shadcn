@@ -1,7 +1,7 @@
 import * as React from "react"
 import { View, RootPortal } from "@tarojs/components"
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "./button"
+import { buttonVariants } from "@/components/ui/button"
 
 const AlertDialogContext = React.createContext<{
   open?: boolean

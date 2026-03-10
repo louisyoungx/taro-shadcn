@@ -3,7 +3,7 @@ import { View, Text } from "@tarojs/components"
 import { ChevronLeft, ChevronRight, Ellipsis } from "lucide-react-taro"
 
 import { cn } from "@/lib/utils"
-import { ButtonProps, buttonVariants } from "./button"
+import { ButtonProps, buttonVariants } from "@/components/ui/button"
 
 const Pagination = ({ className, ...props }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View

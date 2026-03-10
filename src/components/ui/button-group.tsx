@@ -4,7 +4,7 @@ import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-import { Separator } from "./separator"
+import { Separator } from "@/components/ui/separator"
 
 const buttonGroupVariants = cva(
   "flex w-fit items-stretch [&>view[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1",

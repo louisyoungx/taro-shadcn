@@ -3,7 +3,7 @@ import { View, Text, Input, Textarea } from "@tarojs/components"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-import { Button } from "./button"
+import { Button } from "@/components/ui/button"
 
 interface InputGroupContextValue {
   isFocused: boolean

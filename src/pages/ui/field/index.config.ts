@@ -1,3 +1,4 @@
 export default definePageConfig({
-  navigationBarTitleText: 'Form'
+  navigationBarTitleText: "Field",
 })
+
