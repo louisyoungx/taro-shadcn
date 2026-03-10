@@ -25,10 +25,15 @@ const Slider = React.forwardRef<
   )
   const [isDragging, setIsDragging] = React.useState(false)
   const [rect, setRect] = React.useState<{ left: number; top: number; width: number; height: number } | null>(null)
+  const rectRef = React.useRef<{ left: number; top: number; width: number; height: number } | null>(null)
   const idRef = React.useRef(`slider-${Math.random().toString(36).substr(2, 9)}`)
   
   const value = valueProp !== undefined ? valueProp : localValue
   const currentValue = value[0] ?? min
+
+  React.useEffect(() => {
+    rectRef.current = rect
+  }, [rect])
 
   React.useEffect(() => {
     // Delay measurement to ensure the component is mounted and layout is ready
@@ -40,6 +45,7 @@ const Slider = React.forwardRef<
         const measuredRect = Array.isArray(res) ? res[0] : res
         if (measuredRect) {
           setRect({ left: measuredRect.left, top: measuredRect.top, width: measuredRect.width, height: measuredRect.height })
+          rectRef.current = { left: measuredRect.left, top: measuredRect.top, width: measuredRect.width, height: measuredRect.height }
         }
       })
         .exec()
@@ -47,15 +53,16 @@ const Slider = React.forwardRef<
     return () => clearTimeout(timer)
   }, [])
 
-  const updateValue = (pageX: number, pageY: number) => {
-    if (!rect || disabled) return
+  const updateValue = (pageX: number, pageY: number, passedRect?: { left: number; top: number; width: number; height: number } | null) => {
+    const currentRect = passedRect || rectRef.current
+    if (!currentRect || disabled) return
 
     let percentage = 0
     if (orientation === "horizontal") {
-      const { left, width } = rect
+      const { left, width } = currentRect
       percentage = Math.min(Math.max((pageX - left) / width, 0), 1)
     } else {
-      const { top, height } = rect
+      const { top, height } = currentRect
       percentage = Math.min(Math.max(1 - (pageY - top) / height, 0), 1)
     }
 
@@ -83,33 +90,49 @@ const Slider = React.forwardRef<
         const measuredRect = Array.isArray(res) ? res[0] : res
         if (measuredRect) {
           setRect({ left: measuredRect.left, top: measuredRect.top, width: measuredRect.width, height: measuredRect.height })
+          rectRef.current = { left: measuredRect.left, top: measuredRect.top, width: measuredRect.width, height: measuredRect.height }
           // If we have a touch event, update value immediately after getting fresh rect
           const touch = e.touches[0] || e.changedTouches[0]
           if (touch) {
-             let percentage = 0
-             if (orientation === "horizontal") {
-               const { left, width } = measuredRect
-               percentage = Math.min(Math.max((touch.pageX - left) / width, 0), 1)
-             } else {
-               const { top, height } = measuredRect
-               percentage = Math.min(Math.max(1 - (touch.pageY - top) / height, 0), 1)
-             }
-             
-             const rawValue = min + percentage * (max - min)
-             const steppedValue = Math.round((rawValue - min) / step) * step + min
-             const newValue = Math.min(Math.max(steppedValue, min), max)
-             
-             if (newValue !== currentValue) {
-               const nextValue = [newValue]
-               if (valueProp === undefined) {
-                 setLocalValue(nextValue)
-               }
-               onValueChange?.(nextValue)
-             }
+             updateValue(touch.pageX, touch.pageY, rectRef.current)
           }
         }
       })
       .exec()
+  }
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (disabled) return
+    setIsDragging(true)
+    
+    const query = Taro.createSelectorQuery()
+    query
+      .select(`#${idRef.current}`)
+      .boundingClientRect((res) => {
+        const measuredRect = Array.isArray(res) ? res[0] : res
+        if (measuredRect) {
+          setRect({ left: measuredRect.left, top: measuredRect.top, width: measuredRect.width, height: measuredRect.height })
+          rectRef.current = { left: measuredRect.left, top: measuredRect.top, width: measuredRect.width, height: measuredRect.height }
+          updateValue(e.pageX, e.pageY, rectRef.current)
+        }
+      })
+      .exec()
+
+    const onMouseMove = (moveEvent: MouseEvent) => {
+      updateValue(moveEvent.pageX, moveEvent.pageY)
+    }
+
+    const onMouseUp = (upEvent: MouseEvent) => {
+      setIsDragging(false)
+      updateValue(upEvent.pageX, upEvent.pageY)
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseup', onMouseUp)
+    }
+
+    if (typeof document !== 'undefined') {
+        document.addEventListener('mousemove', onMouseMove)
+        document.addEventListener('mouseup', onMouseUp)
+    }
   }
 
   const handleTouchMove = (e: any) => {
@@ -143,6 +166,8 @@ const Slider = React.forwardRef<
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      // @ts-ignore
+      onMouseDown={handleMouseDown}
       {...props}
     >
       <View 
