@@ -1,14 +1,16 @@
+/* stylelint-disable selector-type-no-unknown */
 /* stylelint-disable at-rule-no-unknown */
 /* stylelint-disable number-max-precision */
-@import url('tailwindcss');
+@import url('weapp-tailwindcss');
 
 /* 小程序页面容器高度设置，确保垂直居中生效 */
-/* stylelint-disable-next-line selector-type-no-unknown */
 page {
     height: 100%;
 }
 
-:root {
+:root,
+page,
+root-portal {
     --background: lab(100% 0 0);
     --foreground: lab(2.75381% 0 0);
     --card: lab(100% 0 0);

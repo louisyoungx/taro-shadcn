@@ -15,7 +15,7 @@ export default defineAppConfig({
         'pages/ui/switch/index',
         'pages/ui/separator/index',
         'pages/ui/skeleton/index',
-        // 'pages/ui/dialog/index',
+        'pages/ui/dialog/index',
         // 'pages/ui/sheet/index',
         // 'pages/ui/drawer/index',
         // 'pages/ui/popover/index',
