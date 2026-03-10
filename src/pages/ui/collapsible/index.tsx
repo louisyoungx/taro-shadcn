@@ -18,9 +18,9 @@ export default function CollapsiblePage() {
       <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}
-        className="w-[350px] space-y-2"
+        className="w-full space-y-2"
       >
-        <View className="flex items-center justify-between space-x-4 px-4">
+        <View className="flex items-center justify-between space-x-4 px-4 w-full">
           <Text className="text-sm font-semibold text-foreground">
             @peduarte starred 3 repositories
           </Text>

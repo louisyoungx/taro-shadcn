@@ -11,7 +11,7 @@ const tags = Array.from({ length: 50 }).map(
 export default function ScrollAreaPage() {
   return (
     <PageLayout title="ScrollArea">
-      <ScrollArea className="h-72 w-48 rounded-md border">
+      <ScrollArea className="h-72 w-full rounded-md border">
         <View className="p-4">
           <Text className="mb-4 text-sm font-medium leading-none">Tags</Text>
           {tags.map((tag) => (

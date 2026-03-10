@@ -21,7 +21,7 @@ const TableHeader = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, ...props }, ref) => (
-  <View ref={ref} className={cn("[&>*]:border-b", className)} {...props} />
+  <View ref={ref} className={cn("[&>view]:border-b", className)} {...props} />
 ))
 TableHeader.displayName = "TableHeader"
 
@@ -31,7 +31,7 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <View
     ref={ref}
-    className={cn("[&>*:last-child]:border-b-0", className)}
+    className={cn("[&>view:last-child]:border-b-0", className)}
     {...props}
   />
 ))
@@ -44,7 +44,7 @@ const TableFooter = React.forwardRef<
   <View
     ref={ref}
     className={cn(
-      "border-t bg-muted/50 font-medium [&>*:last-child]:border-b-0",
+      "border-t bg-muted/50 font-medium [&>view:last-child]:border-b-0",
       className
     )}
     {...props}
@@ -74,7 +74,7 @@ const TableHead = React.forwardRef<
   <View
     ref={ref}
     className={cn(
-      "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 flex flex-1 basis-0 min-w-0 items-center justify-start",
+      "h-12 px-4 text-left align-middle font-medium text-muted-foreground flex flex-1 basis-0 min-w-0 items-center justify-start",
       typeof className === "string" && /(^|\s)text-right(\s|$)/.test(className)
         ? "justify-end"
         : null,
@@ -104,7 +104,7 @@ const TableCell = React.forwardRef<
         : style
     }
     className={cn(
-      "p-4 align-middle [&:has([role=checkbox])]:pr-0 flex flex-1 basis-0 min-w-0 items-center justify-start",
+      "p-4 align-middle flex flex-1 basis-0 min-w-0 items-center justify-start",
       typeof className === "string" && /(^|\s)text-right(\s|$)/.test(className)
         ? "justify-end"
         : null,

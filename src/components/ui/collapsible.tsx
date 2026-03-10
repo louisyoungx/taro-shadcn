@@ -1,5 +1,6 @@
 import * as React from "react"
 import { View } from "@tarojs/components"
+import { Slot } from "@radix-ui/react-slot"
 
 const CollapsibleContext = React.createContext<{
     open: boolean
@@ -36,19 +37,22 @@ Collapsible.displayName = "Collapsible"
 
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View>
->(({ className, onClick, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof View> & {
+    asChild?: boolean
+  }
+>(({ className, onClick, asChild, ...props }, ref) => {
     const context = React.useContext(CollapsibleContext)
+    const Comp = (asChild ? Slot : View) as any
     
     return (
-        <View
+        <Comp
           ref={ref}
           className={className}
-          onClick={(e) => {
+          onClick={(e: any) => {
             context?.onOpenChange(!context.open)
             onClick?.(e)
           }}
-          {...props}
+          {...(props as any)}
         />
     )
 })

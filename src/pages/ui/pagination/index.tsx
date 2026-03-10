@@ -16,7 +16,7 @@ export default function PaginationPage() {
     <PageLayout title="Pagination">
       <View className="grid gap-10">
         <View className="grid gap-2">
-          <View className="text-sm font-medium leading-none">Default</View>
+          <View className="text-sm text-muted-foreground">Default</View>
           <Pagination>
             <PaginationContent>
               <PaginationItem>
@@ -44,7 +44,7 @@ export default function PaginationPage() {
         </View>
 
         <View className="grid gap-2">
-          <View className="text-sm font-medium leading-none">Simple</View>
+          <View className="text-sm text-muted-foreground">Simple</View>
           <Pagination>
             <PaginationContent>
               <PaginationItem>
@@ -58,7 +58,7 @@ export default function PaginationPage() {
         </View>
 
         <View className="grid gap-2">
-          <View className="text-sm font-medium leading-none">Numbers Only</View>
+          <View className="text-sm text-muted-foreground">Numbers Only</View>
           <Pagination>
             <PaginationContent>
               <PaginationItem>
