@@ -8,6 +8,9 @@ const CommandContext = React.createContext<{
   search: string
   deferredSearch: string
   setSearch: (search: string) => void
+} | null>(null)
+
+const CommandItemsContext = React.createContext<{
   setItemState: (id: string, state: ItemState) => void
   removeItem: (id: string) => void
   hasAnyMatch: () => boolean
@@ -36,20 +39,35 @@ const Command = React.forwardRef<
   const deferredSearch = React.useDeferredValue(search)
   const [, setItemsTick] = React.useState(0)
   const itemsRef = React.useRef<Map<string, ItemState>>(new Map())
+  const tickRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  React.useEffect(() => {
+    return () => {
+      if (tickRef.current) clearTimeout(tickRef.current)
+    }
+  }, [])
+
+  const triggerItemsUpdate = React.useCallback(() => {
+    if (tickRef.current) return
+    // 使用短延时批处理项目状态更新，减少重绘频率
+    tickRef.current = setTimeout(() => {
+      setItemsTick((v) => v + 1)
+      tickRef.current = null
+    }, 16)
+  }, [])
 
   const setItemState = React.useCallback((id: string, state: ItemState) => {
     const prev = itemsRef.current.get(id)
     if (prev?.match === state.match && prev?.groupId === state.groupId) return
     itemsRef.current.set(id, state)
-    // React 18 handles state update batching, but we can also use a small tick to be safe
-    setItemsTick((v) => v + 1)
-  }, [])
+    triggerItemsUpdate()
+  }, [triggerItemsUpdate])
 
   const removeItem = React.useCallback((id: string) => {
     if (!itemsRef.current.has(id)) return
     itemsRef.current.delete(id)
-    setItemsTick((v) => v + 1)
-  }, [])
+    triggerItemsUpdate()
+  }, [triggerItemsUpdate])
 
   const hasAnyMatch = React.useCallback(() => {
     for (const s of itemsRef.current.values()) {
@@ -65,29 +83,34 @@ const Command = React.forwardRef<
     return false
   }, [])
 
+  const searchContextValue = React.useMemo(() => ({
+    search,
+    deferredSearch,
+    setSearch,
+  }), [search, deferredSearch])
+
+  const itemsContextValue = React.useMemo(() => ({
+    setItemState,
+    removeItem,
+    hasAnyMatch,
+    groupHasAnyMatch,
+    itemsSize: itemsRef.current.size,
+  }), [setItemState, removeItem, hasAnyMatch, groupHasAnyMatch])
+
   return (
-    <CommandContext.Provider
-      value={{
-        search,
-        deferredSearch,
-        setSearch,
-        setItemState,
-        removeItem,
-        hasAnyMatch,
-        groupHasAnyMatch,
-        itemsSize: itemsRef.current.size,
-      }}
-    >
-      <View
-        ref={ref}
-        className={cn(
-          "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground",
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </View>
+    <CommandContext.Provider value={searchContextValue}>
+      <CommandItemsContext.Provider value={itemsContextValue}>
+        <View
+          ref={ref}
+          className={cn(
+            "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground",
+            className
+          )}
+          {...props}
+        >
+          {children}
+        </View>
+      </CommandItemsContext.Provider>
     </CommandContext.Provider>
   )
 })
@@ -109,12 +132,15 @@ const CommandInput = React.forwardRef<
 >(({ className, placeholderClass, focus = true, ...props }, ref) => {
   const context = React.useContext(CommandContext)
   const [localValue, setLocalValue] = React.useState(context?.search ?? "")
+  const lastSyncedSearchRef = React.useRef(context?.search ?? "")
 
   React.useEffect(() => {
-    if (context?.search !== localValue) {
+    // 只有当 context.search 与上次同步的值不同，且与当前输入值也不同时，才进行强制同步（通常是外部重置了搜索内容）
+    if (context?.search !== lastSyncedSearchRef.current && context?.search !== localValue) {
       setLocalValue(context?.search ?? "")
+      lastSyncedSearchRef.current = context?.search ?? ""
     }
-  }, [context?.search])
+  }, [context?.search, localValue])
 
   return (
     <View
@@ -133,6 +159,7 @@ const CommandInput = React.forwardRef<
         onInput={(e) => {
           const v = e.detail.value
           setLocalValue(v)
+          lastSyncedSearchRef.current = v
           context?.setSearch(v)
         }}
         focus={focus}
@@ -160,7 +187,7 @@ const CommandEmpty = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, ...props }, ref) => {
-  const context = React.useContext(CommandContext)
+  const context = React.useContext(CommandItemsContext)
 
   const show = context ? context.itemsSize > 0 && !context.hasAnyMatch() : false
   if (!show) return null
@@ -179,7 +206,7 @@ const CommandGroup = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View> & { heading?: React.ReactNode }
 >(({ className, heading, children, ...props }, ref) => {
-  const context = React.useContext(CommandContext)
+  const context = React.useContext(CommandItemsContext)
   const groupId = React.useId()
 
   const show =
@@ -230,20 +257,22 @@ const CommandItem = React.forwardRef<
   }
 >(({ className, value, onSelect, disabled, children, ...props }, ref) => {
   const context = React.useContext(CommandContext)
+  const itemsContext = React.useContext(CommandItemsContext)
   const group = React.useContext(GroupContext)
   const id = React.useId()
 
-  const computedValue = (value ?? getNodeText(children)).trim()
+  const computedValue = React.useMemo(() => (value ?? getNodeText(children)).trim(), [value, children])
   const search = (context?.deferredSearch ?? "").trim().toLowerCase()
 
-  const match =
+  const match = React.useMemo(() => 
     !search || (!!computedValue && computedValue.toLowerCase().includes(search))
+  , [search, computedValue])
 
   React.useEffect(() => {
-    if (!context) return
-    context.setItemState(id, { match, groupId: group?.groupId })
-    return () => context.removeItem(id)
-  }, [context, id, match, group?.groupId])
+    if (!itemsContext) return
+    itemsContext.setItemState(id, { match, groupId: group?.groupId })
+    return () => itemsContext.removeItem(id)
+  }, [itemsContext, id, match, group?.groupId])
 
   return (
     <View
