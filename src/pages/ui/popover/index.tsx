@@ -1,4 +1,3 @@
-
 import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import { Button } from "@/components/ui/button";
@@ -13,55 +12,92 @@ import {
 export default function PopoverPage() {
   return (
     <PageLayout title="Popover">
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline">Open popover</Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-80">
-          <View className="grid gap-4">
-            <View className="space-y-2">
-              <View className="font-medium leading-none">Dimensions</View>
-              <View className="text-sm text-muted-foreground">
-                Set the dimensions for the layer.
+      <View className="grid gap-8">
+        <View className="space-y-2">
+          <View className="text-sm text-muted-foreground">Basic Popover</View>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">Open dimensions</Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <View className="grid gap-4">
+                <View className="space-y-2">
+                  <View className="font-medium leading-none">Dimensions</View>
+                  <View className="text-sm text-muted-foreground">
+                    Set the dimensions for the layer.
+                  </View>
+                </View>
+                <View className="grid gap-2">
+                  <View className="grid grid-cols-3 items-center gap-4">
+                    <Label>Width</Label>
+                    <Input
+                      id="width"
+                      defaultValue="100%"
+                      className="col-span-2 h-8"
+                    />
+                  </View>
+                  <View className="grid grid-cols-3 items-center gap-4">
+                    <Label>Max. width</Label>
+                    <Input
+                      id="maxWidth"
+                      defaultValue="300px"
+                      className="col-span-2 h-8"
+                    />
+                  </View>
+                  <View className="grid grid-cols-3 items-center gap-4">
+                    <Label>Height</Label>
+                    <Input
+                      id="height"
+                      defaultValue="25px"
+                      className="col-span-2 h-8"
+                    />
+                  </View>
+                  <View className="grid grid-cols-3 items-center gap-4">
+                    <Label>Max. height</Label>
+                    <Input
+                      id="maxHeight"
+                      defaultValue="none"
+                      className="col-span-2 h-8"
+                    />
+                  </View>
+                </View>
               </View>
-            </View>
-            <View className="grid gap-2">
-              <View className="grid grid-cols-3 items-center gap-4">
-                <Label>Width</Label>
-                <Input
-                  id="width"
-                  defaultValue="100%"
-                  className="col-span-2 h-8"
-                />
+            </PopoverContent>
+          </Popover>
+        </View>
+
+        <View className="space-y-2">
+          <View className="text-sm text-muted-foreground">Profile Settings</View>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">Edit Profile</Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <View className="grid gap-4">
+                <View className="space-y-2">
+                  <View className="font-medium leading-none">Profile</View>
+                  <View className="text-sm text-muted-foreground">
+                    Update your profile settings
+                  </View>
+                </View>
+                <View className="grid gap-2">
+                  <View className="grid grid-cols-3 items-center gap-4">
+                    <Label>Username</Label>
+                    <Input defaultValue="@jdoe" className="col-span-2 h-8" />
+                  </View>
+                  <View className="grid grid-cols-3 items-center gap-4">
+                    <Label>Email</Label>
+                    <Input
+                      defaultValue="jdoe@example.com"
+                      className="col-span-2 h-8"
+                    />
+                  </View>
+                </View>
               </View>
-              <View className="grid grid-cols-3 items-center gap-4">
-                <Label>Max. width</Label>
-                <Input
-                  id="maxWidth"
-                  defaultValue="300px"
-                  className="col-span-2 h-8"
-                />
-              </View>
-              <View className="grid grid-cols-3 items-center gap-4">
-                <Label>Height</Label>
-                <Input
-                  id="height"
-                  defaultValue="25px"
-                  className="col-span-2 h-8"
-                />
-              </View>
-              <View className="grid grid-cols-3 items-center gap-4">
-                <Label>Max. height</Label>
-                <Input
-                  id="maxHeight"
-                  defaultValue="none"
-                  className="col-span-2 h-8"
-                />
-              </View>
-            </View>
-          </View>
-        </PopoverContent>
-      </Popover>
+            </PopoverContent>
+          </Popover>
+        </View>
+      </View>
     </PageLayout>
   );
 }

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { View, ScrollView, RootPortal } from "@tarojs/components"
-import { Check, ChevronRight, Circle } from "lucide-react-taro"
+import { Check, Circle } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
 
 // DropdownMenu as a Bottom Sheet for mobile
@@ -10,7 +10,14 @@ const DropdownMenuContext = React.createContext<{
   onOpenChange?: (open: boolean) => void
 } | null>(null)
 
-const DropdownMenu = ({ open: openProp, defaultOpen, onOpenChange, children }) => {
+interface DropdownMenuProps {
+    children: React.ReactNode
+    open?: boolean
+    defaultOpen?: boolean
+    onOpenChange?: (open: boolean) => void
+}
+
+const DropdownMenu = ({ open: openProp, defaultOpen, onOpenChange, children }: DropdownMenuProps) => {
     const [openState, setOpenState] = React.useState(defaultOpen || false)
     const open = openProp !== undefined ? openProp : openState
     
@@ -30,18 +37,18 @@ const DropdownMenu = ({ open: openProp, defaultOpen, onOpenChange, children }) =
 
 const DropdownMenuTrigger = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>
->(({ className, children, ...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(DropdownMenuContext)
     return (
         <View
-            ref={ref}
-            className={className}
-            onClick={(e) => {
+          ref={ref}
+          className={className}
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(true)
             }}
-            {...props}
+          {...props}
         >
             {children}
         </View>
@@ -57,14 +64,18 @@ const DropdownMenuGroup = React.forwardRef<
 ))
 DropdownMenuGroup.displayName = "DropdownMenuGroup"
 
-const DropdownMenuPortal = ({ children }) => {
+const DropdownMenuPortal = ({ children }: { children: React.ReactNode }) => {
     // In our simplified implementation, Content handles Portal
     return <>{children}</>
 }
 
+interface DropdownMenuContentProps extends React.ComponentPropsWithoutRef<typeof View> {
+    sideOffset?: number
+}
+
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View>
+  DropdownMenuContentProps
 >(({ className, sideOffset = 4, children, ...props }, ref) => {
     const context = React.useContext(DropdownMenuContext)
     
@@ -73,16 +84,16 @@ const DropdownMenuContent = React.forwardRef<
     return (
         <RootPortal>
             <View 
-                className="fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
-                onClick={() => context.onOpenChange?.(false)}
+              className="fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+              onClick={() => context.onOpenChange?.(false)}
             />
             <View
-                ref={ref}
-                className={cn(
+              ref={ref}
+              className={cn(
                     "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom duration-300",
                     className
                 )}
-                {...props}
+              {...props}
             >
                 <View className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted mb-4" />
                 <ScrollView scrollY className="max-h-[50vh]">
@@ -104,19 +115,19 @@ const DropdownMenuItem = React.forwardRef<
     const context = React.useContext(DropdownMenuContext)
     return (
         <View
-            ref={ref}
-            className={cn(
-            "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+          ref={ref}
+          className={cn(
+            "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
             inset && "pl-8",
             disabled && "opacity-50 pointer-events-none",
             className
             )}
-            onClick={(e) => {
+          onClick={(e) => {
                 if (disabled) return
                 context?.onOpenChange?.(false)
                 props.onClick?.(e)
             }}
-            {...props}
+          {...props}
         />
     )
 })
@@ -131,18 +142,18 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     const context = React.useContext(DropdownMenuContext)
     return (
         <View
-            ref={ref}
-            className={cn(
-            "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+          ref={ref}
+          className={cn(
+            "relative flex cursor-default select-none items-center rounded-sm py-2 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
             className
             )}
-            onClick={(e) => {
+          onClick={(e) => {
                 context?.onOpenChange?.(false)
                 props.onClick?.(e)
             }}
-            {...props}
+          {...props}
         >
-            <View className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+            <View className="absolute left-2 flex h-4 w-4 items-center justify-center">
                 {checked && <Check className="h-4 w-4" />}
             </View>
             {children}
@@ -161,14 +172,14 @@ const DropdownMenuRadioItem = React.forwardRef<
     // Here we just render item.
     return (
         <View
-            ref={ref}
-            className={cn(
-            "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+          ref={ref}
+          className={cn(
+            "relative flex cursor-default select-none items-center rounded-sm py-2 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
             className
             )}
-            {...props}
+          {...props}
         >
-            <View className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+            <View className="absolute left-2 flex h-4 w-4 items-center justify-center">
                 <Circle className="h-2 w-2 fill-current" />
             </View>
             {children}
@@ -186,7 +197,7 @@ const DropdownMenuLabel = React.forwardRef<
   <View
     ref={ref}
     className={cn(
-      "px-2 py-1.5 text-sm font-semibold",
+      "px-2 py-2 text-sm font-semibold",
       inset && "pl-8",
       className
     )}

@@ -1,12 +1,18 @@
 import * as React from "react"
 import { View, RootPortal } from "@tarojs/components"
-import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const DrawerContext = React.createContext<{
   open?: boolean
   onOpenChange?: (open: boolean) => void
 } | null>(null)
+
+interface DrawerProps extends React.ComponentPropsWithoutRef<typeof View> {
+    shouldScaleBackground?: boolean
+    open?: boolean
+    defaultOpen?: boolean
+    onOpenChange?: (open: boolean) => void
+}
 
 const Drawer = ({
   shouldScaleBackground = true,
@@ -15,7 +21,7 @@ const Drawer = ({
   defaultOpen,
   onOpenChange,
   ...props
-}) => {
+}: DrawerProps) => {
     const [openState, setOpenState] = React.useState(defaultOpen || false)
     const open = openProp !== undefined ? openProp : openState
     
@@ -36,18 +42,18 @@ Drawer.displayName = "Drawer"
 
 const DrawerTrigger = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>
->(({ className, children, ...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(DrawerContext)
     return (
         <View
-            ref={ref}
-            className={className}
-            onClick={(e) => {
+          ref={ref}
+          className={className}
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(true)
             }}
-            {...props}
+          {...props}
         >
             {children}
         </View>
@@ -55,7 +61,7 @@ const DrawerTrigger = React.forwardRef<
 })
 DrawerTrigger.displayName = "DrawerTrigger"
 
-const DrawerPortal = ({ children }) => {
+const DrawerPortal = ({ children }: { children: React.ReactNode }) => {
     const context = React.useContext(DrawerContext)
     if (!context?.open) return null
     return <RootPortal>{children}</RootPortal>
@@ -63,18 +69,18 @@ const DrawerPortal = ({ children }) => {
 
 const DrawerClose = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>
->(({ className, children, ...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(DrawerContext)
     return (
         <View
-            ref={ref}
-            className={className}
-            onClick={(e) => {
+          ref={ref}
+          className={className}
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(false)
             }}
-            {...props}
+          {...props}
         >
             {children}
         </View>
@@ -124,7 +130,7 @@ const DrawerHeader = ({
   ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
-    className={cn("grid gap-1.5 p-4 text-center sm:text-left", className)}
+    className={cn("grid gap-2 p-4 text-center sm:text-left", className)}
     {...props}
   />
 )

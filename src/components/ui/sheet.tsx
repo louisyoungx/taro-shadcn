@@ -10,7 +10,15 @@ const SheetContext = React.createContext<{
   onOpenChange?: (open: boolean) => void
 } | null>(null)
 
-const Sheet = ({ children, open: openProp, defaultOpen, onOpenChange, modal = true }) => {
+interface SheetProps {
+    children: React.ReactNode
+    open?: boolean
+    defaultOpen?: boolean
+    onOpenChange?: (open: boolean) => void
+    modal?: boolean
+}
+
+const Sheet = ({ children, open: openProp, defaultOpen, onOpenChange }: SheetProps) => {
     const [openState, setOpenState] = React.useState(defaultOpen || false)
     const open = openProp !== undefined ? openProp : openState
     
@@ -30,18 +38,18 @@ const Sheet = ({ children, open: openProp, defaultOpen, onOpenChange, modal = tr
 
 const SheetTrigger = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>
->(({ className, children, ...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(SheetContext)
     return (
         <View
-            ref={ref}
-            className={className}
-            onClick={(e) => {
+          ref={ref}
+          className={className}
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(true)
             }}
-            {...props}
+          {...props}
         >
             {children}
         </View>
@@ -51,18 +59,18 @@ SheetTrigger.displayName = "SheetTrigger"
 
 const SheetClose = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>
->(({ className, children, ...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(SheetContext)
     return (
         <View
-            ref={ref}
-            className={className}
-            onClick={(e) => {
+          ref={ref}
+          className={className}
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(false)
             }}
-            {...props}
+          {...props}
         >
             {children}
         </View>
@@ -70,7 +78,7 @@ const SheetClose = React.forwardRef<
 })
 SheetClose.displayName = "SheetClose"
 
-const SheetPortal = ({ children }) => {
+const SheetPortal = ({ children }: { children: React.ReactNode }) => {
     const context = React.useContext(SheetContext)
     if (!context?.open) return null
     return <RootPortal>{children}</RootPortal>
@@ -137,8 +145,8 @@ const SheetContent = React.forwardRef<
       >
         {children}
         <View 
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
-            onClick={(e) => {
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(false)
             }}

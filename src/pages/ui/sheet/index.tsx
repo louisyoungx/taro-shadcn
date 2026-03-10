@@ -1,4 +1,3 @@
-
 import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import { Button } from "@/components/ui/button";
@@ -15,49 +14,56 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;
+
 export default function SheetPage() {
   return (
     <PageLayout title="Sheet">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline">Open</Button>
-        </SheetTrigger>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Edit profile</SheetTitle>
-            <SheetDescription>
-              Make changes to your profile here. Click save when you&apos;re done.
-            </SheetDescription>
-          </SheetHeader>
-          <View className="grid gap-4 py-4">
-            <View className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">
-                Name
-              </Label>
-              <Input
-                id="name"
-                defaultValue="Pedro Duarte"
-                className="col-span-3"
-              />
+      <View className="grid gap-4">
+        {SHEET_SIDES.map((side) => (
+          <View key={side} className="space-y-2">
+            <View className="text-sm text-muted-foreground capitalize">
+              {side}
             </View>
-            <View className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">
-                Username
-              </Label>
-              <Input
-                id="username"
-                defaultValue="@peduarte"
-                className="col-span-3"
-              />
-            </View>
-          </View>
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button type="submit">Save changes</Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline">{side} Sheet</Button>
+              </SheetTrigger>
+              <SheetContent side={side}>
+                <SheetHeader>
+                  <SheetTitle>Edit profile</SheetTitle>
+                  <SheetDescription>
+                    Make changes to your profile here. Click save when you&apos;re done.
+                  </SheetDescription>
+                </SheetHeader>
+                <View className="grid gap-4 py-4">
+                  <View className="grid grid-cols-4 items-center gap-4">
+                    <Label className="text-right">Name</Label>
+                    <Input
+                      id="name"
+                      defaultValue="Pedro Duarte"
+                      className="col-span-3"
+                    />
+                  </View>
+                  <View className="grid grid-cols-4 items-center gap-4">
+                    <Label className="text-right">Username</Label>
+                    <Input
+                      id="username"
+                      defaultValue="@peduarte"
+                      className="col-span-3"
+                    />
+                  </View>
+                </View>
+                <SheetFooter>
+                  <SheetClose asChild>
+              <Button>Save changes</Button>
             </SheetClose>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
+          </View>
+        ))}
+      </View>
     </PageLayout>
   );
 }

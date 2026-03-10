@@ -102,14 +102,14 @@ const SelectTrigger = React.forwardRef<
 })
 SelectTrigger.displayName = "SelectTrigger"
 
-const SelectScrollUpButton = ({ className, ...props }) => (
+const SelectScrollUpButton = ({ className, ...props }: React.ComponentPropsWithoutRef<typeof View>) => (
     <View className={cn("flex cursor-default items-center justify-center py-1", className)} {...props}>
         <ChevronUp className="h-4 w-4" />
     </View>
 )
 SelectScrollUpButton.displayName = "SelectScrollUpButton"
 
-const SelectScrollDownButton = ({ className, ...props }) => (
+const SelectScrollDownButton = ({ className, ...props }: React.ComponentPropsWithoutRef<typeof View>) => (
     <View className={cn("flex cursor-default items-center justify-center py-1", className)} {...props}>
         <ChevronDown className="h-4 w-4" />
     </View>

@@ -10,7 +10,14 @@ const PopoverContext = React.createContext<{
   onOpenChange?: (open: boolean) => void
 } | null>(null)
 
-const Popover = ({ open: openProp, defaultOpen, onOpenChange, children }) => {
+interface PopoverProps {
+    children: React.ReactNode
+    open?: boolean
+    defaultOpen?: boolean
+    onOpenChange?: (open: boolean) => void
+}
+
+const Popover = ({ open: openProp, defaultOpen, onOpenChange, children }: PopoverProps) => {
     const [openState, setOpenState] = React.useState(defaultOpen || false)
     const open = openProp !== undefined ? openProp : openState
     
@@ -30,18 +37,18 @@ const Popover = ({ open: openProp, defaultOpen, onOpenChange, children }) => {
 
 const PopoverTrigger = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>
->(({ className, children, ...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(PopoverContext)
     return (
         <View
-            ref={ref}
-            className={className}
-            onClick={(e) => {
+          ref={ref}
+          className={className}
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(true)
             }}
-            {...props}
+          {...props}
         >
             {children}
         </View>
@@ -49,9 +56,14 @@ const PopoverTrigger = React.forwardRef<
 })
 PopoverTrigger.displayName = "PopoverTrigger"
 
+interface PopoverContentProps extends React.ComponentPropsWithoutRef<typeof View> {
+    align?: "center" | "start" | "end"
+    sideOffset?: number
+}
+
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View>
+  PopoverContentProps
 >(({ className, align = "center", sideOffset = 4, ...props }, ref) => {
     const context = React.useContext(PopoverContext)
     
@@ -60,16 +72,16 @@ const PopoverContent = React.forwardRef<
     return (
         <RootPortal>
              <View 
-                className="fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
-                onClick={() => context.onOpenChange?.(false)}
-            />
+               className="fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+               onClick={() => context.onOpenChange?.(false)}
+             />
             <View
-                ref={ref}
-                className={cn(
+              ref={ref}
+              className={cn(
                     "fixed left-[50%] top-[50%] z-50 w-72 translate-x-[-50%] translate-y-[-50%] rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
                     className
                 )}
-                {...props}
+              {...props}
             />
         </RootPortal>
     )
