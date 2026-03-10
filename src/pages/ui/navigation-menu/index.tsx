@@ -1,6 +1,6 @@
-
-import { View, Text } from "@tarojs/components";
-import { PageLayout } from "@/components/page-layout";
+import * as React from "react"
+import { View, Text } from "@tarojs/components"
+import { PageLayout } from "@/components/page-layout"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,62 +9,59 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
-import * as React from "react";
+} from "@/components/ui/navigation-menu"
+import { cn } from "@/lib/utils"
 
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
+    href: "/pages/ui/alert-dialog/index",
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
     title: "Hover Card",
-    href: "/docs/primitives/hover-card",
+    href: "/pages/ui/hover-card/index",
     description:
       "For sighted users to preview content available behind a link.",
   },
   {
     title: "Progress",
-    href: "/docs/primitives/progress",
+    href: "/pages/ui/progress/index",
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
   {
     title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
+    href: "/pages/ui/scroll-area/index",
     description: "Visually or semantically separates content.",
   },
   {
     title: "Tabs",
-    href: "/docs/primitives/tabs",
+    href: "/pages/ui/tabs/index",
     description:
       "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
   },
   {
     title: "Tooltip",
-    href: "/docs/primitives/tooltip",
+    href: "/pages/ui/tooltip/index",
     description:
       "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
   },
-];
+]
 
 export default function NavigationMenuPage() {
   return (
     <PageLayout title="NavigationMenu">
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <View className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <View className="row-span-3">
-                  <NavigationMenuLink asChild>
-                    <View
-                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    >
+      <View className="p-4">
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <View className="grid gap-3 p-4">
+                  <NavigationMenuLink>
+                    <View className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted from-opacity-50 to-muted p-6 no-underline outline-none focus:shadow-md">
                       <View className="mb-2 mt-4 text-lg font-medium">
                         shadcn/ui
                       </View>
@@ -74,68 +71,58 @@ export default function NavigationMenuPage() {
                       </Text>
                     </View>
                   </NavigationMenuLink>
-                </View>
-                <ListItem href="/docs" title="Introduction">
-                  Re-usable components built using Radix UI and Tailwind CSS.
-                </ListItem>
-                <ListItem href="/docs/installation" title="Installation">
-                  How to install dependencies and structure your app.
-                </ListItem>
-                <ListItem href="/docs/primitives/typography" title="Typography">
-                  Styles for headings, paragraphs, lists...etc
-                </ListItem>
-              </View>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <View className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                {components.map((component) => (
-                  <ListItem
-                    key={component.title}
-                    title={component.title}
-                    href={component.href}
-                  >
-                    {component.description}
+                  <ListItem title="Introduction">
+                    Re-usable components built using Radix UI and Tailwind CSS.
                   </ListItem>
-                ))}
-              </View>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
+                  <ListItem title="Installation">
+                    How to install dependencies and structure your app.
+                  </ListItem>
+                  <ListItem title="Typography">
+                    Styles for headings, paragraphs, lists...etc
+                  </ListItem>
+                </View>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <View className="grid gap-3 p-4">
+                  {components.map((component) => (
+                    <ListItem
+                      key={component.title}
+                      title={component.title}
+                    >
+                      {component.description}
+                    </ListItem>
+                  ))}
+                </View>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Documentation
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      </View>
     </PageLayout>
-  );
+  )
 }
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a"> & { title: string }
->(({ className, title, children, ...props }, ref) => {
+const ListItem = ({ className, title, children, ...props }: any) => {
   return (
-    <View>
-      <NavigationMenuLink asChild>
-        <View
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <View className="text-sm font-medium leading-none">{title}</View>
-          <Text className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </Text>
-        </View>
-      </NavigationMenuLink>
-    </View>
-  );
-});
-ListItem.displayName = "ListItem";
+    <NavigationMenuLink
+      className={cn(
+        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+        className
+      )}
+      {...props}
+    >
+      <View className="text-sm font-medium leading-none">{title}</View>
+      <Text className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+        {children}
+      </Text>
+    </NavigationMenuLink>
+  )
+}

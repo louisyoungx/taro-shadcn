@@ -45,6 +45,7 @@ export default function DialogPage() {
                     id="name"
                     defaultValue="Pedro Duarte"
                     className="col-span-3"
+                    autoFocus
                   />
                 </View>
                 <View className="grid grid-cols-4 items-center gap-4">

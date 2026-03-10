@@ -25,7 +25,7 @@ function InputGroup({ className, disabled, ...props }: React.ComponentPropsWitho
       <View
         data-slot="input-group"
         className={cn(
-          "border-input dark:bg-input/30 shadow-xs relative flex w-full min-h-9 flex-wrap items-center rounded-md border outline-none transition-[color,box-shadow]",
+          "border-input dark:bg-input dark:bg-opacity-30 shadow-xs relative flex w-full min-h-9 flex-wrap items-center rounded-md border outline-none transition-[color,box-shadow]",
           isFocused && "ring-2 ring-ring ring-offset-2 ring-offset-background",
           className
         )}
@@ -123,8 +123,10 @@ function InputGroupInput({
   className,
   onFocus,
   onBlur,
+  autoFocus,
+  focus,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Input>) {
+}: React.ComponentPropsWithoutRef<typeof Input> & { autoFocus?: boolean }) {
   const { setIsFocused } = React.useContext(InputGroupContext)
 
   return (
@@ -144,6 +146,7 @@ function InputGroupInput({
           setIsFocused(false)
           onBlur?.(e)
         }}
+        focus={autoFocus || focus}
         {...props}
       />
     </View>
@@ -154,8 +157,10 @@ function InputGroupTextarea({
   className,
   onFocus,
   onBlur,
+  autoFocus,
+  focus,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Textarea>) {
+}: React.ComponentPropsWithoutRef<typeof Textarea> & { autoFocus?: boolean }) {
   const { setIsFocused } = React.useContext(InputGroupContext)
 
   return (
@@ -175,6 +180,7 @@ function InputGroupTextarea({
           setIsFocused(false)
           onBlur?.(e)
         }}
+        focus={autoFocus || focus}
         {...props}
       />
     </View>

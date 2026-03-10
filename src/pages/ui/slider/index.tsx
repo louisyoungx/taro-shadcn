@@ -26,7 +26,7 @@ export default function SliderPage() {
             step={1} 
             className="w-[60%]"
             rangeClassName="bg-green-500"
-            thumbClassName="border-green-500 focus:ring-green-500/30" 
+            thumbClassName="border-green-500 focus:ring-green-500 focus:ring-opacity-30" 
           />
            <Slider 
              defaultValue={[50]} 
@@ -34,9 +34,10 @@ export default function SliderPage() {
              step={1} 
              className="w-[60%]"
              rangeClassName="bg-red-500"
-             thumbClassName="border-red-500 focus:ring-red-500/30"
+             thumbClassName="border-red-500 focus:ring-red-500 focus:ring-opacity-30"
            />
         </View>
+
 
         <View className="flex flex-col gap-4">
           <View className="text-sm font-medium">Vertical</View>
@@ -53,7 +54,7 @@ export default function SliderPage() {
               step={1} 
               orientation="vertical"
               rangeClassName="bg-blue-500"
-              thumbClassName="border-blue-500 focus:ring-blue-500/30"
+              thumbClassName="border-blue-500 focus:ring-blue-500 focus:ring-opacity-30"
             />
           </View>
         </View>

@@ -6,6 +6,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog"
 
 const CommandContext = React.createContext<{
   search: string
+  deferredSearch: string
   setSearch: (search: string) => void
   setItemState: (id: string, state: ItemState) => void
   removeItem: (id: string) => void
@@ -31,6 +32,8 @@ const Command = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, children, ...props }, ref) => {
   const [search, setSearch] = React.useState("")
+  // 使用 deferredSearch 来延迟搜索过滤逻辑，确保输入框在输入时保持响应，解决微信小程序中的输入抖动和文字消失问题
+  const deferredSearch = React.useDeferredValue(search)
   const [, setItemsTick] = React.useState(0)
   const itemsRef = React.useRef<Map<string, ItemState>>(new Map())
 
@@ -38,6 +41,7 @@ const Command = React.forwardRef<
     const prev = itemsRef.current.get(id)
     if (prev?.match === state.match && prev?.groupId === state.groupId) return
     itemsRef.current.set(id, state)
+    // React 18 handles state update batching, but we can also use a small tick to be safe
     setItemsTick((v) => v + 1)
   }, [])
 
@@ -65,6 +69,7 @@ const Command = React.forwardRef<
     <CommandContext.Provider
       value={{
         search,
+        deferredSearch,
         setSearch,
         setItemState,
         removeItem,
@@ -100,9 +105,16 @@ const CommandDialog = ({ children, ...props }) => {
 
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof Input>,
-  React.ComponentPropsWithoutRef<typeof Input>
->(({ className, placeholderClass, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof Input> & { focus?: boolean }
+>(({ className, placeholderClass, focus = true, ...props }, ref) => {
   const context = React.useContext(CommandContext)
+  const [localValue, setLocalValue] = React.useState(context?.search ?? "")
+
+  React.useEffect(() => {
+    if (context?.search !== localValue) {
+      setLocalValue(context?.search ?? "")
+    }
+  }, [context?.search])
 
   return (
     <View
@@ -117,8 +129,13 @@ const CommandInput = React.forwardRef<
           className
         )}
         placeholderClass={cn("text-muted-foreground", placeholderClass)}
-        value={context?.search}
-        onInput={(e) => context?.setSearch(e.detail.value)}
+        value={localValue}
+        onInput={(e) => {
+          const v = e.detail.value
+          setLocalValue(v)
+          context?.setSearch(v)
+        }}
+        focus={focus}
         {...props}
       />
     </View>
@@ -217,7 +234,7 @@ const CommandItem = React.forwardRef<
   const id = React.useId()
 
   const computedValue = (value ?? getNodeText(children)).trim()
-  const search = (context?.search ?? "").trim().toLowerCase()
+  const search = (context?.deferredSearch ?? "").trim().toLowerCase()
 
   const match =
     !search || (!!computedValue && computedValue.toLowerCase().includes(search))

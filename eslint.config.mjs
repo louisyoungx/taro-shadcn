@@ -39,6 +39,11 @@ export default [
         },
         {
           selector:
+            'Literal[value=/(^|\\s)(?:[^\\s:]+:)*(bg|text|border|divide|outline|ring|ring-offset|from|to|via|decoration|shadow|accent|caret|fill|stroke)-[a-z0-9-]+\\/([0-9]+|\\[[^\\]]+\\])/], TemplateElement[value.raw=/(^|\\s)(?:[^\\s:]+:)*(bg|text|border|divide|outline|ring|ring-offset|from|to|via|decoration|shadow|accent|caret|fill|stroke)-[a-z0-9-]+\\/([0-9]+|\\[[^\\]]+\\])/]',
+          message: '微信小程序兼容性：禁用 Tailwind 颜色不透明度简写（如 bg-primary/10），该语法在微信小程序下 opacity 会丢失。请拆分写（如 bg-primary bg-opacity-10）。',
+        },
+        {
+          selector:
             'Literal[value=/(^|\\s)peer-[a-z0-9-]+\\b/], TemplateElement[value.raw=/(^|\\s)peer-[a-z0-9-]+\\b/]',
           message: '微信小程序兼容性：不支持 Tailwind 的 peer-*（如 peer-checked、peer-disabled）。',
         },

@@ -34,6 +34,7 @@ export default function PopoverPage() {
                       id="width"
                       defaultValue="100%"
                       className="col-span-2 h-8"
+                      autoFocus
                     />
                   </View>
                   <View className="grid grid-cols-3 items-center gap-4">

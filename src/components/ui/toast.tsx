@@ -485,7 +485,7 @@ const ToastItem = ({
           )}
           {item.action && (
             <View
-              className="text-xs font-medium active:opacity-80 px-3 py-2 rounded-md bg-primary text-primary-foreground shadow hover:bg-primary/90 whitespace-nowrap"
+              className="text-xs font-medium active:opacity-80 px-3 py-2 rounded-md bg-primary text-primary-foreground shadow hover:bg-primary hover:bg-opacity-90 whitespace-nowrap"
               onClick={(e) => {
                 e.stopPropagation()
                 item.action?.onClick()

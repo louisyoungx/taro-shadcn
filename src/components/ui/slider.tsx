@@ -185,7 +185,7 @@ const Slider = React.forwardRef<
       <View
         className={cn(
             "absolute block h-3 w-3 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors disabled:pointer-events-none disabled:opacity-50",
-            isDragging && "ring-4 ring-primary/30",
+            isDragging && "ring-4 ring-primary ring-opacity-30",
             disabled && "opacity-50",
             thumbClassName
         )}

@@ -6,12 +6,13 @@ import { cn } from "@/lib/utils"
 export interface TextareaProps
   extends React.ComponentPropsWithoutRef<typeof TaroTextarea> {
   className?: string
+  autoFocus?: boolean
 }
 
 const Textarea = React.forwardRef<
   React.ElementRef<typeof TaroTextarea>,
   TextareaProps
->(({ className, ...props }, ref) => {
+>(({ className, autoFocus, focus, ...props }, ref) => {
   return (
     <View
       className={cn(
@@ -23,6 +24,7 @@ const Textarea = React.forwardRef<
         className="flex-1 w-full h-full bg-transparent text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
         placeholderClass="text-muted-foreground"
         ref={ref}
+        focus={autoFocus || focus}
         {...props}
       />
     </View>
