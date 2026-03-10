@@ -138,10 +138,16 @@ export default defineConfig<'vite'>(async (merge, _env) => {
                         }
                     },
                 },
-                UnifiedViteWeappTailwindcssPlugin({
-                    rem2rpx: true,
-                    cssEntries: [path.resolve(__dirname, '../src/app.css')],
-                }),
+                ...(process.env.TARO_ENV !== 'h5'
+                    ? [
+                          UnifiedViteWeappTailwindcssPlugin({
+                              rem2rpx: true,
+                              cssEntries: [
+                                  path.resolve(__dirname, '../src/app.css'),
+                              ],
+                          }),
+                      ]
+                    : []),
                 ...(process.env.TARO_ENV === 'tt'
                     ? [
                           {
@@ -176,8 +182,11 @@ export default defineConfig<'vite'>(async (merge, _env) => {
             },
         },
         h5: {
-            publicPath: '/',
+            publicPath: './',
             staticDirectory: 'static',
+            router: {
+                mode: 'hash',
+            },
             devServer: {
                 port: 5000,
                 host: '0.0.0.0',
@@ -198,6 +207,12 @@ export default defineConfig<'vite'>(async (merge, _env) => {
                 autoprefixer: {
                     enable: true,
                     config: {},
+                },
+                pxtransform: {
+                    enable: true,
+                    config: {
+                        platform: 'h5',
+                    },
                 },
                 cssModules: {
                     enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
