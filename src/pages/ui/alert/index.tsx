@@ -17,7 +17,7 @@ export default function AlertPage() {
         </Alert>
 
         <Alert variant="destructive">
-          <CircleAlert className="h-4 w-4" />
+          <CircleAlert className="h-4 w-4" color="#e7000b" />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
             Your session has expired. Please log in again.
