@@ -116,6 +116,8 @@ root-portal {
     --color-primary: var(--primary);
     --color-foreground: var(--foreground);
     --color-background: var(--background);
+    --color-selection: var(--selection);
+    --color-selection-foreground: var(--selection-foreground);
 }
 
 page,
@@ -128,4 +130,9 @@ label,
 scroll-view,
 image {
     border-color: var(--border);
+}
+
+::selection {
+    background-color: var(--selection);
+    color: var(--selection-foreground);
 }

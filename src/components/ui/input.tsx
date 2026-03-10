@@ -20,7 +20,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TaroInput>, InputProps>(
       >
         <TaroInput
           type={type}
-          className="flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+          className="flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm selection:bg-selection selection:text-selection-foreground"
           placeholderClass="text-muted-foreground"
           ref={ref}
           focus={autoFocus || focus}
