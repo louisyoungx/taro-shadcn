@@ -97,7 +97,13 @@ taro-button-core::after,
 button::after {
     border: none;
 }
-`;
+
+taro-textarea-core > textarea,
+.taro-textarea,
+textarea.taro-textarea {
+    resize: none !important;
+}
+`
 
 const PC_WIDESCREEN_STYLES = `
 /* PC 宽屏适配 - 基础布局 */
@@ -114,7 +120,7 @@ const PC_WIDESCREEN_STYLES = `
     min-height: 100vh !important;
   }
 }
-`;
+`
 
 const PC_WIDESCREEN_PHONE_FRAME = `
 /* PC 宽屏适配 - 手机框样式（有 TabBar 页面） */
@@ -158,30 +164,30 @@ const PC_WIDESCREEN_PHONE_FRAME = `
     overflow: auto !important;
   }
 }
-`;
+`
 
 function injectStyles() {
-  const style = document.createElement('style');
-  style.innerHTML =
-    H5_BASE_STYLES + PC_WIDESCREEN_STYLES + PC_WIDESCREEN_PHONE_FRAME;
-  document.head.appendChild(style);
+    const style = document.createElement('style')
+    style.innerHTML =
+        H5_BASE_STYLES + PC_WIDESCREEN_STYLES + PC_WIDESCREEN_PHONE_FRAME
+    document.head.appendChild(style)
 }
 
 function setupTabbarDetection() {
-  const checkTabbar = () => {
-    const hasTabbar = !!document.querySelector('.taro-tabbar__container');
-    document.body.classList.toggle('no-tabbar', !hasTabbar);
-  };
+    const checkTabbar = () => {
+        const hasTabbar = !!document.querySelector('.taro-tabbar__container')
+        document.body.classList.toggle('no-tabbar', !hasTabbar)
+    }
 
-  checkTabbar();
+    checkTabbar()
 
-  const observer = new MutationObserver(checkTabbar);
-  observer.observe(document.body, { childList: true, subtree: true });
+    const observer = new MutationObserver(checkTabbar)
+    observer.observe(document.body, { childList: true, subtree: true })
 }
 
 export function injectH5Styles() {
-  if (TARO_ENV !== 'h5') return;
+    if (TARO_ENV !== 'h5') return
 
-  injectStyles();
-  setupTabbarDetection();
+    injectStyles()
+    setupTabbarDetection()
 }

@@ -1,18 +1,12 @@
+/* stylelint-disable at-rule-no-unknown */
+/* stylelint-disable number-max-precision */
 @import url('tailwindcss');
-/*
- ---break---
- */
-@custom-variant dark (&:is(.dark *));
 
 /* 小程序页面容器高度设置，确保垂直居中生效 */
 /* stylelint-disable-next-line selector-type-no-unknown */
 page {
     height: 100%;
 }
-
-/*
- ---break---
- */
 
 :root {
     --background: lab(100% 0 0);
@@ -70,8 +64,8 @@ page {
     --accent-foreground: lab(98.26% 0 0);
     --destructive: lab(63.7053% 60.745 31.3109);
     --destructive-foreground: lab(49.0747% 69.3434 49.6251);
-    --border: lab(100% 0 0 / 0.1);
-    --input: lab(100% 0 0 / 0.15);
+    --border: lab(100% 0 0 / 10%);
+    --input: lab(100% 0 0 / 15%);
     --ring: lab(48.496% 0 0);
     --sidebar: lab(7.78201% -0.0000149012 0);
     --sidebar-foreground: lab(98.26% 0 0);
@@ -79,7 +73,7 @@ page {
     --sidebar-primary-foreground: lab(98.26% 0 0);
     --sidebar-accent: lab(15.204% 0 -0.00000596046);
     --sidebar-accent-foreground: lab(98.26% 0 0);
-    --sidebar-border: lab(100% 0 0 / 0.1);
+    --sidebar-border: lab(100% 0 0 / 10%);
     --sidebar-ring: lab(34.924% 0 0);
     --surface: lab(7.22637% -0.0000149012 0);
     --surface-foreground: lab(66.128% -0.0000298023 0.0000119209);
@@ -89,9 +83,7 @@ page {
     --selection-foreground: lab(7.78201% -0.0000149012 0);
 }
 
-/*
- ---break---
- */
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
     --color-sidebar: var(--sidebar);
@@ -126,10 +118,4 @@ page {
     --color-primary: var(--primary);
     --color-foreground: var(--foreground);
     --color-background: var(--background);
-}
-
-taro-textarea-core > textarea,
-.taro-textarea,
-textarea.taro-textarea {
-    resize: none !important;
 }

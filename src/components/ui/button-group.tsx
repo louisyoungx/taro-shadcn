@@ -7,14 +7,14 @@ import { cn } from "@/lib/utils"
 import { Separator } from "./separator"
 
 const buttonGroupVariants = cva(
-  "flex w-fit items-stretch [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1",
+  "flex w-fit items-stretch [&>view[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1",
   {
     variants: {
       orientation: {
         horizontal:
-          "[&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none",
+          "[&>view:nth-child(n+2)]:rounded-l-none [&>view:nth-child(n+2)]:border-l-0 [&>view:nth-last-child(n+2)]:rounded-r-none",
         vertical:
-          "flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none",
+          "flex-col [&>view:nth-child(n+2)]:rounded-t-none [&>view:nth-child(n+2)]:border-t-0 [&>view:nth-last-child(n+2)]:rounded-b-none",
       },
     },
     defaultVariants: {

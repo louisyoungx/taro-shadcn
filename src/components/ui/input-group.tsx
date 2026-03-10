@@ -5,28 +5,38 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { Button } from "./button"
 
-function InputGroup({ className, ...props }: React.ComponentPropsWithoutRef<typeof View>) {
-  return (
-    <View
-      data-slot="input-group"
-      role="group"
-      className={cn(
-        "group/input-group border-input dark:bg-input/30 shadow-xs relative flex w-full flex-wrap items-center rounded-md border outline-none transition-[color,box-shadow] ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
-        "h-9 has-[textarea]:h-auto",
+interface InputGroupContextValue {
+  isFocused: boolean
+  setIsFocused: (value: boolean) => void
+  disabled?: boolean
+}
 
-        // Variants based on alignment - simplified for Taro as specific selector support varies
-        // "has-[>[data-align=inline-start]]:[&>input]:pl-2",
-        // "has-[>[data-align=inline-end]]:[&>input]:pr-2",
-        
-        className
-      )}
-      {...props}
-    />
+const InputGroupContext = React.createContext<InputGroupContextValue>({
+  isFocused: false,
+  setIsFocused: () => {},
+  disabled: false,
+})
+
+function InputGroup({ className, disabled, ...props }: React.ComponentPropsWithoutRef<typeof View> & { disabled?: boolean }) {
+  const [isFocused, setIsFocused] = React.useState(false)
+
+  return (
+    <InputGroupContext.Provider value={{ isFocused, setIsFocused, disabled }}>
+      <View
+        data-slot="input-group"
+        className={cn(
+          "border-input dark:bg-input/30 shadow-xs relative flex w-full min-h-9 flex-wrap items-center rounded-md border outline-none transition-[color,box-shadow]",
+          isFocused && "ring-2 ring-ring ring-offset-2 ring-offset-background",
+          className
+        )}
+        {...props}
+      />
+    </InputGroupContext.Provider>
   )
 }
 
 const inputGroupAddonVariants = cva(
-  "text-muted-foreground flex h-auto cursor-text select-none items-center justify-center gap-2 py-1 text-sm font-medium group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-4",
+  "text-muted-foreground flex h-auto cursor-text select-none items-center justify-center gap-2 py-1 text-sm font-medium [&>kbd]:rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-4",
   {
     variants: {
       align: {
@@ -51,12 +61,12 @@ function InputGroupAddon({
   align = "inline-start",
   ...props
 }: React.ComponentPropsWithoutRef<typeof View> & VariantProps<typeof inputGroupAddonVariants>) {
+  const { disabled } = React.useContext(InputGroupContext)
   return (
     <View
-      role="group"
       data-slot="input-group-addon"
       data-align={align}
-      className={cn(inputGroupAddonVariants({ align }), className)}
+      className={cn(inputGroupAddonVariants({ align }), disabled && "opacity-50", className)}
       {...props}
     />
   )
@@ -111,8 +121,12 @@ function InputGroupText({ className, ...props }: React.ComponentPropsWithoutRef<
 
 function InputGroupInput({
   className,
+  onFocus,
+  onBlur,
   ...props
 }: React.ComponentPropsWithoutRef<typeof Input>) {
+  const { setIsFocused } = React.useContext(InputGroupContext)
+
   return (
     <View className="flex h-full flex-1 items-center px-2 py-2">
       <Input
@@ -122,6 +136,14 @@ function InputGroupInput({
           className
         )}
         placeholderClass="text-muted-foreground"
+        onFocus={(e) => {
+          setIsFocused(true)
+          onFocus?.(e)
+        }}
+        onBlur={(e) => {
+          setIsFocused(false)
+          onBlur?.(e)
+        }}
         {...props}
       />
     </View>
@@ -130,8 +152,12 @@ function InputGroupInput({
 
 function InputGroupTextarea({
   className,
+  onFocus,
+  onBlur,
   ...props
 }: React.ComponentPropsWithoutRef<typeof Textarea>) {
+  const { setIsFocused } = React.useContext(InputGroupContext)
+
   return (
     <View className="flex h-full flex-1 min-w-20 m-2">
       <Textarea
@@ -141,6 +167,14 @@ function InputGroupTextarea({
           className
         )}
         placeholderClass="text-muted-foreground"
+        onFocus={(e) => {
+          setIsFocused(true)
+          onFocus?.(e)
+        }}
+        onBlur={(e) => {
+          setIsFocused(false)
+          onBlur?.(e)
+        }}
         {...props}
       />
     </View>

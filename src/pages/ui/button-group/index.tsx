@@ -18,17 +18,8 @@ export default function ButtonGroupPage() {
             <Button variant="outline">One</Button>
             <Button variant="outline">Two</Button>
             <Button variant="outline">Three</Button>
-          </ButtonGroup>
-        </View>
-
-        <View className="space-y-2">
-          <View className="text-sm text-muted-foreground">With Separator</View>
-          <ButtonGroup>
-            <Button variant="outline">One</Button>
-            <ButtonGroupSeparator />
-            <Button variant="outline">Two</Button>
-            <ButtonGroupSeparator />
-            <Button variant="outline">Three</Button>
+            <Button variant="outline">Four</Button>
+            <Button variant="outline">Five</Button>
           </ButtonGroup>
         </View>
 
