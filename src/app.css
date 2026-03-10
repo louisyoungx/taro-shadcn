@@ -117,3 +117,15 @@ root-portal {
     --color-foreground: var(--foreground);
     --color-background: var(--background);
 }
+
+page,
+view,
+text,
+button,
+input,
+textarea,
+label,
+scroll-view,
+image {
+    border-color: var(--border);
+}

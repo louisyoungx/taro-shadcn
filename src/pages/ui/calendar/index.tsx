@@ -14,7 +14,8 @@ export default function CalendarPage() {
           mode="single"
           selected={date}
           onSelect={setDate}
-          className="rounded-md border"
+          className="rounded-lg border"
+          captionLayout="dropdown"
         />
       </View>
     </PageLayout>
