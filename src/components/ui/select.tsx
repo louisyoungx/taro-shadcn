@@ -1,7 +1,8 @@
 import * as React from "react"
-import { View, ScrollView, RootPortal } from "@tarojs/components"
+import { View, ScrollView } from "@tarojs/components"
 import { Check, ChevronDown, ChevronUp } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
+import { Portal } from "@/components/ui/portal"
 
 // Implementation of Select using a Bottom Sheet (Drawer-like) approach for mobile
 // This provides better UX on mobile than a tiny popover.
@@ -96,7 +97,7 @@ const SelectTrigger = React.forwardRef<
           {...props}
         >
             {children}
-            <ChevronDown className="h-4 w-4 opacity-50" />
+            <ChevronDown className="opacity-50" size={16} />
         </View>
     )
 })
@@ -104,14 +105,14 @@ SelectTrigger.displayName = "SelectTrigger"
 
 const SelectScrollUpButton = ({ className, ...props }: React.ComponentPropsWithoutRef<typeof View>) => (
     <View className={cn("flex cursor-default items-center justify-center py-1", className)} {...props}>
-        <ChevronUp className="h-4 w-4" />
+        <ChevronUp size={16} />
     </View>
 )
 SelectScrollUpButton.displayName = "SelectScrollUpButton"
 
 const SelectScrollDownButton = ({ className, ...props }: React.ComponentPropsWithoutRef<typeof View>) => (
     <View className={cn("flex cursor-default items-center justify-center py-1", className)} {...props}>
-        <ChevronDown className="h-4 w-4" />
+        <ChevronDown size={16} />
     </View>
 )
 SelectScrollDownButton.displayName = "SelectScrollDownButton"
@@ -125,7 +126,7 @@ const SelectContent = React.forwardRef<
     if (!context?.open) return null
 
     return (
-        <RootPortal>
+        <Portal>
             <View 
               className="fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
               onClick={() => context.onOpenChange?.(false)}
@@ -143,7 +144,7 @@ const SelectContent = React.forwardRef<
                     {children}
                 </ScrollView>
             </View>
-        </RootPortal>
+        </Portal>
     )
 })
 SelectContent.displayName = "SelectContent"
@@ -180,7 +181,7 @@ const SelectItem = React.forwardRef<
     >
       {isSelected && (
           <View className="absolute left-2 flex h-4 w-4 items-center justify-center">
-            <Check className="h-4 w-4" />
+            <Check size={16} />
           </View>
       )}
       <View>{children}</View>

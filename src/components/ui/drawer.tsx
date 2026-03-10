@@ -1,6 +1,7 @@
 import * as React from "react"
-import { View, RootPortal } from "@tarojs/components"
+import { View } from "@tarojs/components"
 import { cn } from "@/lib/utils"
+import { Portal } from "@/components/ui/portal"
 
 const DrawerContext = React.createContext<{
   open?: boolean
@@ -64,7 +65,7 @@ DrawerTrigger.displayName = "DrawerTrigger"
 const DrawerPortal = ({ children }: { children: React.ReactNode }) => {
     const context = React.useContext(DrawerContext)
     if (!context?.open) return null
-    return <RootPortal>{children}</RootPortal>
+    return <Portal>{children}</Portal>
 }
 
 const DrawerClose = React.forwardRef<

@@ -1,7 +1,8 @@
 import * as React from "react"
-import { View, RootPortal } from "@tarojs/components"
+import { View } from "@tarojs/components"
 import { X } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
+import { Portal } from "@/components/ui/portal"
 
 const DialogContext = React.createContext<{
   open?: boolean
@@ -62,7 +63,7 @@ const DialogPortal = ({ children }: { children: React.ReactNode }) => {
     // Here we unmount if closed for performance.
     if (!context?.open) return null
     
-    return <RootPortal>{children}</RootPortal>
+    return <Portal>{children}</Portal>
 }
 
 const DialogOverlay = React.forwardRef<
@@ -112,7 +113,7 @@ const DialogContent = React.forwardRef<
                         context?.onOpenChange?.(false)
                     }}
                 >
-                    <X className="h-4 w-4" />
+                    <X size={16} />
                     <View className="sr-only">Close</View>
                 </View>
             </View>

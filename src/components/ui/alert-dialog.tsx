@@ -1,7 +1,8 @@
 import * as React from "react"
-import { View, RootPortal } from "@tarojs/components"
+import { View } from "@tarojs/components"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import { Portal } from "@/components/ui/portal"
 
 const AlertDialogContext = React.createContext<{
   open?: boolean
@@ -50,7 +51,7 @@ AlertDialogTrigger.displayName = "AlertDialogTrigger"
 const AlertDialogPortal = ({ children }) => {
     const context = React.useContext(AlertDialogContext)
     if (!context?.open) return null
-    return <RootPortal>{children}</RootPortal>
+    return <Portal>{children}</Portal>
 }
 
 const AlertDialogOverlay = React.forwardRef<

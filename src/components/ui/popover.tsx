@@ -1,6 +1,7 @@
 import * as React from "react"
-import { View, RootPortal } from "@tarojs/components"
+import { View } from "@tarojs/components"
 import { cn } from "@/lib/utils"
+import { Portal } from "@/components/ui/portal"
 
 // Popover as a centered Dialog for mobile (or could be bottom sheet)
 // We'll use centered Dialog style for Popover to differentiate from Select/Dropdown (Bottom Sheet)
@@ -70,7 +71,7 @@ const PopoverContent = React.forwardRef<
     if (!context?.open) return null
 
     return (
-        <RootPortal>
+        <Portal>
              <View 
                className="fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
                onClick={() => context.onOpenChange?.(false)}
@@ -83,7 +84,7 @@ const PopoverContent = React.forwardRef<
                 )}
               {...props}
             />
-        </RootPortal>
+        </Portal>
     )
 })
 PopoverContent.displayName = "PopoverContent"

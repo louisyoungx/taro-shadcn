@@ -36,13 +36,13 @@ export default function ButtonGroupPage() {
           <View className="text-sm text-muted-foreground">With Icons</View>
           <ButtonGroup>
             <Button variant="outline" size="icon">
-              <Cloud className="h-4 w-4" />
+              <Cloud size={16} />
             </Button>
             <Button variant="outline" size="icon">
-              <LifeBuoy className="h-4 w-4" />
+              <LifeBuoy size={16} />
             </Button>
             <Button variant="outline" size="icon">
-              <Github className="h-4 w-4" />
+              <Github size={16} />
             </Button>
           </ButtonGroup>
         </View>
@@ -53,7 +53,7 @@ export default function ButtonGroupPage() {
             <Button variant="outline">Save</Button>
             <ButtonGroupSeparator />
             <Button variant="outline" size="icon">
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown size={16} />
             </Button>
           </ButtonGroup>
         </View>

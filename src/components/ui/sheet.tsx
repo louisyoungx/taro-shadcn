@@ -1,9 +1,10 @@
 import * as React from "react"
-import { View, RootPortal } from "@tarojs/components"
+import { View } from "@tarojs/components"
 import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react-taro"
 
 import { cn } from "@/lib/utils"
+import { Portal } from "@/components/ui/portal"
 
 const SheetContext = React.createContext<{
   open?: boolean
@@ -81,7 +82,7 @@ SheetClose.displayName = "SheetClose"
 const SheetPortal = ({ children }: { children: React.ReactNode }) => {
     const context = React.useContext(SheetContext)
     if (!context?.open) return null
-    return <RootPortal>{children}</RootPortal>
+    return <Portal>{children}</Portal>
 }
 
 const SheetOverlay = React.forwardRef<
@@ -151,7 +152,7 @@ const SheetContent = React.forwardRef<
                 context?.onOpenChange?.(false)
             }}
         >
-          <X className="h-4 w-4" />
+          <X size={16} />
           <View className="sr-only">Close</View>
         </View>
       </View>

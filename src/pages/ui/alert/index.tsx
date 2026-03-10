@@ -9,7 +9,7 @@ export default function AlertPage() {
     <PageLayout title="Alert">
       <View className="space-y-4">
         <Alert>
-          <Terminal className="h-4 w-4" />
+          <Terminal size={16} />
           <AlertTitle>Heads up!</AlertTitle>
           <AlertDescription>
             You can add components to your app using the cli.
@@ -17,7 +17,7 @@ export default function AlertPage() {
         </Alert>
 
         <Alert variant="destructive">
-          <CircleAlert className="h-4 w-4" color="#e7000b" />
+          <CircleAlert color="#e7000b" size={16} />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
             Your session has expired. Please log in again.

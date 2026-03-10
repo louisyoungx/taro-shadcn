@@ -102,7 +102,7 @@ const BreadcrumbEllipsis = ({
     className={cn("flex h-9 w-9 items-center justify-center", className)}
     {...props}
   >
-    <Ellipsis className="h-4 w-4" color="#737373" />
+    <Ellipsis color="#737373" size={16} />
     <View className="sr-only">More</View>
   </View>
 )

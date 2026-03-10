@@ -106,7 +106,7 @@ export default function DialogPage() {
                 </View>
                 <Button size="sm" className="px-3">
                   <View className="sr-only">Copy</View>
-                  <Copy className="h-4 w-4" color="#fff" />
+                  <Copy color="#fff" size={16} />
                 </Button>
               </View>
               <DialogFooter className="sm:justify-start">

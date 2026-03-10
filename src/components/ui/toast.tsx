@@ -1,5 +1,5 @@
 import * as React from "react"
-import { RootPortal, Text, View } from "@tarojs/components"
+import { Text, View } from "@tarojs/components"
 import Taro from "@tarojs/taro"
 import {
   Check,
@@ -10,6 +10,7 @@ import {
   CircleAlert
 } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
+import { Portal } from "@/components/ui/portal"
 
 export type ToastPosition =
   | "top-left"
@@ -254,7 +255,7 @@ const Toaster = ({
   }, [toastsToRender.length])
 
   return (
-    <RootPortal>
+    <Portal>
       <View
         className={cn(
           "toaster fixed z-[100] flex p-4 w-full pointer-events-none",
@@ -296,7 +297,7 @@ const Toaster = ({
           })}
         </View>
       </View>
-    </RootPortal>
+    </Portal>
   )
 }
 
@@ -456,7 +457,7 @@ const ToastItem = ({
     <View className={baseClasses} style={finalStyle} id={elementId}>
       <View className="flex gap-3 items-center flex-1" style={{ opacity: isCollapsedStack ? 0 : 1, transition: "opacity 400ms ease" }}>
         {TypeIcon && (
-          <TypeIcon className={cn("h-5 w-5 shrink-0", item.type === "loading" && "animate-spin")} color={iconColor} />
+          <TypeIcon className={cn("shrink-0", item.type === "loading" && "animate-spin")} color={iconColor} size={20} />
         )}
         <View className="flex flex-col gap-1 flex-1">
           {item.title && <Text className="text-sm font-semibold leading-none" style={palette ? { color: palette.color } : undefined}>{item.title}</Text>}
@@ -506,7 +507,7 @@ const ToastItem = ({
             handleDismiss()
           }}
         >
-          <X className="h-4 w-4" color={iconColor} />
+          <X color={iconColor} size={16} />
         </View>
       )}
     </View>

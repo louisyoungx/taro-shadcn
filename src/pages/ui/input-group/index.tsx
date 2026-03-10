@@ -31,10 +31,10 @@ export default function InputGroupPage() {
               className="font-mono text-sm h-40"
             />
             <InputGroupAddon align="block-start">
-              <FileCode className="h-4 w-4 text-muted-foreground" color="#737373" />
+              <FileCode className="text-muted-foreground" color="#737373" size={16} />
               <InputGroupText className="font-mono">script.js</InputGroupText>
               <InputGroupButton size="icon-xs" className="ml-auto">
-                <Copy className="h-4 w-4" color="#737373" />
+                <Copy color="#737373" size={16} />
                 <Text className="sr-only">Copy</Text>
               </InputGroupButton>
             </InputGroupAddon>
@@ -46,7 +46,7 @@ export default function InputGroupPage() {
           <InputGroup>
             <InputGroupInput placeholder="Search..." />
             <InputGroupAddon align="inline-end">
-              <Search className="h-4 w-4" color="#737373" />
+              <Search color="#737373" size={16} />
             </InputGroupAddon>
           </InputGroup>
         </View>
