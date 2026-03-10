@@ -53,6 +53,10 @@ body.h5-navbar-visible .taro_page {
   padding-top: 44px;
 }
 
+body.h5-navbar-visible .toaster[data-position^="top"] {
+  top: 44px !important;
+}
+
 /* Sheet 组件在 H5 导航栏下的位置修正 */
 body.h5-navbar-visible .sheet-content:not([data-side="bottom"]) {
     top: 44px !important;

@@ -57,7 +57,6 @@ const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, ...props }, ref) => {
-    const context = React.useContext(AlertDialogContext)
     return (
         <View
           ref={ref}
