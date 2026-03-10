@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "coze-mini-program",
-  "description": "test",
+  "projectname": "taro-shadcn-ui",
+  "description": "Taro 4 + React + Tailwind CSS + Shadcn UI components for Mini Program",
   "appid": "touristappid",
   "setting": {
     "urlCheck": true,

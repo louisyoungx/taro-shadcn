@@ -1,8 +1,8 @@
 {
-  "name": "coze-mini-program",
-  "version": "1.0.0",
+  "name": "taro-shadcn",
+  "version": "0.0.1",
   "private": true,
-  "description": "Coze Mini Program Application",
+  "description": "Taro 4 + React + Tailwind CSS + Shadcn UI components for Mini Program",
   "scripts": {
     "build": "pnpm exec concurrently --kill-others-on-fail --kill-signal SIGKILL -n lint,tsc,web,weapp,tt,server -c red,blue,green,yellow,cyan,magenta \"pnpm lint:build\" \"pnpm tsc\" \"pnpm build:web\" \"pnpm build:weapp\" \"pnpm build:tt\" \"pnpm build:server\"",
     "build:server": "pnpm --filter server build",
