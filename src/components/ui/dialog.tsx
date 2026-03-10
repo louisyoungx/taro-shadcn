@@ -8,7 +8,15 @@ const DialogContext = React.createContext<{
   onOpenChange?: (open: boolean) => void
 } | null>(null)
 
-const Dialog = ({ children, open: openProp, defaultOpen, onOpenChange, modal = true }) => {
+interface DialogProps {
+  children: React.ReactNode
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  modal?: boolean
+}
+
+const Dialog = ({ children, open: openProp, defaultOpen, onOpenChange, modal = true }: DialogProps) => {
     const [openState, setOpenState] = React.useState(defaultOpen || false)
     const open = openProp !== undefined ? openProp : openState
     
@@ -28,8 +36,8 @@ const Dialog = ({ children, open: openProp, defaultOpen, onOpenChange, modal = t
 
 const DialogTrigger = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>
->(({ className, children, ...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(DialogContext)
     return (
         <View
@@ -47,7 +55,7 @@ const DialogTrigger = React.forwardRef<
 })
 DialogTrigger.displayName = "DialogTrigger"
 
-const DialogPortal = ({ children }) => {
+const DialogPortal = ({ children }: { children: React.ReactNode }) => {
     const context = React.useContext(DialogContext)
     // Only render if open to avoid heavy DOM. 
     // Radix usually keeps it mounted or unmounts based on forceMount.
@@ -66,7 +74,7 @@ const DialogOverlay = React.forwardRef<
         <View
             ref={ref}
             className={cn(
-                "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+                "fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
                 className
             )}
             onClick={(e) => {
@@ -168,11 +176,31 @@ const DialogDescription = React.forwardRef<
 ))
 DialogDescription.displayName = "DialogDescription"
 
+const DialogClose = React.forwardRef<
+  React.ElementRef<typeof View>,
+  React.ComponentPropsWithoutRef<typeof View>
+>(({ className, ...props }, ref) => {
+    const context = React.useContext(DialogContext)
+    return (
+        <View
+            ref={ref}
+            className={className}
+            onClick={(e) => {
+                e.stopPropagation()
+                context?.onOpenChange?.(false)
+            }}
+            {...props}
+        />
+    )
+})
+DialogClose.displayName = "DialogClose"
+
 export {
   Dialog,
   DialogPortal,
   DialogOverlay,
   DialogTrigger,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogFooter,

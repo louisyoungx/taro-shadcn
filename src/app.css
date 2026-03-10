@@ -45,10 +45,6 @@ root-portal {
     --selection-foreground: lab(100% 0 0);
 }
 
-/*
- ---break---
- */
-
 .dark {
     --background: lab(2.75381% 0 0);
     --foreground: lab(98.26% 0 0);

@@ -53,6 +53,11 @@ body.h5-navbar-visible .taro_page {
   padding-top: 44px;
 }
 
+/* Sheet 组件在 H5 导航栏下的位置修正 */
+body.h5-navbar-visible .sheet-content:not([data-side="bottom"]) {
+    top: 44px !important;
+}
+
 /*
  * H5 端 rem 适配：与小程序 rpx 缩放一致
  * 375px 屏幕：1rem = 16px，小程序 32rpx = 16px

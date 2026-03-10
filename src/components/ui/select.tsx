@@ -13,7 +13,17 @@ const SelectContext = React.createContext<{
   onOpenChange?: (open: boolean) => void
 } | null>(null)
 
-const Select = ({ value: valueProp, defaultValue, onValueChange, open: openProp, defaultOpen, onOpenChange, children }) => {
+interface SelectProps {
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  children?: React.ReactNode
+}
+
+const Select: React.FC<SelectProps> = ({ value: valueProp, defaultValue, onValueChange, open: openProp, defaultOpen, onOpenChange, children }) => {
     const [openState, setOpenState] = React.useState(defaultOpen || false)
     const open = openProp !== undefined ? openProp : openState
     const [valueState, setValueState] = React.useState(defaultValue || "")
@@ -117,7 +127,7 @@ const SelectContent = React.forwardRef<
     return (
         <RootPortal>
             <View 
-              className="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+              className="fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
               onClick={() => context.onOpenChange?.(false)}
             />
             <View

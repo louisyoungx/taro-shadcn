@@ -14,7 +14,7 @@ export default function SelectPage() {
   return (
     <PageLayout title="Select">
       <Select>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-40">
           <SelectValue placeholder="Select a fruit" />
         </SelectTrigger>
         <SelectContent>
