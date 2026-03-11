@@ -100,11 +100,6 @@
   "engines": {
     "pnpm": ">=9.0.0"
   },
-  "pnpm": {
-    "patchedDependencies": {
-      "@tarojs/plugin-mini-ci@4.1.9": "patches/@tarojs__plugin-mini-ci@4.1.9.patch"
-    }
-  },
   "templateInfo": {
     "name": "default",
     "typescript": true,

@@ -1,15 +1,20 @@
 {
-  "name": "taro-shadcn-ui",
+  "name": "taro-shadcn",
   "private": true,
   "description": "Taro Shadcn UI Component Library Workspace",
   "scripts": {
-    "dev:docs": "cd docs && pnpm dev:web",
-    "build:docs": "cd docs && pnpm build:web",
+    "dev:docs": "pnpm --filter @taro-shadcn/docs dev:web",
+    "build:docs": "pnpm --filter @taro-shadcn/docs build:web",
     "lint": "pnpm --filter \"*\" lint",
     "tsc": "pnpm --filter \"*\" tsc",
     "test:cli": "pnpm --filter taro-shadcn test",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "echo skip weapp-tw patch"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@tarojs/plugin-mini-ci@4.1.9": "packages/docs/patches/@tarojs__plugin-mini-ci@4.1.9.patch"
+    }
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {

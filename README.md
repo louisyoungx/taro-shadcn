@@ -2,6 +2,8 @@
 
 > **基于 Taro 4 为小程序带来 shadcn/ui 体验。**
 
+[📖 官方文档](https://taro-shadcn.rocke.top)
+
 [![Taro 4](https://img.shields.io/badge/Taro-4.1.9-blue.svg)](https://docs.taro.zone/)
 [![React 18](https://img.shields.io/badge/React-18.0.0-61dafb.svg)](https://reactjs.org/)
 [![Tailwind CSS 4](https://img.shields.io/badge/TailwindCSS-4.1.18-38b2ac.svg)](https://tailwindcss.com/)
@@ -87,6 +89,8 @@ pnpm dlx taro-shadcn@latest add button accordion
 ## 💻 开发
 
 ### 运行文档应用
+
+您也可以直接访问 [在线预览/文档](https://taro-shadcn.rocke.top/)。
 
 以 H5 模式运行文档应用：
 
