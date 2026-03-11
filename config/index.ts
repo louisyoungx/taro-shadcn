@@ -141,7 +141,7 @@ export default defineConfig<'vite'>(async (merge, _env) => {
                 ...(process.env.TARO_ENV !== 'h5'
                     ? [
                           UnifiedViteWeappTailwindcssPlugin({
-                              rem2rpx: true,
+                              rem2rpx: false,
                               cssEntries: [
                                   path.resolve(__dirname, '../src/app.css'),
                               ],

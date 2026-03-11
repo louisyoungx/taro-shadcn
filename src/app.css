@@ -118,6 +118,7 @@ root-portal {
     --color-background: var(--background);
     --color-selection: var(--selection);
     --color-selection-foreground: var(--selection-foreground);
+    --radius-full: 9999px;
 }
 
 page,
