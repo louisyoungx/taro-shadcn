@@ -2,6 +2,7 @@ import * as React from "react"
 import { View } from "@tarojs/components"
 import { cn } from "@/lib/utils"
 import { Portal } from "@/components/ui/portal"
+import { useKeyboardOffset } from "@/lib/hooks/use-keyboard-offset"
 
 // Popover as a centered Dialog for mobile (or could be bottom sheet)
 // We'll use centered Dialog style for Popover to differentiate from Select/Dropdown (Bottom Sheet)
@@ -65,8 +66,9 @@ interface PopoverContentProps extends React.ComponentPropsWithoutRef<typeof View
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof View>,
   PopoverContentProps
->(({ className, align = "center", sideOffset = 4, ...props }, ref) => {
+>(({ className, align = "center", sideOffset = 4, style, ...props }, ref) => {
     const context = React.useContext(PopoverContext)
+    const offset = useKeyboardOffset()
     
     if (!context?.open) return null
 
@@ -82,6 +84,10 @@ const PopoverContent = React.forwardRef<
                     "fixed left-[50%] top-[50%] z-50 w-72 translate-x-[-50%] translate-y-[-50%] rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
                     className
                 )}
+              style={{
+                ...(style as object),
+                top: offset > 0 ? `calc(50% - ${offset / 2}px)` : undefined
+              }}
               {...props}
             />
         </Portal>

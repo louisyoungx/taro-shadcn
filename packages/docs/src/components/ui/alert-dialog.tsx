@@ -1,15 +1,27 @@
 import * as React from "react"
 import { View } from "@tarojs/components"
+import { type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Portal } from "@/components/ui/portal"
+import { useKeyboardOffset } from "@/lib/hooks/use-keyboard-offset"
 
 const AlertDialogContext = React.createContext<{
   open?: boolean
   onOpenChange?: (open: boolean) => void
 } | null>(null)
 
-const AlertDialog = ({ children, open: openProp, defaultOpen, onOpenChange }) => {
+const AlertDialog = ({ 
+    children, 
+    open: openProp, 
+    defaultOpen = false, 
+    onOpenChange 
+}: { 
+    children: React.ReactNode, 
+    open?: boolean, 
+    defaultOpen?: boolean, 
+    onOpenChange?: (open: boolean) => void 
+}) => {
     const [openState, setOpenState] = React.useState(defaultOpen || false)
     const open = openProp !== undefined ? openProp : openState
     
@@ -83,21 +95,28 @@ AlertDialogOverlay.displayName = "AlertDialogOverlay"
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
->(({ className, children, ...props }, ref) => (
-  <AlertDialogPortal>
-    <AlertDialogOverlay />
-    <View
-      ref={ref}
-      className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-        className
-      )}
-      {...props}
-    >
-        {children}
-    </View>
-  </AlertDialogPortal>
-))
+>(({ className, children, style, ...props }, ref) => {
+  const offset = useKeyboardOffset()
+  return (
+    <AlertDialogPortal>
+      <AlertDialogOverlay />
+      <View
+        ref={ref}
+        className={cn(
+           "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
+           className
+          )}
+          style={{
+            ...(style as object),
+            top: offset > 0 ? `calc(50% - ${offset / 2}px)` : undefined
+          }}
+         {...props}
+      >
+          {children}
+      </View>
+    </AlertDialogPortal>
+  )
+})
 AlertDialogContent.displayName = "AlertDialogContent"
 
 const AlertDialogHeader = ({
@@ -154,13 +173,13 @@ AlertDialogDescription.displayName = "AlertDialogDescription"
 
 const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View>
->(({ className, onClick, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof View> & VariantProps<typeof buttonVariants>
+>(({ className, variant, size, onClick, ...props }, ref) => {
     const context = React.useContext(AlertDialogContext)
     return (
         <View
           ref={ref}
-          className={cn(buttonVariants(), className)}
+          className={cn(buttonVariants({ variant, size }), "w-full sm:w-auto", className)}
           onClick={(e) => {
                 context?.onOpenChange?.(false)
                 onClick?.(e)
@@ -173,15 +192,15 @@ AlertDialogAction.displayName = "AlertDialogAction"
 
 const AlertDialogCancel = React.forwardRef<
   React.ElementRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View>
->(({ className, onClick, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof View> & VariantProps<typeof buttonVariants>
+>(({ className, variant = "outline", size, onClick, ...props }, ref) => {
     const context = React.useContext(AlertDialogContext)
     return (
         <View
           ref={ref}
           className={cn(
-            buttonVariants({ variant: "outline" }),
-            "mt-2 sm:mt-0",
+            buttonVariants({ variant, size }),
+            "mt-2 sm:mt-0 w-full sm:w-auto",
             className
             )}
           onClick={(e) => {

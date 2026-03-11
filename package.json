@@ -19,5 +19,8 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "pnpm": ">=9.0.0"
+  },
+  "devDependencies": {
+    "miniprogram-ci": "^2.1.26"
   }
 }

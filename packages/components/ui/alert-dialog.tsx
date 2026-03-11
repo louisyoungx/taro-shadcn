@@ -1,5 +1,6 @@
 import * as React from "react"
 import { View } from "@tarojs/components"
+import { type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Portal } from "@/components/ui/portal"
@@ -9,7 +10,17 @@ const AlertDialogContext = React.createContext<{
   onOpenChange?: (open: boolean) => void
 } | null>(null)
 
-const AlertDialog = ({ children, open: openProp, defaultOpen, onOpenChange }) => {
+const AlertDialog = ({ 
+    children, 
+    open: openProp, 
+    defaultOpen = false, 
+    onOpenChange 
+}: { 
+    children: React.ReactNode, 
+    open?: boolean, 
+    defaultOpen?: boolean, 
+    onOpenChange?: (open: boolean) => void 
+}) => {
     const [openState, setOpenState] = React.useState(defaultOpen || false)
     const open = openProp !== undefined ? openProp : openState
     
@@ -154,13 +165,13 @@ AlertDialogDescription.displayName = "AlertDialogDescription"
 
 const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View>
->(({ className, onClick, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof View> & VariantProps<typeof buttonVariants>
+>(({ className, variant, size, onClick, ...props }, ref) => {
     const context = React.useContext(AlertDialogContext)
     return (
         <View
           ref={ref}
-          className={cn(buttonVariants(), className)}
+          className={cn(buttonVariants({ variant, size }), "w-full sm:w-auto", className)}
           onClick={(e) => {
                 context?.onOpenChange?.(false)
                 onClick?.(e)
@@ -173,15 +184,15 @@ AlertDialogAction.displayName = "AlertDialogAction"
 
 const AlertDialogCancel = React.forwardRef<
   React.ElementRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View>
->(({ className, onClick, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof View> & VariantProps<typeof buttonVariants>
+>(({ className, variant = "outline", size, onClick, ...props }, ref) => {
     const context = React.useContext(AlertDialogContext)
     return (
         <View
           ref={ref}
           className={cn(
-            buttonVariants({ variant: "outline" }),
-            "mt-2 sm:mt-0",
+            buttonVariants({ variant, size }),
+            "mt-2 sm:mt-0 w-full sm:w-auto",
             className
             )}
           onClick={(e) => {
