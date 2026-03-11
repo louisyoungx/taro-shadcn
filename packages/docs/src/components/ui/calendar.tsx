@@ -208,7 +208,7 @@ function Calendar({
     <View
       className={cn(
         "bg-background w-fit rounded-md p-3",
-        "flex flex-col gap-3",
+        "flex flex-col gap-3 border-2",
         className
       )}
     >
