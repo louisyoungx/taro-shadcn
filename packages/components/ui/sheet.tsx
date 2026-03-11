@@ -39,14 +39,14 @@ const Sheet = ({ children, open: openProp, defaultOpen, onOpenChange }: SheetPro
 
 const SheetTrigger = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>  
->(({ className, children,...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(SheetContext)
     return (
         <View
           ref={ref}
           className={className}
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(true)
             }}
@@ -60,14 +60,14 @@ SheetTrigger.displayName = "SheetTrigger"
 
 const SheetClose = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>  
->(({ className, children,...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(SheetContext)
     return (
         <View
           ref={ref}
           className={className}
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(false)
             }}
@@ -98,7 +98,7 @@ const SheetOverlay = React.forwardRef<
         )}
         {...props}
         ref={ref}
-       onClick={(e) => {
+        onClick={(e) => {
             e.stopPropagation()
             context?.onOpenChange?.(false)
         }}
@@ -147,7 +147,7 @@ const SheetContent = React.forwardRef<
         {children}
         <View 
           className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(false)
             }}
@@ -163,7 +163,7 @@ SheetContent.displayName = "SheetContent"
 
 const SheetHeader = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     className={cn(
@@ -177,7 +177,7 @@ SheetHeader.displayName = "SheetHeader"
 
 const SheetFooter = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     className={cn(

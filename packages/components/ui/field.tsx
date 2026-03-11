@@ -22,7 +22,7 @@ function FieldSet({ className, ...props }: React.ComponentPropsWithoutRef<typeof
 function FieldLegend({
   className,
   variant = "legend",
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View> & { variant?: "legend" | "label" }) {
   return (
     <View
@@ -73,7 +73,7 @@ const fieldVariants = cva(
 function Field({
   className,
   orientation = "vertical",
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View> & VariantProps<typeof fieldVariants>) {
   return (
     <View
@@ -101,7 +101,7 @@ function FieldContent({ className, ...props }: React.ComponentPropsWithoutRef<ty
 
 function FieldLabel({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof Label>) {
   return (
     <Label
@@ -146,7 +146,7 @@ function FieldDescription({ className, ...props }: React.ComponentPropsWithoutRe
 function FieldSeparator({
   children,
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View> & {
   children?: React.ReactNode
 }) {
@@ -177,7 +177,7 @@ function FieldError({
   className,
   children,
   errors,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View> & {
   errors?: Array<{ message?: string } | undefined>
 }) {

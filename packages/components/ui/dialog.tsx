@@ -37,14 +37,14 @@ const Dialog = ({ children, open: openProp, defaultOpen, onOpenChange }: DialogP
 
 const DialogTrigger = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>  
->(({ className, children,...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(DialogContext)
     return (
         <View
           ref={ref}
           className={className}
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(true)
             }}
@@ -78,7 +78,7 @@ const DialogOverlay = React.forwardRef<
                 "fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
                 className
             )}
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(false)
             }}
@@ -108,7 +108,7 @@ const DialogContent = React.forwardRef<
                 {children}
                 <View 
                   className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-                 onClick={(e) => {
+                  onClick={(e) => {
                         e.stopPropagation()
                         context?.onOpenChange?.(false)
                     }}
@@ -124,7 +124,7 @@ DialogContent.displayName = "DialogContent"
 
 const DialogHeader = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     className={cn(
@@ -138,7 +138,7 @@ DialogHeader.displayName = "DialogHeader"
 
 const DialogFooter = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     className={cn(
@@ -186,7 +186,7 @@ const DialogClose = React.forwardRef<
         <View
           ref={ref}
           className={className}
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(false)
             }}

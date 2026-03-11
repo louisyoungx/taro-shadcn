@@ -7,7 +7,7 @@ const ResizablePanelGroup = ({
   className,
   children,
   direction = "horizontal",
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View> & {
   direction?: "horizontal" | "vertical"
 }) => (
@@ -27,7 +27,7 @@ const ResizablePanel = ({
   className,
   children,
   defaultSize,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View> & {
   defaultSize?: number
 }) => (
@@ -43,7 +43,7 @@ const ResizablePanel = ({
 const ResizableHandle = ({
   withHandle,
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View> & {
   withHandle?: boolean
 }) => (

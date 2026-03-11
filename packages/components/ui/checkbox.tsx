@@ -38,7 +38,7 @@ const Checkbox = React.forwardRef<
         checked ? "bg-primary text-primary-foreground" : "bg-transparent",
         className
       )}
-     onClick={handleClick}
+      onClick={handleClick}
       {...props}
     >
       {checked && <Check color="#fff" size={12} strokeWidth={3} className="text-current" />}

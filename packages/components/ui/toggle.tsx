@@ -59,7 +59,7 @@ const Toggle = React.forwardRef<
         )}
       data-state={pressed ? "on" : "off"}
       data-disabled={disabled ? "" : undefined}
-     onClick={handleClick}
+      onClick={handleClick}
       {...props}
     />
   )

@@ -40,7 +40,7 @@ let menubarMenuIdCounter = 0
 
 const MenubarMenu = ({
   children,
-...props
+  ...props
 }: {
   children: React.ReactNode
 }) => {
@@ -75,7 +75,7 @@ const MenubarTrigger = React.forwardRef<
         "flex cursor-default select-none items-center rounded-sm px-3 py-2 text-sm font-medium outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
         className
       )}
-     onClick={() => context?.onOpenChange(!context.open)}
+      onClick={() => context?.onOpenChange(!context.open)}
       {...props}
     />
   )
@@ -98,7 +98,7 @@ const MenubarContent = React.forwardRef<
     <Portal>
       <View
         className="fixed inset-0 z-50 bg-black opacity-80 animate-in fade-in-0"
-       onClick={() => context.onOpenChange(false)}
+        onClick={() => context.onOpenChange(false)}
       />
       <View
         ref={ref}
@@ -135,7 +135,7 @@ const MenubarItem = React.forwardRef<
         disabled && "opacity-50 pointer-events-none",
         className
       )}
-     onClick={(e) => {
+      onClick={(e) => {
         if (disabled) return
         context?.onOpenChange(false)
         props.onClick?.(e)
@@ -162,7 +162,7 @@ const MenubarCheckboxItem = React.forwardRef<
         "relative flex cursor-default select-none items-center rounded-sm py-2 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         className
       )}
-     onClick={(e) => {
+      onClick={(e) => {
         context?.onOpenChange(false)
         props.onClick?.(e)
       }}
@@ -191,7 +191,7 @@ const MenubarRadioItem = React.forwardRef<
         "relative flex cursor-default select-none items-center rounded-sm py-2 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         className
       )}
-     onClick={(e) => {
+      onClick={(e) => {
         context?.onOpenChange(false)
         props.onClick?.(e)
       }}
@@ -238,7 +238,7 @@ MenubarSeparator.displayName = "MenubarSeparator"
 
 const MenubarShortcut = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => {
   return (
     <View

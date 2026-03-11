@@ -59,7 +59,7 @@ const inputGroupAddonVariants = cva(
 function InputGroupAddon({
   className,
   align = "inline-start",
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View> & VariantProps<typeof inputGroupAddonVariants>) {
   const { disabled } = React.useContext(InputGroupContext)
   return (
@@ -94,7 +94,7 @@ function InputGroupButton({
   className,
   variant = "ghost",
   size = "xs",
-...props
+  ...props
 }: Omit<React.ComponentProps<typeof Button>, "size"> &
   VariantProps<typeof inputGroupButtonVariants>) {
   return (
@@ -125,7 +125,7 @@ function InputGroupInput({
   onBlur,
   autoFocus,
   focus,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof Input> & { autoFocus?: boolean }) {
   const { setIsFocused } = React.useContext(InputGroupContext)
 
@@ -159,7 +159,7 @@ function InputGroupTextarea({
   onBlur,
   autoFocus,
   focus,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof Textarea> & { autoFocus?: boolean }) {
   const { setIsFocused } = React.useContext(InputGroupContext)
 

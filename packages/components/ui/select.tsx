@@ -93,7 +93,7 @@ const SelectTrigger = React.forwardRef<
             "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
             className
             )}
-         onClick={() => context?.onOpenChange?.(!context.open)}
+          onClick={() => context?.onOpenChange?.(!context.open)}
           {...props}
         >
             {children}
@@ -129,7 +129,7 @@ const SelectContent = React.forwardRef<
         <Portal>
             <View 
               className="fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
-             onClick={() => context.onOpenChange?.(false)}
+              onClick={() => context.onOpenChange?.(false)}
             />
             <View
               ref={ref}
@@ -176,7 +176,7 @@ const SelectItem = React.forwardRef<
         isSelected && "bg-accent",
         className
       )}
-     onClick={() => context?.onValueChange?.(value)}
+      onClick={() => context?.onValueChange?.(value)}
       {...props}
     >
       {isSelected && (

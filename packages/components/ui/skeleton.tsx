@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 
 function Skeleton({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) {
   return (
     <View

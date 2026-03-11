@@ -36,19 +36,21 @@ Collapsible.displayName = "Collapsible"
 
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View>
->(({ className, onClick, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof View> & {
+    asChild?: boolean
+  }
+>(({ className, onClick, asChild, ...props }, ref) => {
     const context = React.useContext(CollapsibleContext)
     
     return (
         <View
           ref={ref}
           className={className}
-         onClick={(e: any) => {
-            context?.onOpenChange(!context?.open)
-           onClick?.(e)
+          onClick={(e: any) => {
+            context?.onOpenChange(!context.open)
+            onClick?.(e)
           }}
-          {...props}
+          {...(props as any)}
         />
     )
 })

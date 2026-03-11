@@ -24,7 +24,7 @@ export type ToastType = "success" | "info" | "warning" | "error" | "loading" | "
 
 export interface ToastAction {
   label: string
- onClick: () => void
+  onClick: () => void
 }
 
 export interface ToastData {
@@ -474,7 +474,7 @@ const ToastItem = ({
           {item.cancel && (
             <View
               className="text-xs font-medium opacity-70 active:opacity-100 whitespace-nowrap"
-             onClick={(e) => {
+              onClick={(e) => {
                 e.stopPropagation()
                 item.cancel?.onClick()
                 handleDismiss()
@@ -486,7 +486,7 @@ const ToastItem = ({
           {item.action && (
             <View
               className="text-xs font-medium active:opacity-80 px-3 py-2 rounded-md bg-primary text-primary-foreground shadow hover:bg-primary hover:bg-opacity-90 whitespace-nowrap"
-             onClick={(e) => {
+              onClick={(e) => {
                 e.stopPropagation()
                 item.action?.onClick()
                 handleDismiss()
@@ -502,7 +502,7 @@ const ToastItem = ({
         <View
           className="absolute right-2 top-2 rounded-md p-1 opacity-50 transition-opacity hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2"
           style={{ opacity: isCollapsedStack ? 0 : undefined, transition: "opacity 400ms ease" }}
-         onClick={(e) => {
+          onClick={(e) => {
             e.stopPropagation()
             handleDismiss()
           }}

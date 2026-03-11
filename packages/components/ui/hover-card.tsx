@@ -101,8 +101,8 @@ const HoverCardTrigger = React.forwardRef<
       ref={ref}
       id={context?.triggerId}
       className={className}
-     onClick={(e) => {
-       onClick?.(e)
+      onClick={(e) => {
+        onClick?.(e)
         e.stopPropagation()
         context?.onOpenChange?.(!context.open)
       }}
@@ -143,7 +143,7 @@ const HoverCardContent = React.forwardRef<
       sideOffset = 4,
       onMouseEnter,
       onMouseLeave,
-    ...props
+      ...props
     },
     ref
   ) => {
@@ -289,7 +289,7 @@ const HoverCardContent = React.forwardRef<
     !isH5() ? (
       <View
         className="fixed inset-0 z-50 bg-transparent"
-       onClick={() => context.onOpenChange?.(false)}
+        onClick={() => context.onOpenChange?.(false)}
       />
     ) : null
 

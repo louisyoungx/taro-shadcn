@@ -27,7 +27,7 @@ const AspectRatio = React.forwardRef<
         bottom: 0,
     }}
     >
-    {props.children}
+        {props.children}
     </View>
   </View>
 ))

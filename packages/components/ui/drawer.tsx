@@ -21,7 +21,7 @@ const Drawer = ({
   open: openProp,
   defaultOpen,
   onOpenChange,
-...props
+  ...props
 }: DrawerProps) => {
     const [openState, setOpenState] = React.useState(defaultOpen || false)
     const open = openProp !== undefined ? openProp : openState
@@ -43,14 +43,14 @@ Drawer.displayName = "Drawer"
 
 const DrawerTrigger = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>  
->(({ className, children,...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(DrawerContext)
     return (
         <View
           ref={ref}
           className={className}
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(true)
             }}
@@ -70,14 +70,14 @@ const DrawerPortal = ({ children }: { children: React.ReactNode }) => {
 
 const DrawerClose = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>  
->(({ className, children,...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(DrawerContext)
     return (
         <View
           ref={ref}
           className={className}
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(false)
             }}
@@ -98,7 +98,7 @@ const DrawerOverlay = React.forwardRef<
     <View
       ref={ref}
       className={cn("fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0", className)}
-     onClick={() => context?.onOpenChange?.(false)}
+      onClick={() => context?.onOpenChange?.(false)}
       {...props}
     />
   )
@@ -128,7 +128,7 @@ DrawerContent.displayName = "DrawerContent"
 
 const DrawerHeader = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     className={cn("grid gap-2 p-4 text-center sm:text-left", className)}
@@ -139,7 +139,7 @@ DrawerHeader.displayName = "DrawerHeader"
 
 const DrawerFooter = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     className={cn("mt-auto flex flex-col gap-2 p-4", className)}

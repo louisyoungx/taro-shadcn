@@ -38,14 +38,14 @@ const Popover = ({ open: openProp, defaultOpen, onOpenChange, children }: Popove
 
 const PopoverTrigger = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>  
->(({ className, children,...props }, ref) => {
+    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
+>(({ className, children, asChild, ...props }, ref) => {
     const context = React.useContext(PopoverContext)
     return (
         <View
           ref={ref}
           className={className}
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(true)
             }}
@@ -74,7 +74,7 @@ const PopoverContent = React.forwardRef<
         <Portal>
              <View 
                className="fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
-              onClick={() => context.onOpenChange?.(false)}
+               onClick={() => context.onOpenChange?.(false)}
              />
             <View
               ref={ref}

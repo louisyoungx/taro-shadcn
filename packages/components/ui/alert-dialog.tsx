@@ -36,7 +36,7 @@ const AlertDialogTrigger = React.forwardRef<
         <View
           ref={ref}
           className={className}
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(true)
             }}
@@ -65,7 +65,7 @@ const AlertDialogOverlay = React.forwardRef<
             "fixed inset-0 z-50 bg-black opacity-80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             className
             )}
-         onClick={(e) => {
+          onClick={(e) => {
                 e.stopPropagation()
                 // Unlike Dialog, AlertDialog typically forces explicit action/cancel. 
                 // But user might want it to close on overlay click.
@@ -102,7 +102,7 @@ AlertDialogContent.displayName = "AlertDialogContent"
 
 const AlertDialogHeader = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     className={cn(
@@ -116,7 +116,7 @@ AlertDialogHeader.displayName = "AlertDialogHeader"
 
 const AlertDialogFooter = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     className={cn(
@@ -161,9 +161,9 @@ const AlertDialogAction = React.forwardRef<
         <View
           ref={ref}
           className={cn(buttonVariants(), className)}
-         onClick={(e) => {
+          onClick={(e) => {
                 context?.onOpenChange?.(false)
-               onClick?.(e)
+                onClick?.(e)
             }}
           {...props}
         />
@@ -184,9 +184,9 @@ const AlertDialogCancel = React.forwardRef<
             "mt-2 sm:mt-0",
             className
             )}
-         onClick={(e) => {
+          onClick={(e) => {
                 context?.onOpenChange?.(false)
-               onClick?.(e)
+                onClick?.(e)
             }}
           {...props}
         />

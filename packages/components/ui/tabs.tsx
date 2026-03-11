@@ -69,7 +69,7 @@ const TabsTrigger = React.forwardRef<
         isActive && "bg-background text-foreground shadow-sm",
         className
         )}
-     onClick={() => context?.onValueChange?.(value)}
+      onClick={() => context?.onValueChange?.(value)}
       {...props}
     />
   )

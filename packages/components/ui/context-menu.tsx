@@ -156,7 +156,7 @@ const ContextMenuContent = React.forwardRef<
     <Portal>
       <View
         className="fixed inset-0 z-50 bg-transparent"
-       onClick={() => context.onOpenChange?.(false)}
+        onClick={() => context.onOpenChange?.(false)}
         // @ts-ignore
         onContextMenu={(e) => {
           e.preventDefault()
@@ -199,7 +199,7 @@ const ContextMenuItem = React.forwardRef<
         disabled && "opacity-50 pointer-events-none",
         className
       )}
-     onClick={(e) => {
+      onClick={(e) => {
         if (disabled) return
         e.stopPropagation()
         context?.onOpenChange?.(false)
@@ -227,7 +227,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
         "relative flex cursor-default select-none items-center rounded-sm py-2 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         className
       )}
-     onClick={(e) => {
+      onClick={(e) => {
         e.stopPropagation()
         context?.onOpenChange?.(false)
         props.onClick?.(e)
@@ -257,7 +257,7 @@ const ContextMenuRadioItem = React.forwardRef<
         "relative flex cursor-default select-none items-center rounded-sm py-2 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         className
       )}
-     onClick={(e) => {
+      onClick={(e) => {
         e.stopPropagation()
         context?.onOpenChange?.(false)
         props.onClick?.(e)
@@ -305,7 +305,7 @@ ContextMenuSeparator.displayName = "ContextMenuSeparator"
 
 const ContextMenuShortcut = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => {
   return (
     <View

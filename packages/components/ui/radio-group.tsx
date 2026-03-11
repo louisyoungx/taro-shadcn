@@ -54,7 +54,7 @@ const RadioGroupItem = React.forwardRef<
         checked && "border-10",
         className
       )}
-     onClick={() => context?.onValueChange?.(value)}
+      onClick={() => context?.onValueChange?.(value)}
       {...props}
     />
   )

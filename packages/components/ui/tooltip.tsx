@@ -113,8 +113,8 @@ const TooltipTrigger = React.forwardRef<
         ref={ref}
         id={context?.triggerId}
         className={cn("inline-flex w-fit justify-self-start", className)}
-       onClick={(e) => {
-         onClick?.(e)
+        onClick={(e) => {
+          onClick?.(e)
           e.stopPropagation()
           context?.onOpenChange(!context.open)
         }}
@@ -166,7 +166,7 @@ const TooltipContent = React.forwardRef<
       arrowSize = 8,
       onMouseEnter,
       onMouseLeave,
-    ...props
+      ...props
     },
     ref
   ) => {
@@ -482,7 +482,7 @@ const TooltipContent = React.forwardRef<
     const overlay = !isH5() ? (
       <View
         className="fixed inset-0 z-50 bg-transparent"
-       onClick={() => context.onOpenChange(false)}
+        onClick={() => context.onOpenChange(false)}
       />
     ) : null
 

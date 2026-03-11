@@ -93,7 +93,7 @@ const NavigationMenuTrigger = React.forwardRef<
     <View
       ref={ref}
       className={cn(navigationMenuTriggerStyle(), "group", className)}
-     onClick={() => context?.onValueChange?.(isOpen ? undefined : itemValue)}
+      onClick={() => context?.onValueChange?.(isOpen ? undefined : itemValue)}
       {...props}
     >
       {children}{" "}
@@ -123,7 +123,7 @@ const NavigationMenuContent = React.forwardRef<
     <Portal>
       <View
         className="fixed inset-0 z-50 bg-black opacity-80 animate-in fade-in-0"
-       onClick={() => context?.onValueChange?.(undefined)}
+        onClick={() => context?.onValueChange?.(undefined)}
       />
       <View
         ref={ref}

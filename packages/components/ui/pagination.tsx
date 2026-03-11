@@ -44,7 +44,7 @@ const PaginationLink = ({
   className,
   isActive,
   size = "icon",
-...props
+  ...props
 }: PaginationLinkProps) => (
   <View
     aria-current={isActive ? "page" : undefined}
@@ -62,7 +62,7 @@ PaginationLink.displayName = "PaginationLink"
 
 const PaginationPrevious = ({
   className,
-...props
+  ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
@@ -78,7 +78,7 @@ PaginationPrevious.displayName = "PaginationPrevious"
 
 const PaginationNext = ({
   className,
-...props
+  ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next page"
@@ -94,7 +94,7 @@ PaginationNext.displayName = "PaginationNext"
 
 const PaginationEllipsis = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     aria-hidden

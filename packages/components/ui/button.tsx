@@ -36,12 +36,13 @@ const buttonVariants = cva(
 export interface ButtonProps
   extends React.ComponentPropsWithoutRef<typeof View>,
     VariantProps<typeof buttonVariants> {
+  asChild?: boolean
   disabled?: boolean
   className?: string
 }
 
 const Button = React.forwardRef<React.ElementRef<typeof View>, ButtonProps>(
-  ({ className, variant, size, disabled, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, disabled, ...props }, ref) => {
     return (
       <View
         className={cn(

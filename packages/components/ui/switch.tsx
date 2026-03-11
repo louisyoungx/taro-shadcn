@@ -26,7 +26,7 @@ const Switch = React.forwardRef<
       data-state={currentChecked ? "checked" : "unchecked"}
       {...props}
       ref={ref}
-     onClick={(e) => {
+      onClick={(e) => {
         if (disabled) return
         e.stopPropagation()
         const newChecked = !currentChecked

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { View, Navigator } from "@tarojs/components"
+import { View } from "@tarojs/components"
 import { ChevronRight, Ellipsis } from "lucide-react-taro"
 
 import { cn } from "@/lib/utils"
@@ -42,25 +42,18 @@ BreadcrumbItem.displayName = "BreadcrumbItem"
 const BreadcrumbLink = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View> & {
+    asChild?: boolean
     href?: string
   }
->(({ className, href, ...props }, ref) => {
-  if (href) {
-    return (
-      <Navigator
-        ref={ref as any}
-        className={cn("transition-colors hover:text-foreground", className)}
-        url={href}
-        {...props as any}
-      />
-    )
-  }
+>(({ asChild, className, href, ...props }, ref) => {
+  const linkProps = href ? { url: href } : {}
 
   return (
     <View
       ref={ref}
       className={cn("transition-colors hover:text-foreground", className)}
-      {...props}
+      {...linkProps}
+      {...props as any}
     />
   )
 })
@@ -84,7 +77,7 @@ BreadcrumbPage.displayName = "BreadcrumbPage"
 const BreadcrumbSeparator = ({
   children,
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     role="presentation"
@@ -99,7 +92,7 @@ BreadcrumbSeparator.displayName = "BreadcrumbSeparator"
 
 const BreadcrumbEllipsis = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => (
   <View
     role="presentation"

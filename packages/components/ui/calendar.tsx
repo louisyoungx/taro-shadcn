@@ -81,7 +81,7 @@ function Calendar({
   captionLayout = "buttons",
   fromYear,
   toYear,
-...props
+  ...props
 }: CalendarProps) {
   const singleSelected = getSingleSelected({ month, defaultMonth, onMonthChange, showOutsideDays, weekStartsOn, disabled, className, ...props } as CalendarProps)
   const rangeSelected = getRangeSelected({ month, defaultMonth, onMonthChange, showOutsideDays, weekStartsOn, disabled, className, ...props } as CalendarProps)
@@ -218,7 +218,7 @@ function Calendar({
             variant="ghost"
             size="icon"
             className="h-8 w-8"
-           onClick={() => setMonth(subMonths(visibleMonth, 1))}
+            onClick={() => setMonth(subMonths(visibleMonth, 1))}
           >
             <ChevronLeft size={16} />
           </Button>
@@ -269,7 +269,7 @@ function Calendar({
             variant="ghost"
             size="icon"
             className="h-8 w-8"
-           onClick={() => setMonth(addMonths(visibleMonth, 1))}
+            onClick={() => setMonth(addMonths(visibleMonth, 1))}
           >
             <ChevronRight size={16} />
           </Button>
@@ -388,7 +388,7 @@ function CalendarDayButton({
         rangeCapClass,
         disabled && "opacity-50 pointer-events-none"
       )}
-     onClick={disabled ? undefined : () => onPress(date)}
+      onClick={disabled ? undefined : () => onPress(date)}
     >
       <Text className="text-sm">{format(date, "d")}</Text>
     </Button>

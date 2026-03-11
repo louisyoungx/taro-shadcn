@@ -114,7 +114,7 @@ const AccordionTriggerInternal = React.forwardRef<
                     "flex flex-1 items-center justify-between py-4 font-medium transition-all",
                     className
                 )}
-             onClick={() => context?.onValueChange?.(itemValue)}
+              onClick={() => context?.onValueChange?.(itemValue)}
               {...props}
             >
                 {children}

@@ -284,7 +284,7 @@ const CommandItem = React.forwardRef<
         className
       )}
       style={!match ? ({ display: "none" } as any) : undefined}
-     onClick={() => !disabled && onSelect?.(computedValue)}
+      onClick={() => !disabled && onSelect?.(computedValue)}
       {...props}
     >
       {children}
@@ -295,7 +295,7 @@ CommandItem.displayName = "CommandItem"
 
 const CommandShortcut = ({
   className,
-...props
+  ...props
 }: React.ComponentPropsWithoutRef<typeof View>) => {
   return (
     <View

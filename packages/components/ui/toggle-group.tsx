@@ -103,7 +103,7 @@ const ToggleGroupItem = React.forwardRef<
       )}
       data-state={checked ? "on" : "off"}
       data-disabled={disabled ? "" : undefined}
-     onClick={(e) => {
+      onClick={(e) => {
         if (disabled) return
         context.onValueChange?.(value)
         props.onClick?.(e)
