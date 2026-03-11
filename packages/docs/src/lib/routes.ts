@@ -133,7 +133,7 @@ export const components = [
     { name: 'Sheet', path: '/pages/ui/sheet/index' },
     { name: 'Skeleton', path: '/pages/ui/skeleton/index' },
     { name: 'Slider', path: '/pages/ui/slider/index' },
-    { name: 'Sonner', path: '/pages/ui/sonner/index' },
+    { name: 'Sonner', path: '/pages/ui/toast/index' },
     { name: 'Switch', path: '/pages/ui/switch/index' },
     { name: 'Table', path: '/pages/ui/table/index' },
     { name: 'Tabs', path: '/pages/ui/tabs/index' },

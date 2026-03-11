@@ -57,7 +57,7 @@ export default function NavigationMenuPage() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Start</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <View className="grid gap-3 p-4">
                   <NavigationMenuLink>
@@ -100,7 +100,7 @@ export default function NavigationMenuPage() {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Documentation
+                Docs
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
