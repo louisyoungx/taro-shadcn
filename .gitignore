@@ -40,3 +40,5 @@ pnpm-debug.log*
 key/
 
 AGENTS.md
+
+packages/cli/tests/test-project/

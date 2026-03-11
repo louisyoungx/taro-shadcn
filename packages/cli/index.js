@@ -31,17 +31,34 @@ const COMPONENT_DEPENDENCIES = {
 };
 
 function getPackageManager() {
-  if (fs.existsSync("pnpm-lock.yaml")) return "pnpm";
-  if (fs.existsSync("yarn.lock")) return "yarn";
+  const cwd = process.cwd();
+  if (fs.existsSync(path.join(cwd, "pnpm-lock.yaml"))) return "pnpm";
+  if (fs.existsSync(path.join(cwd, "yarn.lock"))) return "yarn";
   return "npm";
 }
 
 function installDependencies(deps) {
+  const cwd = process.cwd();
+  const pkgPath = path.join(cwd, "package.json");
+  let missingDeps = deps;
+
+  if (fs.existsSync(pkgPath)) {
+    try {
+      const pkg = fs.readJSONSync(pkgPath);
+      const allDeps = { ...(pkg.dependencies || {}), ...(pkg.devDependencies || {}) };
+      missingDeps = deps.filter(d => !allDeps[d]);
+    } catch (e) {
+      // Ignore read errors
+    }
+  }
+
+  if (missingDeps.length === 0) return;
+
   const pm = getPackageManager();
-  const command = pm === "npm" ? `npm install ${deps.join(" ")}` : `${pm} add ${deps.join(" ")}`;
-  console.log(chalk.blue(`Installing dependencies: ${deps.join(", ")}...`));
+  const command = pm === "npm" ? `npm install ${missingDeps.join(" ")}` : `${pm} add ${missingDeps.join(" ")}`;
+  console.log(chalk.blue(`Installing dependencies: ${missingDeps.join(", ")}...`));
   try {
-    execSync(command, { stdio: "inherit" });
+    execSync(command, { stdio: "inherit", cwd });
   } catch (error) {
     console.log(chalk.red(`Failed to install dependencies. Please run: ${command}`));
   }
@@ -55,21 +72,46 @@ program
 program
   .command("init")
   .description("Initialize your project and install dependencies")
-  .action(async () => {
-    const response = await prompts([
-      {
-        type: "text",
-        name: "componentsPath",
-        message: "Where is your components directory?",
-        initial: "src/components",
-      },
-      {
-        type: "text",
-        name: "utilsPath",
-        message: "Where is your utils directory?",
-        initial: "src/lib/utils",
-      },
-    ]);
+  .option("-y, --yes", "Skip confirmation prompt.", false)
+  .action(async (options) => {
+    const cwd = process.cwd();
+    const pkgPath = path.join(cwd, "package.json");
+
+    if (!fs.existsSync(pkgPath)) {
+      console.log(chalk.red("Error: No package.json found. Please run this in a Taro project."));
+      return;
+    }
+
+    try {
+      const pkg = fs.readJSONSync(pkgPath);
+      if (!pkg.dependencies?.["@tarojs/taro"]) {
+        console.log(chalk.yellow("Warning: This project does not seem to be a Taro project."));
+      }
+    } catch (e) {
+      // Ignore read errors
+    }
+
+    let response = {
+      componentsPath: DEFAULT_COMPONENTS_JSON.aliases.components,
+      utilsPath: DEFAULT_COMPONENTS_JSON.aliases.utils,
+    };
+
+    if (!options.yes) {
+      response = await prompts([
+        {
+          type: "text",
+          name: "componentsPath",
+          message: "Where is your components directory?",
+          initial: DEFAULT_COMPONENTS_JSON.aliases.components,
+        },
+        {
+          type: "text",
+          name: "utilsPath",
+          message: "Where is your utils directory?",
+          initial: DEFAULT_COMPONENTS_JSON.aliases.utils,
+        },
+      ]);
+    }
 
     const config = {
       ...DEFAULT_COMPONENTS_JSON,
@@ -97,12 +139,16 @@ program
     }
 
     // 3. Install base dependencies
-    const { install } = await prompts({
-      type: "confirm",
-      name: "install",
-      message: "Do you want to install base dependencies?",
-      initial: true,
-    });
+    let install = options.yes;
+    if (!options.yes) {
+      const res = await prompts({
+        type: "confirm",
+        name: "install",
+        message: "Do you want to install base dependencies?",
+        initial: true,
+      });
+      install = res.install;
+    }
 
     if (install) {
       installDependencies(BASE_DEPENDENCIES);
@@ -132,6 +178,17 @@ program
     }
 
     const config = await fs.readJSON(configPath);
+
+    // Ensure utils.ts exists
+    const utilsDir = path.join(process.cwd(), config.aliases.utils);
+    const utilsFile = path.join(utilsDir, "index.ts");
+    if (!fs.existsSync(utilsFile)) {
+      await fs.ensureDir(utilsDir);
+      const utilsTemplate = path.join(__dirname, "templates", "utils.ts");
+      await fs.copy(utilsTemplate, utilsFile);
+      console.log(chalk.green(`✔ Created ${utilsFile}.`));
+    }
+
     const componentsDir = path.join(
       process.cwd(),
       config.aliases.components,

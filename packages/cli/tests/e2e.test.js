@@ -5,7 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const TEST_DIR = path.join(__dirname, "tmp");
+const TEST_DIR = path.join(__dirname, "test-project");
 const CLI_PATH = path.resolve(__dirname, "../index.js");
 
 function runCli(args) {
@@ -15,36 +15,49 @@ function runCli(args) {
 describe("CLI E2E Tests", () => {
   beforeAll(async () => {
     await fs.ensureDir(TEST_DIR);
+    // Create a dummy package.json to test dependency installation
+    await fs.writeJSON(path.join(TEST_DIR, "package.json"), {
+      name: "test-project",
+      version: "1.0.0",
+      dependencies: {}
+    }, { spaces: 2 });
   });
 
   afterAll(async () => {
     await fs.remove(TEST_DIR);
   });
 
-  it("should initialize the project (mocked config)", async () => {
-    const config = {
-      style: "default",
-      tailwind: { config: "tailwind.config.ts", css: "src/app.css" },
-      aliases: { components: "src/components", utils: "src/lib/utils" }
-    };
-    await fs.writeJSON(path.join(TEST_DIR, "components.json"), config);
-    expect(fs.existsSync(path.join(TEST_DIR, "components.json"))).toBe(true);
-  });
+  it("should initialize the project using 'init --yes'", async () => {
+    const output = runCli("init --yes");
+    expect(output).toContain("Project initialized successfully");
 
-  it("should add a component", async () => {
+    expect(fs.existsSync(path.join(TEST_DIR, "components.json"))).toBe(true);
+    expect(fs.existsSync(path.join(TEST_DIR, "src/lib/utils/index.ts"))).toBe(true);
+
+    const pkg = await fs.readJSON(path.join(TEST_DIR, "package.json"));
+    expect(pkg.dependencies).toHaveProperty("clsx");
+  }, 60000);
+
+  it("should add a component and ensure utils exists", async () => {
+    // Remove utils to test auto-creation during 'add'
+    await fs.remove(path.join(TEST_DIR, "src/lib/utils/index.ts"));
+
     const output = runCli("add button -y");
+    expect(output).toContain('Created'); // Should mention creating utils
     expect(output).toContain('Added "button"');
 
-    const buttonPath = path.join(TEST_DIR, "src/components/ui/button.tsx");
-    expect(fs.existsSync(buttonPath)).toBe(true);
-  });
+    expect(fs.existsSync(path.join(TEST_DIR, "src/components/ui/button.tsx"))).toBe(true);
+    expect(fs.existsSync(path.join(TEST_DIR, "src/lib/utils/index.ts"))).toBe(true);
+  }, 60000);
 
-  it("should add a component with dependencies", async () => {
+  it("should add a component with specific dependencies", async () => {
     const output = runCli("add calendar -y");
     expect(output).toContain('Added "calendar"');
-    // Note: In E2E, we might not actually install dependencies if it's too slow, 
-    // but we check if the component file exists.
+
     const calendarPath = path.join(TEST_DIR, "src/components/ui/calendar.tsx");
     expect(fs.existsSync(calendarPath)).toBe(true);
-  }, 30000);
+
+    const pkg = await fs.readJSON(path.join(TEST_DIR, "package.json"));
+    expect(pkg.dependencies).toHaveProperty("date-fns");
+  }, 60000);
 });
