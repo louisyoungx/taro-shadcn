@@ -2,22 +2,35 @@
   "name": "@taro-shadcn/docs",
   "version": "0.0.1",
   "private": true,
-  "description": "Taro 4 + React + Tailwind CSS + Shadcn UI components for Mini Program Documentation",
+  "description": "Taro 4 + React + Tailwind CSS + Shadcn UI components for Mini Program",
   "scripts": {
-    "build:tt": "pnpm prepare && taro build --type tt",
-    "build:weapp": "pnpm prepare && taro build --type weapp",
-    "build:web": "pnpm prepare && taro build --type h5",
-    "prepare": "rm -rf src/components/ui && mkdir -p src/components/ui && cp -r ../components/ui/* src/components/ui/",
-    "dev:tt": "pnpm prepare && taro build --type tt --watch",
-    "dev:weapp": "pnpm prepare && taro build --type weapp --watch",
-    "dev:web": "pnpm prepare && taro build --type h5 --watch",
+    "sync": "rm -rf src/components/ui && mkdir -p src/components/ui && cp -r ../components/ui/* src/components/ui/",
+    "build": "pnpm exec concurrently --kill-others-on-fail --kill-signal SIGKILL -n lint,tsc,web,weapp,tt,server -c red,blue,green,yellow,cyan,magenta \"pnpm lint:build\" \"pnpm tsc\" \"pnpm build:web\" \"pnpm build:weapp\" \"pnpm build:tt\" \"pnpm build:server\"",
+    "build:server": "pnpm --filter server build",
+    "build:tt": "taro build --type tt",
+    "build:weapp": "taro build --type weapp",
+    "build:web": "taro build --type h5",
+    "dev": "pnpm exec concurrently --kill-others --kill-signal SIGKILL -n web,server -c blue,green \"pnpm dev:web\" \"pnpm dev:server\"",
+    "dev:server": "pnpm --filter server dev",
+    "dev:tt": "taro build --type tt --watch",
+    "dev:weapp": "taro build --type weapp --watch",
+    "dev:web": "taro build --type h5 --watch",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "weapp-tw patch",
+    "kill:all": "pkill -9 -f 'concurrently' 2>/dev/null || true; pkill -9 -f 'nest start' 2>/dev/null || true; pkill -9 -f 'taro build' 2>/dev/null || true; pkill -9 -f 'node.*dev' 2>/dev/null || true; echo 'All dev processes cleaned'",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:build": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --max-warnings=0",
     "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
     "new": "taro new",
-    "preview:tt": "pnpm prepare && taro build --type tt --preview",
-    "preview:weapp": "pnpm prepare && taro build --type weapp --preview",
-    "tsc": "npx tsc --noEmit --skipLibCheck"
+    "preview:tt": "taro build --type tt --preview",
+    "preview:weapp": "taro build --type weapp --preview",
+    "tsc": "npx tsc --noEmit --skipLibCheck",
+    "validate": "pnpm exec concurrently --kill-others-on-fail --kill-signal SIGKILL -n lint,tsc -c red,blue \"pnpm lint:build\" \"pnpm tsc\""
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint"
+    ]
   },
   "browserslist": [
     "last 3 versions",
@@ -82,5 +95,20 @@
     "typescript": "^5.4.5",
     "vite": "^4.2.0",
     "weapp-tailwindcss": "^4.10.3"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "pnpm": ">=9.0.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@tarojs/plugin-mini-ci@4.1.9": "patches/@tarojs__plugin-mini-ci@4.1.9.patch"
+    }
+  },
+  "templateInfo": {
+    "name": "default",
+    "typescript": true,
+    "css": "Less",
+    "framework": "React"
   }
 }

@@ -76,7 +76,6 @@ export default defineConfig<'vite'>(async (merge, _env) => {
         date: '2026-1-13',
         alias: {
             '@': path.resolve(__dirname, '..', 'src'),
-            '@/components/ui': path.resolve(__dirname, '../../components/ui'),
         },
         designWidth: 750,
         deviceRatio: {
@@ -192,6 +191,12 @@ export default defineConfig<'vite'>(async (merge, _env) => {
                 port: 5000,
                 host: '0.0.0.0',
                 open: false,
+                proxy: {
+                    '/api': {
+                        target: 'http://localhost:3000',
+                        changeOrigin: true,
+                    },
+                },
             },
             miniCssExtractPluginOption: {
                 ignoreOrder: true,
