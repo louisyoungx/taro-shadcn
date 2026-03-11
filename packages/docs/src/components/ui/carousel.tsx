@@ -4,24 +4,40 @@ import { ArrowLeft, ArrowRight } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
-// Simplified Carousel using Taro Swiper
-// Note: This API tries to match shadcn-ui but underlying implementation is different.
-// Plugins and advanced embla-carousel features are not supported.
-
 type CarouselProps = {
-  opts?: unknown
+  opts?: {
+    loop?: boolean
+    autoplay?: boolean
+    interval?: number
+    duration?: number
+    displayMultipleItems?: number
+  }
   orientation?: "horizontal" | "vertical"
-  setApi?: (api: any) => void
+  setApi?: (api: CarouselApi) => void
   className?: string
   children?: React.ReactNode
 }
 
-type CarouselContextProps = {
-  orientation: "horizontal" | "vertical"
+export type CarouselApi = {
   scrollPrev: () => void
   scrollNext: () => void
   canScrollPrev: boolean
   canScrollNext: boolean
+  scrollTo: (index: number) => void
+  selectedScrollSnap: () => number
+}
+
+type CarouselContextProps = {
+  orientation: "horizontal" | "vertical"
+  current: number
+  setCurrent: (index: number) => void
+  count: number
+  setCount: (count: number) => void
+  scrollPrev: () => void
+  scrollNext: () => void
+  canScrollPrev: boolean
+  canScrollNext: boolean
+  opts?: CarouselProps["opts"]
 }
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
@@ -38,116 +54,111 @@ const Carousel = React.forwardRef<
   React.ElementRef<typeof View>,
   CarouselProps
 >(({ opts, orientation = "horizontal", setApi, className, children, ...props }, ref) => {
-    // We can't easily control Swiper imperatively via ref in the same way as embla
-    // But we can use 'current' prop to control index
-    const [current, setCurrent] = React.useState(0)
-    const [count, setCount] = React.useState(0)
+  const [current, setCurrent] = React.useState(0)
+  const [count, setCount] = React.useState(0)
 
-    const scrollPrev = React.useCallback(() => {
-        setCurrent(prev => Math.max(0, prev - 1))
-    }, [])
+  const scrollPrev = React.useCallback(() => {
+    setCurrent((prev) => Math.max(0, prev - 1))
+  }, [])
 
-    const scrollNext = React.useCallback(() => {
-        setCurrent(prev => Math.min(count - 1, prev + 1))
-    }, [count])
+  const scrollNext = React.useCallback(() => {
+    setCurrent((prev) => Math.min(count - 1, prev + 1))
+  }, [count])
 
-    const canScrollPrev = current > 0
-    const canScrollNext = current < count - 1
-    
-    // Mock API
-    React.useEffect(() => {
-        if (setApi) {
-            setApi({
-                scrollPrev,
-                scrollNext,
-                canScrollPrev: () => canScrollPrev,
-                canScrollNext: () => canScrollNext,
-                scrollTo: (index) => setCurrent(index),
-                selectedScrollSnap: () => current,
-            })
-        }
-    }, [setApi, scrollPrev, scrollNext, canScrollPrev, canScrollNext, current])
+  const canScrollPrev = current > 0
+  const canScrollNext = current < count - 1
+
+  const scrollTo = React.useCallback((index: number) => {
+    setCurrent(index)
+  }, [])
+
+  const selectedScrollSnap = React.useCallback(() => current, [current])
+
+  React.useEffect(() => {
+    if (setApi) {
+      setApi({
+        scrollPrev,
+        scrollNext,
+        canScrollPrev,
+        canScrollNext,
+        scrollTo,
+        selectedScrollSnap,
+      })
+    }
+  }, [setApi, scrollPrev, scrollNext, canScrollPrev, canScrollNext, scrollTo, selectedScrollSnap])
 
   return (
     <CarouselContext.Provider
       value={{
         orientation,
+        current,
+        setCurrent,
+        count,
+        setCount,
         scrollPrev,
         scrollNext,
         canScrollPrev,
         canScrollNext,
+        opts,
       }}
     >
       <View
         ref={ref}
-        className={cn("relative", className)}
+        className={cn("relative w-full", className)}
         {...props}
-        data-current={current} 
-        data-set-count={setCount} // Pass these down via context or props would be cleaner but Swiper is inside Content
       >
-        {/* We need to pass state to Content. Using Context is easiest if we split components. 
-            But Swiper needs to be in Content. 
-            We'll use a hack or just context. 
-            Actually, Swiper should be in CarouselContent. 
-            We need to pass 'current' to Swiper.
-        */}
-        <CarouselStateContext.Provider value={{ current, setCurrent, count, setCount }}>
-            {children}
-        </CarouselStateContext.Provider>
+        {children}
       </View>
     </CarouselContext.Provider>
   )
 })
 Carousel.displayName = "Carousel"
 
-const CarouselStateContext = React.createContext<{
-    current: number
-    setCurrent: (v: number | ((prev: number) => number)) => void
-    count: number
-    setCount: (v: number) => void
-} | null>(null)
-
-
 const CarouselContent = React.forwardRef<
   React.ElementRef<typeof Swiper>,
   React.ComponentPropsWithoutRef<typeof Swiper>
 >(({ className, children, ...props }, ref) => {
-  const { orientation } = useCarousel()
-  const state = React.useContext(CarouselStateContext)
+  const { orientation, current, setCurrent, setCount, opts } = useCarousel()
 
-  // Count children to set count
   React.useEffect(() => {
-      const childCount = React.Children.count(children)
-      state?.setCount(childCount)
-  }, [children, state])
+    const childCount = React.Children.count(children)
+    setCount(childCount)
+  }, [children, setCount])
 
   return (
-    <Swiper
-      ref={ref}
-      className={cn("h-full w-full", className)} // Swiper needs height
-      vertical={orientation === "vertical"}
-      current={state?.current}
-      onChange={(e) => state?.setCurrent(e.detail.current)}
-      {...props}
-    >
-        {children}
-    </Swiper>
+    <View className={cn("overflow-hidden", className)}>
+      <Swiper
+        ref={ref}
+        className="h-full w-full"
+        vertical={orientation === "vertical"}
+        current={current}
+        onChange={(e) => setCurrent(e.detail.current)}
+        circular={opts?.loop}
+        autoplay={opts?.autoplay}
+        interval={opts?.interval || 5000}
+        duration={opts?.duration || 500}
+        displayMultipleItems={opts?.displayMultipleItems || 1}
+        {...props}
+      >
+        {React.Children.map(children, (child) => {
+          if (React.isValidElement(child)) {
+            return <SwiperItem className="h-full w-full">{child}</SwiperItem>
+          }
+          return null
+        })}
+      </Swiper>
+    </View>
   )
 })
 CarouselContent.displayName = "CarouselContent"
 
-const CarouselItem = React.forwardRef<
-  React.ElementRef<typeof SwiperItem>,
-  React.ComponentPropsWithoutRef<typeof SwiperItem>
->(({ className, ...props }, ref) => {
+const CarouselItem = ({ className, children, ...props }: React.ComponentProps<typeof View>) => {
   return (
-    <SwiperItem
-      ref={ref}
-      className={cn("h-full w-full", className)}
-      {...props}
-    />
+    <View className={cn("h-full w-full", className)} {...props}>
+      {children}
+    </View>
   )
-})
+}
 CarouselItem.displayName = "CarouselItem"
 
 const CarouselPrevious = React.forwardRef<
@@ -162,7 +173,7 @@ const CarouselPrevious = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute h-8 w-8 rounded-full z-10",
+        "absolute h-8 w-8 rounded-full z-10 bg-background/80 backdrop-blur-sm",
         orientation === "horizontal"
           ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -191,7 +202,7 @@ const CarouselNext = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute h-8 w-8 rounded-full z-10",
+        "absolute h-8 w-8 rounded-full z-10 bg-background/80 backdrop-blur-sm",
         orientation === "horizontal"
           ? "-right-12 top-1/2 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
