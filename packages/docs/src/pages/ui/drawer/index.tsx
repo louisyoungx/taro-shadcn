@@ -1,4 +1,4 @@
-import { View, ScrollView } from "@tarojs/components";
+import { View, ScrollView, Text } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import { Button } from "@/components/ui/button";
 import {
@@ -48,7 +48,7 @@ export default function DrawerPage() {
                       disabled={goal <= 200}
                     >
                       <Minus size={16} />
-                      <span className="sr-only">Decrease</span>
+                      <Text className="sr-only">Decrease</Text>
                     </Button>
                     <View className="flex-1 text-center">
                       <View className="text-7xl font-bold tracking-tighter">
@@ -66,7 +66,7 @@ export default function DrawerPage() {
                       disabled={goal >= 400}
                     >
                       <Plus size={16} />
-                      <span className="sr-only">Increase</span>
+                      <Text className="sr-only">Increase</Text>
                     </Button>
                   </View>
                 </View>

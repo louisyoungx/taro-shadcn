@@ -1,15 +1,11 @@
 import * as React from "react"
-import { View, ScrollView } from "@tarojs/components"
+import { ScrollView, View } from "@tarojs/components"
 import Taro from "@tarojs/taro"
-import { Check, Circle } from "lucide-react-taro"
+import { Check, ChevronRight } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
 import { Portal } from "@/components/ui/portal"
 
-const DropdownMenuContext = React.createContext<{
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-  triggerId: string
-} | null>(null)
+type Rect = { left: number; top: number; width: number; height: number }
 
 const isH5 = () => {
   try {
@@ -19,53 +15,141 @@ const isH5 = () => {
   }
 }
 
+const getViewport = () => {
+  if (isH5() && typeof window !== "undefined") {
+    return { width: window.innerWidth, height: window.innerHeight }
+  }
+  try {
+    const info = Taro.getSystemInfoSync()
+    return { width: info.windowWidth, height: info.windowHeight }
+  } catch {
+    return { width: 375, height: 667 }
+  }
+}
+
+const getRectH5 = (id: string): Rect | null => {
+  if (!isH5() || typeof document === "undefined") return null
+  const el = document.getElementById(id)
+  if (!el) return null
+  const r = el.getBoundingClientRect()
+  return { left: r.left, top: r.top, width: r.width, height: r.height }
+}
+
+const getRectById = (id: string): Promise<Rect | null> => {
+  const h5Rect = getRectH5(id)
+  if (h5Rect) return Promise.resolve(h5Rect)
+  return new Promise((resolve) => {
+    const query = Taro.createSelectorQuery()
+    query
+      .select(`#${id}`)
+      .boundingClientRect((res) => {
+        const rect = Array.isArray(res) ? res[0] : res
+        resolve((rect as any) || null)
+      })
+      .exec()
+  })
+}
+
+const computePosition = (params: {
+  triggerRect: Rect
+  contentRect: Rect
+  align: "start" | "center" | "end"
+  side: "top" | "bottom" | "left" | "right"
+  sideOffset: number
+}) => {
+  const { triggerRect, contentRect, align, side, sideOffset } = params
+  const vw = getViewport().width
+  const vh = getViewport().height
+  const margin = 8
+
+  const crossStart = side === "left" || side === "right" ? triggerRect.top : triggerRect.left
+  const crossSize = side === "left" || side === "right" ? triggerRect.height : triggerRect.width
+  const contentCrossSize = side === "left" || side === "right" ? contentRect.height : contentRect.width
+
+  const cross = (() => {
+    if (align === "start") return crossStart
+    if (align === "end") return crossStart + crossSize - contentCrossSize
+    return crossStart + crossSize / 2 - contentCrossSize / 2
+  })()
+
+  let left = 0
+  let top = 0
+
+  if (side === "bottom" || side === "top") {
+    left = cross
+    top =
+      side === "bottom"
+        ? triggerRect.top + triggerRect.height + sideOffset
+        : triggerRect.top - contentRect.height - sideOffset
+  } else {
+    top = cross
+    left =
+      side === "right"
+        ? triggerRect.left + triggerRect.width + sideOffset
+        : triggerRect.left - contentRect.width - sideOffset
+  }
+
+  left = Math.min(Math.max(left, margin), vw - contentRect.width - margin)
+  top = Math.min(Math.max(top, margin), vh - contentRect.height - margin)
+
+  return { left, top }
+}
+
+const DropdownMenuContext = React.createContext<{
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  triggerId: string
+} | null>(null)
+
 interface DropdownMenuProps {
-    children: React.ReactNode
-    open?: boolean
-    defaultOpen?: boolean
-    onOpenChange?: (open: boolean) => void
+  children: React.ReactNode
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 const DropdownMenu = ({ open: openProp, defaultOpen, onOpenChange, children }: DropdownMenuProps) => {
-    const baseIdRef = React.useRef(
-        `dropdown-menu-${Math.random().toString(36).slice(2, 10)}`
-    )
-    const [openState, setOpenState] = React.useState(defaultOpen || false)
-    const open = openProp !== undefined ? openProp : openState
-    
-    const handleOpenChange = (newOpen: boolean) => {
-        if (openProp === undefined) {
-            setOpenState(newOpen)
-        }
-        onOpenChange?.(newOpen)
-    }
+  const baseIdRef = React.useRef(`dropdown-menu-${Math.random().toString(36).slice(2, 10)}`)
+  const [openState, setOpenState] = React.useState(defaultOpen || false)
+  const open = openProp !== undefined ? openProp : openState
 
-    return (
-        <DropdownMenuContext.Provider value={{ open, onOpenChange: handleOpenChange, triggerId: baseIdRef.current }}>
-            {children}
-        </DropdownMenuContext.Provider>
-    )
+  const handleOpenChange = (newOpen: boolean) => {
+    if (openProp === undefined) {
+      setOpenState(newOpen)
+    }
+    onOpenChange?.(newOpen)
+  }
+
+  return (
+    <DropdownMenuContext.Provider
+      value={{ open, onOpenChange: handleOpenChange, triggerId: baseIdRef.current }}
+    >
+      {children}
+    </DropdownMenuContext.Provider>
+  )
 }
 
 const DropdownMenuTrigger = React.forwardRef<
-    React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View> & { asChild?: boolean }
->(({ className, children, asChild, ...props }, ref) => {
-    const context = React.useContext(DropdownMenuContext)
-    return (
-        <View
-          {...props}
-          ref={ref}
-          id={context?.triggerId}
-          className={className}
-          onClick={(e) => {
-                e.stopPropagation()
-                context?.onOpenChange?.(!context.open)
-            }}
-        >
-            {children}
-        </View>
-    )
+  React.ElementRef<typeof View>,
+  React.ComponentPropsWithoutRef<typeof View>
+>(({ className, children, onClick, ...props }, ref) => {
+  const context = React.useContext(DropdownMenuContext)
+  return (
+    <View
+      {...props}
+      ref={ref}
+      id={context?.triggerId}
+      data-slot="dropdown-menu-trigger"
+      className={className}
+      onClick={(e) => {
+        e.stopPropagation()
+        context?.onOpenChange?.(!context.open)
+        onClick?.(e)
+      }}
+    >
+      {children}
+    </View>
+  )
 })
 DropdownMenuTrigger.displayName = "DropdownMenuTrigger"
 
@@ -73,181 +157,194 @@ const DropdownMenuGroup = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, ...props }, ref) => (
-  <View ref={ref} className={className} {...props} />
+  <View ref={ref} data-slot="dropdown-menu-group" className={className} {...props} />
 ))
 DropdownMenuGroup.displayName = "DropdownMenuGroup"
 
 const DropdownMenuPortal = ({ children }: { children: React.ReactNode }) => {
-    // In our simplified implementation, Content handles Portal
-    return <>{children}</>
+  return <>{children}</>
+}
+
+const DropdownMenuRadioGroupContext = React.createContext<{
+  value?: string
+  onValueChange?: (value: string) => void
+} | null>(null)
+
+interface DropdownMenuRadioGroupProps extends React.ComponentPropsWithoutRef<typeof View> {
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+}
+
+const DropdownMenuRadioGroup = React.forwardRef<
+  React.ElementRef<typeof View>,
+  DropdownMenuRadioGroupProps
+>(({ value: valueProp, defaultValue, onValueChange, ...props }, ref) => {
+  const [valueState, setValueState] = React.useState<string | undefined>(defaultValue)
+  const value = valueProp !== undefined ? valueProp : valueState
+
+  const handleValueChange = (next: string) => {
+    if (valueProp === undefined) {
+      setValueState(next)
+    }
+    onValueChange?.(next)
+  }
+
+  return (
+    <DropdownMenuRadioGroupContext.Provider value={{ value, onValueChange: handleValueChange }}>
+      <View ref={ref} {...props} />
+    </DropdownMenuRadioGroupContext.Provider>
+  )
+})
+DropdownMenuRadioGroup.displayName = "DropdownMenuRadioGroup"
+
+const DropdownMenuSubContext = React.createContext<{
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  triggerId: string
+} | null>(null)
+
+interface DropdownMenuSubProps {
+  children: React.ReactNode
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+const DropdownMenuSub = ({ open: openProp, defaultOpen, onOpenChange, children }: DropdownMenuSubProps) => {
+  const parent = React.useContext(DropdownMenuContext)
+  const baseIdRef = React.useRef(`dropdown-menu-sub-${Math.random().toString(36).slice(2, 10)}`)
+  const [openState, setOpenState] = React.useState(defaultOpen || false)
+  const open = openProp !== undefined ? openProp : openState
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (openProp === undefined) {
+      setOpenState(newOpen)
+    }
+    onOpenChange?.(newOpen)
+  }
+
+  React.useEffect(() => {
+    if (parent?.open === false && open) {
+      handleOpenChange(false)
+    }
+  }, [open, parent?.open])
+
+  return (
+    <DropdownMenuSubContext.Provider
+      value={{ open, onOpenChange: handleOpenChange, triggerId: baseIdRef.current }}
+    >
+      {children}
+    </DropdownMenuSubContext.Provider>
+  )
 }
 
 interface DropdownMenuContentProps extends React.ComponentPropsWithoutRef<typeof View> {
-    align?: "start" | "center" | "end"
-    side?: "top" | "bottom" | "left" | "right"
-    sideOffset?: number
+  align?: "start" | "center" | "end"
+  side?: "top" | "bottom" | "left" | "right"
+  sideOffset?: number
 }
 
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof View>,
   DropdownMenuContentProps
 >(({ className, align = "start", side = "bottom", sideOffset = 4, children, ...props }, ref) => {
-    const context = React.useContext(DropdownMenuContext)
-    const contentId = React.useRef(
-        `dropdown-menu-content-${Math.random().toString(36).slice(2, 10)}`
-    )
-    const [position, setPosition] = React.useState<{
-        left: number
-        top: number
-    } | null>(null)
+  const context = React.useContext(DropdownMenuContext)
+  const contentId = React.useRef(`dropdown-menu-content-${Math.random().toString(36).slice(2, 10)}`)
+  const [position, setPosition] = React.useState<{ left: number; top: number } | null>(null)
 
-    React.useEffect(() => {
-        if (!context?.open) {
-            setPosition(null)
-            return
-        }
+  React.useEffect(() => {
+    if (!context?.open) {
+      setPosition(null)
+      return
+    }
 
-        let cancelled = false
+    let cancelled = false
 
-        const getViewport = () => {
-            if (isH5() && typeof window !== "undefined") {
-                return { width: window.innerWidth, height: window.innerHeight }
-            }
-            try {
-                const info = Taro.getSystemInfoSync()
-                return { width: info.windowWidth, height: info.windowHeight }
-            } catch {
-                return { width: 375, height: 667 }
-            }
-        }
+    const compute = async () => {
+      if (!context?.triggerId) return
+      const [triggerRect, contentRect] = await Promise.all([
+        getRectById(context.triggerId),
+        getRectById(contentId.current),
+      ])
 
-        const getRectH5 = (id: string) => {
-            if (!isH5() || typeof document === "undefined") return null
-            const el = document.getElementById(id)
-            if (!el) return null
-            const r = el.getBoundingClientRect()
-            return { left: r.left, top: r.top, width: r.width, height: r.height }
-        }
+      if (cancelled) return
+      if (!triggerRect?.width || !contentRect?.width) return
 
-        const getRect = (id: string) => {
-            const h5Rect = getRectH5(id)
-            if (h5Rect) return Promise.resolve(h5Rect)
-            return new Promise<any>((resolve) => {
-                const query = Taro.createSelectorQuery()
-                query
-                    .select(`#${id}`)
-                    .boundingClientRect((res) => {
-                        const rect = Array.isArray(res) ? res[0] : res
-                        resolve(rect || null)
-                    })
-                    .exec()
-            })
-        }
+      setPosition(
+        computePosition({
+          triggerRect,
+          contentRect,
+          align,
+          side,
+          sideOffset,
+        })
+      )
+    }
 
-        const compute = async () => {
-            if (!context?.triggerId) return
-            const [triggerRect, contentRect] = await Promise.all([
-                getRect(context.triggerId),
-                getRect(contentId.current),
-            ])
+    const raf = (() => {
+      if (typeof requestAnimationFrame !== "undefined") {
+        return requestAnimationFrame(() => compute())
+      }
+      return setTimeout(() => compute(), 0) as unknown as number
+    })()
 
-            if (cancelled) return
-            if (!triggerRect?.width || !contentRect?.width) return
+    return () => {
+      cancelled = true
+      if (typeof cancelAnimationFrame !== "undefined") {
+        cancelAnimationFrame(raf)
+      } else {
+        clearTimeout(raf)
+      }
+    }
+  }, [align, context?.open, context?.triggerId, side, sideOffset])
 
-            const vw = getViewport().width
-            const vh = getViewport().height
-            const margin = 8
+  React.useEffect(() => {
+    if (!context?.open) return
+    if (!isH5() || typeof document === "undefined") return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        context?.onOpenChange?.(false)
+      }
+    }
+    document.addEventListener("keydown", onKeyDown)
+    return () => document.removeEventListener("keydown", onKeyDown)
+  }, [context?.open])
 
-            const crossStart = (side === "left" || side === "right")
-                ? triggerRect.top
-                : triggerRect.left
-            const crossSize = (side === "left" || side === "right")
-                ? triggerRect.height
-                : triggerRect.width
-            const contentCrossSize = (side === "left" || side === "right")
-                ? contentRect.height
-                : contentRect.width
+  if (!context?.open) return null
 
-            const cross = (() => {
-                if (align === "start") return crossStart
-                if (align === "end") return crossStart + crossSize - contentCrossSize
-                return crossStart + crossSize / 2 - contentCrossSize / 2
-            })()
+  const baseClassName =
+    "fixed z-50 min-w-32 overflow-hidden rounded-lg border border-border bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground ring-opacity-10 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
 
-            let left = 0
-            let top = 0
+  const contentStyle = position
+    ? ({ left: position.left, top: position.top } as React.CSSProperties)
+    : ({
+        left: 0,
+        top: 0,
+        opacity: 0,
+        pointerEvents: "none",
+      } as React.CSSProperties)
 
-            if (side === "bottom" || side === "top") {
-                left = cross
-                top =
-                    side === "bottom"
-                        ? triggerRect.top + triggerRect.height + sideOffset
-                        : triggerRect.top - contentRect.height - sideOffset
-            } else {
-                top = cross
-                left =
-                    side === "right"
-                        ? triggerRect.left + triggerRect.width + sideOffset
-                        : triggerRect.left - contentRect.width - sideOffset
-            }
-
-            left = Math.min(Math.max(left, margin), vw - contentRect.width - margin)
-            top = Math.min(Math.max(top, margin), vh - contentRect.height - margin)
-
-            setPosition({ left, top })
-        }
-
-        const raf = (() => {
-            if (typeof requestAnimationFrame !== "undefined") {
-                return requestAnimationFrame(() => compute())
-            }
-            return setTimeout(() => compute(), 0) as unknown as number
-        })()
-
-        return () => {
-            cancelled = true
-            if (typeof cancelAnimationFrame !== "undefined") {
-                cancelAnimationFrame(raf)
-            } else {
-                clearTimeout(raf)
-            }
-        }
-    }, [align, context?.open, context?.triggerId, side, sideOffset])
-
-    if (!context?.open) return null
-
-    const baseClassName =
-        "fixed z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
-
-    const contentStyle = position
-        ? ({ left: position.left, top: position.top } as React.CSSProperties)
-        : ({
-            left: 0,
-            top: 0,
-            opacity: 0,
-            pointerEvents: "none",
-        } as React.CSSProperties)
-
-    return (
-        <Portal>
-            <View 
-              className="fixed inset-0 z-50 bg-transparent"
-              onClick={() => context.onOpenChange?.(false)}
-            />
-            <View
-              {...props}
-              ref={ref}
-              id={contentId.current}
-              className={cn(baseClassName, className)}
-              style={contentStyle}
-              onClick={(e) => e.stopPropagation()}
-            >
-                <ScrollView scrollY className="max-h-[50vh]">
-                     {children}
-                </ScrollView>
-            </View>
-        </Portal>
-    )
+  return (
+    <Portal>
+      <View className="fixed inset-0 z-50 bg-transparent" onClick={() => context.onOpenChange?.(false)} />
+      <View
+        {...props}
+        ref={ref}
+        id={contentId.current}
+        data-slot="dropdown-menu-content"
+        data-state="open"
+        data-side={side}
+        className={cn(baseClassName, className)}
+        style={contentStyle}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <ScrollView scrollY className="max-h-[50vh] overflow-x-hidden overflow-y-auto">
+          {children}
+        </ScrollView>
+      </View>
+    </Portal>
+  )
 })
 DropdownMenuContent.displayName = "DropdownMenuContent"
 
@@ -255,82 +352,114 @@ const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View> & {
     inset?: boolean
+    variant?: "default" | "destructive"
     disabled?: boolean
+    closeOnSelect?: boolean
   }
->(({ className, inset, disabled, ...props }, ref) => {
-    const context = React.useContext(DropdownMenuContext)
-    return (
-        <View
-          ref={ref}
-          className={cn(
-            "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-            inset && "pl-8",
-            disabled && "opacity-50 pointer-events-none",
-            className
-            )}
-          onClick={(e) => {
-                if (disabled) return
-                context?.onOpenChange?.(false)
-                props.onClick?.(e)
-            }}
-          {...props}
-        />
-    )
+>(({ className, inset, variant = "default", disabled, closeOnSelect = true, onClick, ...props }, ref) => {
+  const context = React.useContext(DropdownMenuContext)
+  return (
+    <View
+      {...props}
+      ref={ref}
+      data-slot="dropdown-menu-item"
+      data-inset={inset ? "" : undefined}
+      data-variant={variant}
+      data-disabled={disabled ? "" : undefined}
+      className={cn(
+        "relative flex cursor-default select-none items-center gap-1.5 rounded-md px-2 py-1 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        "data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive data-[variant=destructive]:focus:bg-opacity-10 data-[variant=destructive]:focus:text-destructive",
+        inset && "pl-7",
+        disabled && "pointer-events-none opacity-50",
+        className
+      )}
+      onClick={(e) => {
+        if (disabled) return
+        onClick?.(e)
+        if (closeOnSelect) context?.onOpenChange?.(false)
+      }}
+    />
+  )
 })
 DropdownMenuItem.displayName = "DropdownMenuItem"
 
 const DropdownMenuCheckboxItem = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View> & {
-      checked?: boolean
+    checked?: boolean
+    inset?: boolean
+    disabled?: boolean
+    closeOnSelect?: boolean
   }
->(({ className, children, checked, ...props }, ref) => {
-    const context = React.useContext(DropdownMenuContext)
-    return (
-        <View
-          ref={ref}
-          className={cn(
-            "relative flex cursor-default select-none items-center rounded-sm py-2 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-            className
-            )}
-          onClick={(e) => {
-                context?.onOpenChange?.(false)
-                props.onClick?.(e)
-            }}
-          {...props}
-        >
-            <View className="absolute left-2 flex h-4 w-4 items-center justify-center">
-                {checked && <Check size={16} />}
-            </View>
-            {children}
-        </View>
-    )
+>(({ className, children, checked, inset, disabled, closeOnSelect = false, onClick, ...props }, ref) => {
+  const context = React.useContext(DropdownMenuContext)
+  return (
+    <View
+      {...props}
+      ref={ref}
+      data-slot="dropdown-menu-checkbox-item"
+      data-inset={inset ? "" : undefined}
+      data-disabled={disabled ? "" : undefined}
+      data-state={checked ? "checked" : "unchecked"}
+      className={cn(
+        "relative flex cursor-default select-none items-center gap-1.5 rounded-md py-1 pr-8 pl-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        inset && "pl-7",
+        className
+      )}
+      onClick={(e) => {
+        if (disabled) return
+        onClick?.(e)
+        if (closeOnSelect) context?.onOpenChange?.(false)
+      }}
+    >
+      <View className="pointer-events-none absolute right-2 flex items-center justify-center">
+        {checked && <Check size={16} />}
+      </View>
+      {children}
+    </View>
+  )
 })
 DropdownMenuCheckboxItem.displayName = "DropdownMenuCheckboxItem"
 
 const DropdownMenuRadioItem = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View> & {
-      value: string
+    value: string
+    checked?: boolean
+    inset?: boolean
+    disabled?: boolean
+    closeOnSelect?: boolean
   }
->(({ className, children, ...props }, ref) => {
-    // Radio logic needs RadioGroup context usually. 
-    // Here we just render item.
-    return (
-        <View
-          ref={ref}
-          className={cn(
-            "relative flex cursor-default select-none items-center rounded-sm py-2 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-            className
-            )}
-          {...props}
-        >
-            <View className="absolute left-2 flex h-4 w-4 items-center justify-center">
-                <Circle className="fill-current" size={8} />
-            </View>
-            {children}
-        </View>
-    )
+>(({ className, children, value, checked: checkedProp, inset, disabled, closeOnSelect = false, onClick, ...props }, ref) => {
+  const context = React.useContext(DropdownMenuContext)
+  const group = React.useContext(DropdownMenuRadioGroupContext)
+  const checked = checkedProp !== undefined ? checkedProp : group?.value === value
+  return (
+    <View
+      {...props}
+      ref={ref}
+      data-slot="dropdown-menu-radio-item"
+      data-inset={inset ? "" : undefined}
+      data-disabled={disabled ? "" : undefined}
+      data-state={checked ? "checked" : "unchecked"}
+      className={cn(
+        "relative flex cursor-default select-none items-center gap-1.5 rounded-md py-1 pr-8 pl-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        inset && "pl-7",
+        className
+      )}
+      onClick={(e) => {
+        if (disabled) return
+        group?.onValueChange?.(value)
+        onClick?.(e)
+        if (closeOnSelect) context?.onOpenChange?.(false)
+      }}
+    >
+      <View className="pointer-events-none absolute right-2 flex items-center justify-center">
+        {checked && <Check size={16} />}
+      </View>
+      {children}
+    </View>
+  )
 })
 DropdownMenuRadioItem.displayName = "DropdownMenuRadioItem"
 
@@ -342,11 +471,9 @@ const DropdownMenuLabel = React.forwardRef<
 >(({ className, inset, ...props }, ref) => (
   <View
     ref={ref}
-    className={cn(
-      "px-2 py-2 text-sm font-semibold",
-      inset && "pl-8",
-      className
-    )}
+    data-slot="dropdown-menu-label"
+    data-inset={inset ? "" : undefined}
+    className={cn("px-2 py-1 text-xs font-medium text-muted-foreground", inset && "pl-7", className)}
     {...props}
   />
 ))
@@ -358,32 +485,151 @@ const DropdownMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <View
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-muted", className)}
+    data-slot="dropdown-menu-separator"
+    className={cn("-mx-1 my-1 h-px bg-border", className)}
     {...props}
   />
 ))
 DropdownMenuSeparator.displayName = "DropdownMenuSeparator"
 
-const DropdownMenuShortcut = ({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<typeof View>) => {
+const DropdownMenuShortcut = ({ className, ...props }: React.ComponentPropsWithoutRef<typeof View>) => {
   return (
     <View
-      className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
+      data-slot="dropdown-menu-shortcut"
+      className={cn("ml-auto text-xs tracking-widest text-muted-foreground", className)}
       {...props}
     />
   )
 }
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
 
-// Submenus are tricky on mobile bottom sheets. 
-// We will skip SubMenu for now or render them inline?
-// For now, export simplified components.
-const DropdownMenuSub = View
-const DropdownMenuSubTrigger = View
-const DropdownMenuSubContent = View
-const DropdownMenuRadioGroup = View
+const DropdownMenuSubTrigger = React.forwardRef<
+  React.ElementRef<typeof View>,
+  React.ComponentPropsWithoutRef<typeof View> & {
+    inset?: boolean
+    disabled?: boolean
+  }
+>(({ className, inset, disabled, children, onClick, ...props }, ref) => {
+  const subContext = React.useContext(DropdownMenuSubContext)
+  return (
+    <View
+      {...props}
+      ref={ref}
+      id={subContext?.triggerId}
+      data-slot="dropdown-menu-sub-trigger"
+      data-inset={inset ? "" : undefined}
+      data-disabled={disabled ? "" : undefined}
+      data-state={subContext?.open ? "open" : "closed"}
+      className={cn(
+        "relative flex cursor-default select-none items-center gap-1.5 rounded-md px-2 py-1 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+        inset && "pl-7",
+        disabled && "pointer-events-none opacity-50",
+        className
+      )}
+      onClick={(e) => {
+        e.stopPropagation()
+        if (disabled) return
+        subContext?.onOpenChange?.(!subContext.open)
+        onClick?.(e)
+      }}
+    >
+      {children}
+      <ChevronRight className="ml-auto opacity-50" size={16} />
+    </View>
+  )
+})
+DropdownMenuSubTrigger.displayName = "DropdownMenuSubTrigger"
+
+const DropdownMenuSubContent = React.forwardRef<
+  React.ElementRef<typeof View>,
+  DropdownMenuContentProps
+>(({ className, align = "start", side = "right", sideOffset = 4, children, ...props }, ref) => {
+  const parent = React.useContext(DropdownMenuContext)
+  const subContext = React.useContext(DropdownMenuSubContext)
+  const contentId = React.useRef(`dropdown-menu-sub-content-${Math.random().toString(36).slice(2, 10)}`)
+  const [position, setPosition] = React.useState<{ left: number; top: number } | null>(null)
+
+  React.useEffect(() => {
+    if (!parent?.open || !subContext?.open) {
+      setPosition(null)
+      return
+    }
+
+    let cancelled = false
+
+    const compute = async () => {
+      if (!subContext?.triggerId) return
+      const [triggerRect, contentRect] = await Promise.all([
+        getRectById(subContext.triggerId),
+        getRectById(contentId.current),
+      ])
+
+      if (cancelled) return
+      if (!triggerRect?.width || !contentRect?.width) return
+
+      setPosition(
+        computePosition({
+          triggerRect,
+          contentRect,
+          align,
+          side,
+          sideOffset,
+        })
+      )
+    }
+
+    const raf = (() => {
+      if (typeof requestAnimationFrame !== "undefined") {
+        return requestAnimationFrame(() => compute())
+      }
+      return setTimeout(() => compute(), 0) as unknown as number
+    })()
+
+    return () => {
+      cancelled = true
+      if (typeof cancelAnimationFrame !== "undefined") {
+        cancelAnimationFrame(raf)
+      } else {
+        clearTimeout(raf)
+      }
+    }
+  }, [align, parent?.open, side, sideOffset, subContext?.open, subContext?.triggerId])
+
+  if (!parent?.open || !subContext?.open) return null
+
+  const baseClassName =
+    "fixed z-50 min-w-[96px] overflow-hidden rounded-lg border border-border bg-popover p-1 text-popover-foreground shadow-lg ring-1 ring-foreground ring-opacity-10 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
+
+  const contentStyle = position
+    ? ({ left: position.left, top: position.top } as React.CSSProperties)
+    : ({
+        left: 0,
+        top: 0,
+        opacity: 0,
+        pointerEvents: "none",
+      } as React.CSSProperties)
+
+  return (
+    <Portal>
+      <View
+        {...props}
+        ref={ref}
+        id={contentId.current}
+        data-slot="dropdown-menu-sub-content"
+        data-state="open"
+        data-side={side}
+        className={cn(baseClassName, className)}
+        style={contentStyle}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <ScrollView scrollY className="max-h-[50vh] overflow-x-hidden overflow-y-auto">
+          {children}
+        </ScrollView>
+      </View>
+    </Portal>
+  )
+})
+DropdownMenuSubContent.displayName = "DropdownMenuSubContent"
 
 export {
   DropdownMenu,

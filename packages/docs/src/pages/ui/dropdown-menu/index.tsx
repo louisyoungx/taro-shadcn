@@ -1,4 +1,4 @@
-import { View } from "@tarojs/components";
+import { View, Text } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import {
   DropdownMenu,
@@ -16,22 +16,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  CirclePlus,
-  Settings,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-react-taro";
 import * as React from "react";
 
 export default function DropdownMenuPage() {
@@ -45,86 +29,67 @@ export default function DropdownMenuPage() {
         <View className="space-y-2">
           <View className="text-sm text-muted-foreground">Basic Menu</View>
           <DropdownMenu>
-            <DropdownMenuTrigger >
+            <DropdownMenuTrigger>
               <Button variant="outline">Open Menu</Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
+            <DropdownMenuContent className="w-44">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem>
-                  <User className="mr-2" size={16} />
-                  <span>Profile</span>
+                  <Text>Profile</Text>
                   <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <CreditCard className="mr-2" size={16} />
-                  <span>Billing</span>
+                  <Text>Billing</Text>
                   <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Settings className="mr-2" size={16} />
-                  <span>Settings</span>
+                  <Text>Settings</Text>
                   <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Keyboard className="mr-2" size={16} />
-                  <span>Keyboard shortcuts</span>
-                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem>
-                  <Users className="mr-2" size={16} />
-                  <span>Team</span>
+                  <Text>Team</Text>
                 </DropdownMenuItem>
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>
-                    <UserPlus className="mr-2" size={16} />
-                    <span>Invite users</span>
+                    <Text>Invite users</Text>
                   </DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
+                    <DropdownMenuSubContent className="w-40" sideOffset={2}>
                       <DropdownMenuItem>
-                        <Mail className="mr-2" size={16} />
-                        <span>Email</span>
+                        <Text>Email</Text>
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <MessageSquare className="mr-2" size={16} />
-                        <span>Message</span>
+                        <Text>Message</Text>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>
-                        <CirclePlus className="mr-2" size={16} />
-                        <span>More...</span>
+                        <Text>More...</Text>
                       </DropdownMenuItem>
                     </DropdownMenuSubContent>
                   </DropdownMenuPortal>
                 </DropdownMenuSub>
                 <DropdownMenuItem>
-                  <Plus className="mr-2" size={16} />
-                  <span>New Team</span>
+                  <Text>New Team</Text>
                   <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Github className="mr-2" size={16} />
-                <span>GitHub</span>
+                <Text>GitHub</Text>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <LifeBuoy className="mr-2" size={16} />
-                <span>Support</span>
+                <Text>Support</Text>
               </DropdownMenuItem>
               <DropdownMenuItem disabled>
-                <Cloud className="mr-2" size={16} />
-                <span>API</span>
+                <Text>API</Text>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <LogOut className="mr-2" size={16} />
-                <span>Log out</span>
+                <Text>Log out</Text>
                 <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -134,26 +99,29 @@ export default function DropdownMenuPage() {
         <View className="space-y-2">
           <View className="text-sm text-muted-foreground">Checkboxes</View>
           <DropdownMenu>
-            <DropdownMenuTrigger >
+            <DropdownMenuTrigger>
               <Button variant="outline">Open Checkboxes</Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
+            <DropdownMenuContent className="w-44">
               <DropdownMenuLabel>Appearance</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem
                 checked={showStatusBar}
+                closeOnSelect={false}
                 onClick={() => setShowStatusBar(!showStatusBar)}
               >
                 Status Bar
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={showActivityBar}
+                closeOnSelect={false}
                 onClick={() => setShowActivityBar(!showActivityBar)}
               >
                 Activity Bar
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={showPanel}
+                closeOnSelect={false}
                 onClick={() => setShowPanel(!showPanel)}
               >
                 Panel

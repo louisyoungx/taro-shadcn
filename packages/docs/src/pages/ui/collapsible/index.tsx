@@ -27,7 +27,7 @@ export default function CollapsiblePage() {
           <CollapsibleTrigger >
             <Button variant="ghost" size="sm" className="w-9 p-0">
               <ChevronsUpDown size={16} />
-              <span className="sr-only">Toggle</span>
+              <Text className="sr-only">Toggle</Text>
             </Button>
           </CollapsibleTrigger>
         </View>
