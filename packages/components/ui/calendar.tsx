@@ -196,10 +196,10 @@ function Calendar({
         } else {
           next = { from: date, to: undefined }
         }
-   ...props.onSelect?.(next)
+        props.onSelect?.(next)
         return
       }
- ...props.onSelect?.(date)
+      props.onSelect?.(date)
     },
     [disabled, props]
   )

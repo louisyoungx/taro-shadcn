@@ -106,7 +106,7 @@ const ToggleGroupItem = React.forwardRef<
      onClick={(e) => {
         if (disabled) return
         context.onValueChange?.(value)
-   ...props.onClick?.(e)
+        props.onClick?.(e)
       }}
       {...props}
     >

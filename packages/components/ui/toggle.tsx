@@ -46,7 +46,7 @@ const Toggle = React.forwardRef<
             setPressedState(newPressed)
         }
         onPressedChange?.(newPressed)
-   ...props.onClick?.(e)
+        props.onClick?.(e)
     }
 
   return (

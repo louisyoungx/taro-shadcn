@@ -21,10 +21,9 @@
       "node_modules/@types"
     ],
     "paths": {
-      "@/components/ui/*": ["../components/ui/*"],
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./src", "./types", "./config", "dist-taro-shadcn-ui"],
+  "include": ["./src", "./types", "./config"],
   "compileOnSave": false
 }

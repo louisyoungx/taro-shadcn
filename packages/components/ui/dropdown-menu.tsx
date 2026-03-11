@@ -126,7 +126,7 @@ const DropdownMenuItem = React.forwardRef<
          onClick={(e) => {
                 if (disabled) return
                 context?.onOpenChange?.(false)
-           ...props.onClick?.(e)
+                props.onClick?.(e)
             }}
           {...props}
         />
@@ -150,7 +150,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
             )}
          onClick={(e) => {
                 context?.onOpenChange?.(false)
-           ...props.onClick?.(e)
+                props.onClick?.(e)
             }}
           {...props}
         >

@@ -35,12 +35,12 @@ const AvatarImage = React.forwardRef<
   
   const handleLoad = (e) => {
       context?.setStatus("loaded")
- ...props.onLoad?.(e)
+      props.onLoad?.(e)
   }
 
   const handleError = (e) => {
       context?.setStatus("error")
- ...props.onError?.(e)
+      props.onError?.(e)
   }
 
   return (

@@ -203,7 +203,7 @@ const ContextMenuItem = React.forwardRef<
         if (disabled) return
         e.stopPropagation()
         context?.onOpenChange?.(false)
-   ...props.onClick?.(e)
+        props.onClick?.(e)
       }}
       {...props}
     >
@@ -230,7 +230,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
      onClick={(e) => {
         e.stopPropagation()
         context?.onOpenChange?.(false)
-   ...props.onClick?.(e)
+        props.onClick?.(e)
       }}
       {...props}
     >
@@ -260,7 +260,7 @@ const ContextMenuRadioItem = React.forwardRef<
      onClick={(e) => {
         e.stopPropagation()
         context?.onOpenChange?.(false)
-   ...props.onClick?.(e)
+        props.onClick?.(e)
       }}
       {...props}
     >
