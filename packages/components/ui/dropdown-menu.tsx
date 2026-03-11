@@ -1,15 +1,23 @@
 import * as React from "react"
 import { View, ScrollView } from "@tarojs/components"
+import Taro from "@tarojs/taro"
 import { Check, Circle } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
 import { Portal } from "@/components/ui/portal"
 
-// DropdownMenu as a Bottom Sheet for mobile
-
 const DropdownMenuContext = React.createContext<{
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  triggerId: string
 } | null>(null)
+
+const isH5 = () => {
+  try {
+    return Taro.getEnv() === Taro.ENV_TYPE.WEB
+  } catch {
+    return typeof document !== "undefined"
+  }
+}
 
 interface DropdownMenuProps {
     children: React.ReactNode
@@ -19,6 +27,9 @@ interface DropdownMenuProps {
 }
 
 const DropdownMenu = ({ open: openProp, defaultOpen, onOpenChange, children }: DropdownMenuProps) => {
+    const baseIdRef = React.useRef(
+        `dropdown-menu-${Math.random().toString(36).slice(2, 10)}`
+    )
     const [openState, setOpenState] = React.useState(defaultOpen || false)
     const open = openProp !== undefined ? openProp : openState
     
@@ -30,7 +41,7 @@ const DropdownMenu = ({ open: openProp, defaultOpen, onOpenChange, children }: D
     }
 
     return (
-        <DropdownMenuContext.Provider value={{ open, onOpenChange: handleOpenChange }}>
+        <DropdownMenuContext.Provider value={{ open, onOpenChange: handleOpenChange, triggerId: baseIdRef.current }}>
             {children}
         </DropdownMenuContext.Provider>
     )
@@ -43,13 +54,14 @@ const DropdownMenuTrigger = React.forwardRef<
     const context = React.useContext(DropdownMenuContext)
     return (
         <View
+          {...props}
           ref={ref}
+          id={context?.triggerId}
           className={className}
           onClick={(e) => {
                 e.stopPropagation()
-                context?.onOpenChange?.(true)
+                context?.onOpenChange?.(!context.open)
             }}
-          {...props}
         >
             {children}
         </View>
@@ -71,32 +83,165 @@ const DropdownMenuPortal = ({ children }: { children: React.ReactNode }) => {
 }
 
 interface DropdownMenuContentProps extends React.ComponentPropsWithoutRef<typeof View> {
+    align?: "start" | "center" | "end"
+    side?: "top" | "bottom" | "left" | "right"
     sideOffset?: number
 }
 
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof View>,
   DropdownMenuContentProps
->(({ className, sideOffset = 4, children, ...props }, ref) => {
+>(({ className, align = "start", side = "bottom", sideOffset = 4, children, ...props }, ref) => {
     const context = React.useContext(DropdownMenuContext)
-    
+    const contentId = React.useRef(
+        `dropdown-menu-content-${Math.random().toString(36).slice(2, 10)}`
+    )
+    const [position, setPosition] = React.useState<{
+        left: number
+        top: number
+    } | null>(null)
+
+    React.useEffect(() => {
+        if (!context?.open) {
+            setPosition(null)
+            return
+        }
+
+        let cancelled = false
+
+        const getViewport = () => {
+            if (isH5() && typeof window !== "undefined") {
+                return { width: window.innerWidth, height: window.innerHeight }
+            }
+            try {
+                const info = Taro.getSystemInfoSync()
+                return { width: info.windowWidth, height: info.windowHeight }
+            } catch {
+                return { width: 375, height: 667 }
+            }
+        }
+
+        const getRectH5 = (id: string) => {
+            if (!isH5() || typeof document === "undefined") return null
+            const el = document.getElementById(id)
+            if (!el) return null
+            const r = el.getBoundingClientRect()
+            return { left: r.left, top: r.top, width: r.width, height: r.height }
+        }
+
+        const getRect = (id: string) => {
+            const h5Rect = getRectH5(id)
+            if (h5Rect) return Promise.resolve(h5Rect)
+            return new Promise<any>((resolve) => {
+                const query = Taro.createSelectorQuery()
+                query
+                    .select(`#${id}`)
+                    .boundingClientRect((res) => {
+                        const rect = Array.isArray(res) ? res[0] : res
+                        resolve(rect || null)
+                    })
+                    .exec()
+            })
+        }
+
+        const compute = async () => {
+            if (!context?.triggerId) return
+            const [triggerRect, contentRect] = await Promise.all([
+                getRect(context.triggerId),
+                getRect(contentId.current),
+            ])
+
+            if (cancelled) return
+            if (!triggerRect?.width || !contentRect?.width) return
+
+            const vw = getViewport().width
+            const vh = getViewport().height
+            const margin = 8
+
+            const crossStart = (side === "left" || side === "right")
+                ? triggerRect.top
+                : triggerRect.left
+            const crossSize = (side === "left" || side === "right")
+                ? triggerRect.height
+                : triggerRect.width
+            const contentCrossSize = (side === "left" || side === "right")
+                ? contentRect.height
+                : contentRect.width
+
+            const cross = (() => {
+                if (align === "start") return crossStart
+                if (align === "end") return crossStart + crossSize - contentCrossSize
+                return crossStart + crossSize / 2 - contentCrossSize / 2
+            })()
+
+            let left = 0
+            let top = 0
+
+            if (side === "bottom" || side === "top") {
+                left = cross
+                top =
+                    side === "bottom"
+                        ? triggerRect.top + triggerRect.height + sideOffset
+                        : triggerRect.top - contentRect.height - sideOffset
+            } else {
+                top = cross
+                left =
+                    side === "right"
+                        ? triggerRect.left + triggerRect.width + sideOffset
+                        : triggerRect.left - contentRect.width - sideOffset
+            }
+
+            left = Math.min(Math.max(left, margin), vw - contentRect.width - margin)
+            top = Math.min(Math.max(top, margin), vh - contentRect.height - margin)
+
+            setPosition({ left, top })
+        }
+
+        const raf = (() => {
+            if (typeof requestAnimationFrame !== "undefined") {
+                return requestAnimationFrame(() => compute())
+            }
+            return setTimeout(() => compute(), 0) as unknown as number
+        })()
+
+        return () => {
+            cancelled = true
+            if (typeof cancelAnimationFrame !== "undefined") {
+                cancelAnimationFrame(raf)
+            } else {
+                clearTimeout(raf)
+            }
+        }
+    }, [align, context?.open, context?.triggerId, side, sideOffset])
+
     if (!context?.open) return null
+
+    const baseClassName =
+        "fixed z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
+
+    const contentStyle = position
+        ? ({ left: position.left, top: position.top } as React.CSSProperties)
+        : ({
+            left: 0,
+            top: 0,
+            opacity: 0,
+            pointerEvents: "none",
+        } as React.CSSProperties)
 
     return (
         <Portal>
             <View 
-              className="fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+              className="fixed inset-0 z-50 bg-transparent"
               onClick={() => context.onOpenChange?.(false)}
             />
             <View
-              ref={ref}
-              className={cn(
-                    "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom duration-300",
-                    className
-                )}
               {...props}
+              ref={ref}
+              id={contentId.current}
+              className={cn(baseClassName, className)}
+              style={contentStyle}
+              onClick={(e) => e.stopPropagation()}
             >
-                <View className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted mb-4" />
                 <ScrollView scrollY className="max-h-[50vh]">
                      {children}
                 </ScrollView>
