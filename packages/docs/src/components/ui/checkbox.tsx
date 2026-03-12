@@ -41,6 +41,11 @@ const Checkbox = React.forwardRef<
         className
       )}
       {...({ tabIndex } as any)}
+      hoverClass={
+        disabled
+          ? undefined
+          : "border-ring ring-2 ring-ring ring-offset-2 ring-offset-background"
+      }
       onClick={handleClick}
       {...props}
     >

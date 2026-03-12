@@ -69,11 +69,13 @@ const TabsTrigger = React.forwardRef<
         isActive && "bg-background text-foreground shadow-sm",
         className
         )}
-      onClick={() => context?.onValueChange?.(value)}
+      hoverClass="border-ring ring-2 ring-ring ring-offset-2 ring-offset-background"
       {...props}
     />
   )
 })
+TabsTrigger.displayName = "TabsTrigger"
+TabsTrigger.displayName = "TabsTrigger"
 TabsTrigger.displayName = "TabsTrigger"
 
 const TabsContent = React.forwardRef<

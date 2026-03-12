@@ -11,6 +11,28 @@ const SheetContext = React.createContext<{
   onOpenChange?: (open: boolean) => void
 } | null>(null)
 
+const usePresence = (open: boolean | undefined, durationMs: number) => {
+  const [present, setPresent] = React.useState(!!open)
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  React.useEffect(() => {
+    if (open) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+      setPresent(true)
+      return
+    }
+
+    timeoutRef.current = setTimeout(() => setPresent(false), durationMs)
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+  }, [open, durationMs])
+
+  return present
+}
+
 interface SheetProps {
     children: React.ReactNode
     open?: boolean
@@ -81,25 +103,29 @@ SheetClose.displayName = "SheetClose"
 
 const SheetPortal = ({ children }: { children: React.ReactNode }) => {
     const context = React.useContext(SheetContext)
-    if (!context?.open) return null
+    const present = usePresence(context?.open, 300)
+    if (!present) return null
     return <Portal>{children}</Portal>
 }
 
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
->(({ className, ...props }, ref) => {
+>(({ className, onClick, ...props }, ref) => {
   const context = React.useContext(SheetContext)
+  const state = context?.open ? "open" : "closed"
   return (
       <View
+        data-state={state}
         className={cn(
-          "fixed inset-0 z-50 bg-black opacity-80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          "fixed inset-0 isolate z-50 bg-black bg-opacity-10 transition-opacity duration-100 supports-[backdrop-filter]:backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           className
         )}
         {...props}
         ref={ref}
         onClick={(e) => {
             e.stopPropagation()
+            onClick?.(e)
             context?.onOpenChange?.(false)
         }}
       />
@@ -135,25 +161,34 @@ const SheetContent = React.forwardRef<
   SheetContentProps
 >(({ side = "right", className, children, ...props }, ref) => {
     const context = React.useContext(SheetContext)
+    const state = context?.open ? "open" : "closed"
   return (
     <SheetPortal>
-      <SheetOverlay />
       <View
-        ref={ref}
-        className={cn(sheetVariants({ side }), "sheet-content", className)}
-        data-side={side}
-        {...props}
+        className="fixed inset-0 z-50"
+        onClick={() => context?.onOpenChange?.(false)}
       >
-        {children}
-        <View 
-          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
-          onClick={(e) => {
-                e.stopPropagation()
-                context?.onOpenChange?.(false)
-            }}
+        <SheetOverlay />
+        <View
+          ref={ref}
+          className={cn(sheetVariants({ side }), "sheet-content", className)}
+          data-state={state}
+          data-side={side}
+          onClick={(e) => e.stopPropagation()}
+          {...props}
         >
-          <X size={16} />
-          <View className="sr-only">Close</View>
+          {children}
+          <View 
+            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
+            data-state={state}
+            onClick={(e) => {
+                  e.stopPropagation()
+                  context?.onOpenChange?.(false)
+              }}
+          >
+            <X size={16} />
+            <View className="sr-only">Close</View>
+          </View>
         </View>
       </View>
     </SheetPortal>

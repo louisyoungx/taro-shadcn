@@ -59,6 +59,11 @@ const Toggle = React.forwardRef<
         )}
       data-state={pressed ? "on" : "off"}
       data-disabled={disabled ? "" : undefined}
+      hoverClass={
+        disabled
+          ? undefined
+          : "border-ring ring-2 ring-ring ring-offset-2 ring-offset-background"
+      }
       onClick={handleClick}
       {...props}
     />

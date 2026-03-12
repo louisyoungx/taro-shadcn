@@ -55,8 +55,8 @@ export default function NavigationMenuPage() {
   return (
     <PageLayout title="NavigationMenu">
       <View className="p-2">
-        <NavigationMenu>
-          <NavigationMenuList>
+        <NavigationMenu className="max-w-none w-full justify-start">
+          <NavigationMenuList className="w-full justify-start flex-wrap gap-1 space-x-0">
             <NavigationMenuItem>
               <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
               <NavigationMenuContent className="p-2">

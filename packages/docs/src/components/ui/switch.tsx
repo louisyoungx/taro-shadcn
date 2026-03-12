@@ -24,6 +24,11 @@ const Switch = React.forwardRef<
         className
       )}
       data-state={currentChecked ? "checked" : "unchecked"}
+      hoverClass={
+        disabled
+          ? undefined
+          : "border-ring ring-2 ring-ring ring-offset-2 ring-offset-background"
+      }
       {...props}
       ref={ref}
       onClick={(e) => {

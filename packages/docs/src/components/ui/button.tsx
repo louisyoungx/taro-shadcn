@@ -50,6 +50,11 @@ const Button = React.forwardRef<React.ElementRef<typeof View>, ButtonProps>(
           disabled && "opacity-50 pointer-events-none"
         )}
         ref={ref}
+        hoverClass={
+          disabled
+            ? undefined
+            : "border-ring ring-2 ring-ring ring-offset-2 ring-offset-background"
+        }
         {...props}
       />
     )
