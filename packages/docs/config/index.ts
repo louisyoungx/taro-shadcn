@@ -42,6 +42,7 @@ export default defineConfig<'vite'>(async (merge, _env) => {
         h5: 'dist-web',
     }
     const outputRoot = outputRootMap[process.env.TARO_ENV || ''] || 'dist'
+    const isH5 = process.env.TARO_ENV === 'h5'
 
     const buildMiniCIPluginConfig = () => {
         const hasWeappConfig = !!process.env.TARO_APP_WEAPP_APPID
@@ -138,10 +139,16 @@ export default defineConfig<'vite'>(async (merge, _env) => {
                         }
                     },
                 },
-                UnifiedViteWeappTailwindcssPlugin({
-                    rem2rpx: true,
-                    cssEntries: [path.resolve(__dirname, '../src/app.css')],
-                }),
+                ...(isH5
+                    ? []
+                    : [
+                          UnifiedViteWeappTailwindcssPlugin({
+                              rem2rpx: true,
+                              cssEntries: [
+                                  path.resolve(__dirname, '../src/app.css'),
+                              ],
+                          }),
+                      ]),
                 ...(process.env.TARO_ENV === 'tt'
                     ? [
                           {
