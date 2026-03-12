@@ -1,4 +1,4 @@
-import * as React from "react"
+import Taro from "@tarojs/taro"
 import { View, Text } from "@tarojs/components"
 import { PageLayout } from "@/components/page-layout"
 import {
@@ -11,6 +11,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
+import { CircleAlert, CircleCheck, CircleDashed } from "lucide-react-taro"
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -53,44 +54,34 @@ const components: { title: string; href: string; description: string }[] = [
 export default function NavigationMenuPage() {
   return (
     <PageLayout title="NavigationMenu">
-      <View className="p-4">
+      <View className="p-2">
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Start</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <View className="grid gap-3 p-4">
-                  <NavigationMenuLink>
-                    <View className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted from-opacity-50 to-muted p-6 no-underline outline-none focus:shadow-md">
-                      <View className="mb-2 mt-4 text-lg font-medium">
-                        shadcn/ui
-                      </View>
-                      <Text className="text-sm leading-tight text-muted-foreground">
-                        Beautifully designed components built with Radix UI and
-                        Tailwind CSS.
-                      </Text>
-                    </View>
-                  </NavigationMenuLink>
-                  <ListItem title="Introduction">
-                    Re-usable components built using Radix UI and Tailwind CSS.
+              <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+              <NavigationMenuContent className="p-2">
+                <View className="w-96 max-w-[calc(100vw-32px)] space-y-2">
+                  <ListItem href="/pages/index/index" title="Introduction">
+                    Re-usable components built with Tailwind CSS.
                   </ListItem>
-                  <ListItem title="Installation">
+                  <ListItem href="/pages/index/index" title="Installation">
                     How to install dependencies and structure your app.
                   </ListItem>
-                  <ListItem title="Typography">
+                  <ListItem href="/pages/index/index" title="Typography">
                     Styles for headings, paragraphs, lists...etc
                   </ListItem>
                 </View>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            <NavigationMenuItem>
+            <NavigationMenuItem className="hidden md:flex">
               <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <View className="grid gap-3 p-4">
+              <NavigationMenuContent className="p-2">
+                <View className="grid w-[calc(100vw-32px)] gap-2 sm:w-[400px] md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {components.map((component) => (
                     <ListItem
                       key={component.title}
                       title={component.title}
+                      href={component.href}
                     >
                       {component.description}
                     </ListItem>
@@ -99,7 +90,38 @@ export default function NavigationMenuPage() {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <NavigationMenuTrigger>With Icon</NavigationMenuTrigger>
+              <NavigationMenuContent className="p-2">
+                <View className="grid w-[200px] gap-1">
+                  <NavigationMenuLink
+                    className="flex flex-row items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
+                    onClick={() => Taro.showToast({ title: "Backlog", icon: "none" })}
+                  >
+                    <CircleAlert size={16} />
+                    <Text>Backlog</Text>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink
+                    className="flex flex-row items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
+                    onClick={() => Taro.showToast({ title: "To Do", icon: "none" })}
+                  >
+                    <CircleDashed size={16} />
+                    <Text>To Do</Text>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink
+                    className="flex flex-row items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
+                    onClick={() => Taro.showToast({ title: "Done", icon: "none" })}
+                  >
+                    <CircleCheck size={16} />
+                    <Text>Done</Text>
+                  </NavigationMenuLink>
+                </View>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                onClick={() => Taro.navigateTo({ url: "/pages/index/index" })}
+              >
                 Docs
               </NavigationMenuLink>
             </NavigationMenuItem>
@@ -110,13 +132,20 @@ export default function NavigationMenuPage() {
   )
 }
 
-const ListItem = ({ className, title, children, ...props }: any) => {
+const ListItem = ({
+  className,
+  title,
+  children,
+  href,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof View> & { title: string; href: string }) => {
   return (
     <NavigationMenuLink
       className={cn(
-        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground",
         className
       )}
+      onClick={() => Taro.navigateTo({ url: href })}
       {...props}
     >
       <View className="text-sm font-medium leading-none">{title}</View>

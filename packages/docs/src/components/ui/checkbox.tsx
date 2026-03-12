@@ -30,14 +30,17 @@ const Checkbox = React.forwardRef<
     onCheckedChange?.(newChecked)
   }
 
+  const tabIndex = (props as any).tabIndex ?? (disabled ? -1 : 0)
+
   return (
     <View
       ref={ref}
       className={cn(
-        "h-4 w-4 shrink-0 rounded-sm border-2 border-primary ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center",
+        "h-4 w-4 shrink-0 rounded-sm border-2 border-primary ring-offset-background flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
         checked ? "bg-primary text-primary-foreground" : "bg-transparent",
         className
       )}
+      {...({ tabIndex } as any)}
       onClick={handleClick}
       {...props}
     >

@@ -14,13 +14,13 @@ const Input = React.forwardRef<React.ElementRef<typeof TaroInput>, InputProps>(
     return (
       <View
         className={cn(
-          "flex h-10 w-full items-center rounded-md border border-input bg-background px-3 ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:border-ring focus-within:ring-4 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background",
           className
         )}
       >
         <TaroInput
           type={type}
-          className="flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm selection:bg-selection selection:text-selection-foreground"
+          className="w-full flex-1 bg-transparent text-sm text-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 selection:bg-selection selection:text-selection-foreground"
           placeholderClass="text-muted-foreground"
           ref={ref}
           focus={autoFocus || focus}

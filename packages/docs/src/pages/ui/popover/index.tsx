@@ -1,3 +1,4 @@
+import * as React from "react";
 import { View } from "@tarojs/components";
 import { PageLayout } from "@/components/page-layout";
 import { Button } from "@/components/ui/button";
@@ -6,10 +7,15 @@ import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
 
 export default function PopoverPage() {
+  const [controlledOpen, setControlledOpen] = React.useState(false);
+
   return (
     <PageLayout title="Popover">
       <View className="grid gap-8">
@@ -21,12 +27,10 @@ export default function PopoverPage() {
             </PopoverTrigger>
             <PopoverContent className="w-80">
               <View className="grid gap-4">
-                <View className="space-y-2">
-                  <View className="font-medium leading-none">Dimensions</View>
-                  <View className="text-sm text-muted-foreground">
-                    Set the dimensions for the layer.
-                  </View>
-                </View>
+                <PopoverHeader>
+                  <PopoverTitle>Dimensions</PopoverTitle>
+                  <PopoverDescription>Set the dimensions for the layer.</PopoverDescription>
+                </PopoverHeader>
                 <View className="grid gap-2">
                   <View className="grid grid-cols-3 items-center gap-4">
                     <Label>Width</Label>
@@ -75,12 +79,10 @@ export default function PopoverPage() {
             </PopoverTrigger>
             <PopoverContent className="w-80">
               <View className="grid gap-4">
-                <View className="space-y-2">
-                  <View className="font-medium leading-none">Profile</View>
-                  <View className="text-sm text-muted-foreground">
-                    Update your profile settings
-                  </View>
-                </View>
+                <PopoverHeader>
+                  <PopoverTitle>Profile</PopoverTitle>
+                  <PopoverDescription>Update your profile settings</PopoverDescription>
+                </PopoverHeader>
                 <View className="grid gap-2">
                   <View className="grid grid-cols-3 items-center gap-4">
                     <Label>Username</Label>
@@ -97,6 +99,128 @@ export default function PopoverPage() {
               </View>
             </PopoverContent>
           </Popover>
+        </View>
+
+        <View className="space-y-2">
+          <View className="text-sm text-muted-foreground">Align</View>
+          <View className="flex flex-wrap gap-3">
+            <Popover>
+              <PopoverTrigger>
+                <Button variant="outline">Start</Button>
+              </PopoverTrigger>
+              <PopoverContent align="start">
+                <PopoverHeader>
+                  <PopoverTitle>align=start</PopoverTitle>
+                  <PopoverDescription>Content aligns to trigger start.</PopoverDescription>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger>
+                <Button variant="outline">Center</Button>
+              </PopoverTrigger>
+              <PopoverContent align="center">
+                <PopoverHeader>
+                  <PopoverTitle>align=center</PopoverTitle>
+                  <PopoverDescription>Content aligns to trigger center.</PopoverDescription>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger>
+                <Button variant="outline">End</Button>
+              </PopoverTrigger>
+              <PopoverContent align="end">
+                <PopoverHeader>
+                  <PopoverTitle>align=end</PopoverTitle>
+                  <PopoverDescription>Content aligns to trigger end.</PopoverDescription>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+          </View>
+        </View>
+
+        <View className="space-y-2">
+          <View className="text-sm text-muted-foreground">Position</View>
+          <View className="flex flex-wrap gap-3">
+            <Popover>
+              <PopoverTrigger>
+                <Button variant="outline">Top</Button>
+              </PopoverTrigger>
+              <PopoverContent position="top">
+                <PopoverHeader>
+                  <PopoverTitle>position=top</PopoverTitle>
+                  <PopoverDescription>Alias of side.</PopoverDescription>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger>
+                <Button variant="outline">Bottom</Button>
+              </PopoverTrigger>
+              <PopoverContent position="bottom">
+                <PopoverHeader>
+                  <PopoverTitle>position=bottom</PopoverTitle>
+                  <PopoverDescription>Alias of side.</PopoverDescription>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger>
+                <Button variant="outline">Left</Button>
+              </PopoverTrigger>
+              <PopoverContent position="left">
+                <PopoverHeader>
+                  <PopoverTitle>position=left</PopoverTitle>
+                  <PopoverDescription>Alias of side.</PopoverDescription>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger>
+                <Button variant="outline">Right</Button>
+              </PopoverTrigger>
+              <PopoverContent position="right">
+                <PopoverHeader>
+                  <PopoverTitle>position=right</PopoverTitle>
+                  <PopoverDescription>Alias of side.</PopoverDescription>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+          </View>
+        </View>
+
+        <View className="space-y-2">
+          <View className="text-sm text-muted-foreground">Controlled</View>
+          <View className="flex flex-wrap gap-3">
+            <Popover open={controlledOpen} onOpenChange={setControlledOpen}>
+              <PopoverTrigger>
+                <Button variant="outline">
+                  {controlledOpen ? "Close" : "Open"} (state)
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverHeader>
+                  <PopoverTitle>Controlled</PopoverTitle>
+                  <PopoverDescription>
+                    open/onOpenChange are controlled by local state.
+                  </PopoverDescription>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+
+            <Button
+              variant="secondary"
+              onClick={() => setControlledOpen((v) => !v)}
+            >
+              Toggle via button
+            </Button>
+          </View>
         </View>
       </View>
     </PageLayout>

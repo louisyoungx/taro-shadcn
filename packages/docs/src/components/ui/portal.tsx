@@ -1,17 +1,9 @@
 import * as React from "react"
 import * as TaroComponents from "@tarojs/components"
-import Taro from "@tarojs/taro"
 import { createPortal } from "react-dom"
+import { isH5 } from "@/lib/platform"
 
 const RootPortal = (TaroComponents as any).RootPortal
-
-const isH5 = () => {
-  try {
-    return Taro.getEnv() === Taro.ENV_TYPE.WEB
-  } catch {
-    return typeof document !== "undefined"
-  }
-}
 
 const Portal = ({ children }: { children: React.ReactNode }) => {
   if (isH5()) {

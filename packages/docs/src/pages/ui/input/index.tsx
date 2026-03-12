@@ -17,7 +17,7 @@ export default function InputPage() {
         {/* Password */}
         <View className="flex w-full max-w-sm flex-col gap-2">
           <Label for="password">Password</Label>
-          <Input type="password" password id="password" placeholder="Password" />
+          <Input type="text" password id="password" placeholder="Password" />
         </View>
 
         {/* Disabled */}

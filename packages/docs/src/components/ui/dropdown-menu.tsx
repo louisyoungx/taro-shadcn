@@ -1,99 +1,10 @@
 import * as React from "react"
 import { ScrollView, View } from "@tarojs/components"
-import Taro from "@tarojs/taro"
 import { Check, ChevronRight } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
+import { isH5 } from "@/lib/platform"
+import { computePosition, getRectById } from "@/lib/measure"
 import { Portal } from "@/components/ui/portal"
-
-type Rect = { left: number; top: number; width: number; height: number }
-
-const isH5 = () => {
-  try {
-    return Taro.getEnv() === Taro.ENV_TYPE.WEB
-  } catch {
-    return typeof document !== "undefined"
-  }
-}
-
-const getViewport = () => {
-  if (isH5() && typeof window !== "undefined") {
-    return { width: window.innerWidth, height: window.innerHeight }
-  }
-  try {
-    const info = Taro.getSystemInfoSync()
-    return { width: info.windowWidth, height: info.windowHeight }
-  } catch {
-    return { width: 375, height: 667 }
-  }
-}
-
-const getRectH5 = (id: string): Rect | null => {
-  if (!isH5() || typeof document === "undefined") return null
-  const el = document.getElementById(id)
-  if (!el) return null
-  const r = el.getBoundingClientRect()
-  return { left: r.left, top: r.top, width: r.width, height: r.height }
-}
-
-const getRectById = (id: string): Promise<Rect | null> => {
-  const h5Rect = getRectH5(id)
-  if (h5Rect) return Promise.resolve(h5Rect)
-  return new Promise((resolve) => {
-    const query = Taro.createSelectorQuery()
-    query
-      .select(`#${id}`)
-      .boundingClientRect((res) => {
-        const rect = Array.isArray(res) ? res[0] : res
-        resolve((rect as any) || null)
-      })
-      .exec()
-  })
-}
-
-const computePosition = (params: {
-  triggerRect: Rect
-  contentRect: Rect
-  align: "start" | "center" | "end"
-  side: "top" | "bottom" | "left" | "right"
-  sideOffset: number
-}) => {
-  const { triggerRect, contentRect, align, side, sideOffset } = params
-  const vw = getViewport().width
-  const vh = getViewport().height
-  const margin = 8
-
-  const crossStart = side === "left" || side === "right" ? triggerRect.top : triggerRect.left
-  const crossSize = side === "left" || side === "right" ? triggerRect.height : triggerRect.width
-  const contentCrossSize = side === "left" || side === "right" ? contentRect.height : contentRect.width
-
-  const cross = (() => {
-    if (align === "start") return crossStart
-    if (align === "end") return crossStart + crossSize - contentCrossSize
-    return crossStart + crossSize / 2 - contentCrossSize / 2
-  })()
-
-  let left = 0
-  let top = 0
-
-  if (side === "bottom" || side === "top") {
-    left = cross
-    top =
-      side === "bottom"
-        ? triggerRect.top + triggerRect.height + sideOffset
-        : triggerRect.top - contentRect.height - sideOffset
-  } else {
-    top = cross
-    left =
-      side === "right"
-        ? triggerRect.left + triggerRect.width + sideOffset
-        : triggerRect.left - contentRect.width - sideOffset
-  }
-
-  left = Math.min(Math.max(left, margin), vw - contentRect.width - margin)
-  top = Math.min(Math.max(top, margin), vh - contentRect.height - margin)
-
-  return { left, top }
-}
 
 const DropdownMenuContext = React.createContext<{
   open?: boolean

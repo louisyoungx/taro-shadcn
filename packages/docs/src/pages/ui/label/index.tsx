@@ -55,7 +55,7 @@ export default function LabelPage() {
           <View className="text-sm text-muted-foreground mb-2">配合输入框</View>
           <View className="grid w-full max-w-sm items-center gap-2">
             <Label>Email</Label>
-            <Input type="email" id="email" placeholder="Email" />
+            <Input type="text" id="email" placeholder="Email" />
           </View>
         </View>
 

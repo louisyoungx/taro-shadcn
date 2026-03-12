@@ -5,6 +5,7 @@
   "scripts": {
     "dev:docs": "pnpm --filter @taro-shadcn/docs dev:web",
     "build:docs": "pnpm --filter @taro-shadcn/docs build:web",
+    "validate": "pnpm --filter @taro-shadcn/docs validate",
     "lint": "pnpm --filter \"*\" lint",
     "tsc": "pnpm --filter \"*\" tsc",
     "test:cli": "pnpm --filter taro-shadcn test",

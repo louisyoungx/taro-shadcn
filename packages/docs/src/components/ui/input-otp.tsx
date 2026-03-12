@@ -22,7 +22,7 @@ const InputOTP = React.forwardRef<
     autoFocus?: boolean
     children: React.ReactNode
   }
->(({ value: valueProp, defaultValue, onChange, maxLength, containerClassName, className, disabled, autoFocus, children, ...props }, ref) => {
+>(({ value: valueProp, defaultValue, onChange, maxLength, containerClassName, className, disabled, autoFocus, children }, ref) => {
   const [valueState, setValueState] = React.useState(defaultValue || "")
   const [isFocused, setIsFocused] = React.useState(false)
   const value = valueProp !== undefined ? valueProp : valueState
@@ -52,10 +52,11 @@ const InputOTP = React.forwardRef<
           onInput={handleChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          maxLength={maxLength}
+          maxlength={maxLength}
           type="number"
           disabled={disabled}
           focus={autoFocus}
+          ref={ref}
         />
         <View className={cn("flex items-center gap-2", className)}>
           {children}

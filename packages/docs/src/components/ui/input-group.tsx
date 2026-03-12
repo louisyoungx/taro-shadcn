@@ -134,7 +134,7 @@ function InputGroupInput({
       <Input
         data-slot="input-group-control"
         className={cn(
-          "flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          "flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
           className
         )}
         placeholderClass="text-muted-foreground"
@@ -168,7 +168,7 @@ function InputGroupTextarea({
       <Textarea
         data-slot="input-group-control"
         className={cn(
-          "flex-1 w-full h-full bg-transparent text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          "flex-1 w-full h-full bg-transparent text-base text-foreground placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
           className
         )}
         placeholderClass="text-muted-foreground"

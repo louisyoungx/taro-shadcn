@@ -1,7 +1,8 @@
 import * as React from "react"
 import { View } from "@tarojs/components"
-import Taro from "@tarojs/taro"
 import { cn } from "@/lib/utils"
+import { isH5 } from "@/lib/platform"
+import { getRectById, getViewport } from "@/lib/measure"
 import { Portal } from "@/components/ui/portal"
 
 type TooltipProviderProps = {
@@ -26,14 +27,6 @@ const TooltipContext = React.createContext<{
 } | null>(null)
 
 const TooltipProvider = ({ children }: TooltipProviderProps) => <>{children}</>
-
-const isH5 = () => {
-  try {
-    return Taro.getEnv() === Taro.ENV_TYPE.WEB
-  } catch {
-    return typeof document !== "undefined"
-  }
-}
 
 const Tooltip = ({
   children,
@@ -193,70 +186,13 @@ const TooltipContent = React.forwardRef<
 
       let cancelled = false
 
-      const getViewport = () => {
-        if (isH5() && typeof window !== "undefined") {
-          return { width: window.innerWidth, height: window.innerHeight }
-        }
-        try {
-          const info = Taro.getSystemInfoSync()
-          return { width: info.windowWidth, height: info.windowHeight }
-        } catch {
-          return { width: 375, height: 667 }
-        }
-      }
-
-      const getRectH5 = (id: string) => {
-        if (!isH5() || typeof document === "undefined") return null
-        const el = document.getElementById(id)
-        if (!el) return null
-        const r = el.getBoundingClientRect()
-        return { left: r.left, top: r.top, width: r.width, height: r.height }
-      }
-
-      const getRect = (id: string) => {
-        const h5Rect = getRectH5(id)
-        if (h5Rect) return Promise.resolve(h5Rect)
-        return new Promise<any>((resolve) => {
-          const query = Taro.createSelectorQuery()
-          query
-            .select(`#${id}`)
-            .boundingClientRect((res) => {
-              const rect = Array.isArray(res) ? res[0] : res
-              resolve(rect || null)
-            })
-            .exec()
-        })
-      }
-
       let rafId: number | null = null
 
       const compute = async () => {
-        const toNumber = (v: any) => {
-          if (typeof v === "number") return v
-          if (typeof v === "string") {
-            const n = parseFloat(v)
-            return Number.isFinite(n) ? n : 0
-          }
-          return 0
-        }
-
-        const normalizeRect = (r: any) => {
-          if (!r) return null
-          return {
-            left: toNumber(r.left),
-            top: toNumber(r.top),
-            width: toNumber(r.width),
-            height: toNumber(r.height),
-          }
-        }
-
-        const [triggerRectRaw, contentRectRaw] = await Promise.all([
-          getRect(context.triggerId),
-          getRect(contentId.current),
+        const [triggerRect, contentRect] = await Promise.all([
+          getRectById(context.triggerId),
+          getRectById(contentId.current),
         ])
-
-        const triggerRect = normalizeRect(triggerRectRaw)
-        const contentRect = normalizeRect(contentRectRaw)
 
         if (cancelled) return
         if (!triggerRect?.width || !contentRect?.width) return

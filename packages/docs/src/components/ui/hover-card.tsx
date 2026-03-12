@@ -1,7 +1,8 @@
 import * as React from "react"
 import { View } from "@tarojs/components"
-import Taro from "@tarojs/taro"
 import { cn } from "@/lib/utils"
+import { isH5 } from "@/lib/platform"
+import { getRectById, getViewport } from "@/lib/measure"
 import { Portal } from "@/components/ui/portal"
 
 type HoverCardProps = {
@@ -17,14 +18,6 @@ const HoverCardContext = React.createContext<{
   triggerId: string
   setHoverPart?: (part: "trigger" | "content", hovering: boolean) => void
 } | null>(null)
-
-const isH5 = () => {
-  try {
-    return Taro.getEnv() === Taro.ENV_TYPE.WEB
-  } catch {
-    return typeof document !== "undefined"
-  }
-}
 
 const HoverCard = ({
   open: openProp,
@@ -167,45 +160,10 @@ const HoverCardContent = React.forwardRef<
 
     let cancelled = false
 
-    const getViewport = () => {
-      if (isH5() && typeof window !== "undefined") {
-        return { width: window.innerWidth, height: window.innerHeight }
-      }
-      try {
-        const info = Taro.getSystemInfoSync()
-        return { width: info.windowWidth, height: info.windowHeight }
-      } catch {
-        return { width: 375, height: 667 }
-      }
-    }
-
-    const getRectH5 = (id: string) => {
-      if (!isH5() || typeof document === "undefined") return null
-      const el = document.getElementById(id)
-      if (!el) return null
-      const r = el.getBoundingClientRect()
-      return { left: r.left, top: r.top, width: r.width, height: r.height }
-    }
-
-    const getRect = (id: string) => {
-      const h5Rect = getRectH5(id)
-      if (h5Rect) return Promise.resolve(h5Rect)
-      return new Promise<any>((resolve) => {
-        const query = Taro.createSelectorQuery()
-        query
-          .select(`#${id}`)
-          .boundingClientRect((res) => {
-            const rect = Array.isArray(res) ? res[0] : res
-            resolve(rect || null)
-          })
-          .exec()
-      })
-    }
-
     const compute = async () => {
       const [triggerRect, contentRect] = await Promise.all([
-        getRect(context.triggerId),
-        getRect(contentId.current),
+        getRectById(context.triggerId),
+        getRectById(contentId.current),
       ])
 
       if (cancelled) return

@@ -3,16 +3,9 @@ import { View } from "@tarojs/components"
 import Taro from "@tarojs/taro"
 import { GripVertical } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
+import { isH5 } from "@/lib/platform"
 
 type Direction = "horizontal" | "vertical"
-
-const isH5 = () => {
-  try {
-    return Taro.getEnv() === Taro.ENV_TYPE.WEB
-  } catch {
-    return typeof document !== "undefined"
-  }
-}
 
 function getPoint(e: any) {
   const touch = e?.touches?.[0] || e?.changedTouches?.[0]

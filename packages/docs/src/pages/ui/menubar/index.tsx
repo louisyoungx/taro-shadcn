@@ -1,4 +1,3 @@
-import * as React from "react"
 import { View, Text } from "@tarojs/components"
 import { PageLayout } from "@/components/page-layout"
 import {
@@ -83,16 +82,16 @@ export default function MenubarPage() {
                   Always Show Full URLs
                 </MenubarCheckboxItem>
                 <MenubarSeparator />
-                <MenubarItem inset>
+                <MenubarItem>
                   Reload <MenubarShortcut>⌘R</MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem disabled inset>
+                <MenubarItem disabled>
                   Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
                 </MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem inset>Toggle Fullscreen</MenubarItem>
+                <MenubarItem>Toggle Fullscreen</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem inset>Hide Sidebar</MenubarItem>
+                <MenubarItem>Hide Sidebar</MenubarItem>
               </MenubarContent>
             </MenubarMenu>
           </Menubar>
@@ -110,9 +109,9 @@ export default function MenubarPage() {
                   <MenubarRadioItem value="Luis">Luis</MenubarRadioItem>
                 </MenubarRadioGroup>
                 <MenubarSeparator />
-                <MenubarItem inset>Edit...</MenubarItem>
+                <MenubarItem>Edit...</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem inset>Add Profile...</MenubarItem>
+                <MenubarItem>Add Profile...</MenubarItem>
               </MenubarContent>
             </MenubarMenu>
           </Menubar>

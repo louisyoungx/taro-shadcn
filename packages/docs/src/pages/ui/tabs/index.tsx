@@ -56,11 +56,11 @@ export default function TabsPage() {
             <CardContent className="space-y-2">
               <View className="space-y-1">
                 <Label>Current password</Label>
-                <Input id="current" type="password" />
+                <Input id="current" type="text" password />
               </View>
               <View className="space-y-1">
                 <Label>New password</Label>
-                <Input id="new" type="password" />
+                <Input id="new" type="text" password />
               </View>
             </CardContent>
             <CardFooter>
