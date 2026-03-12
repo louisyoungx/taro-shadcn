@@ -48,6 +48,12 @@ describe("CLI E2E Tests", () => {
 
     expect(fs.existsSync(path.join(TEST_DIR, "src/components/ui/button.tsx"))).toBe(true);
     expect(fs.existsSync(path.join(TEST_DIR, "src/lib/utils/index.ts"))).toBe(true);
+
+    const utilsContents = await fs.readFile(path.join(TEST_DIR, "src/lib/utils/index.ts"), "utf8");
+    expect(utilsContents).toContain("export function cn");
+
+    const buttonContents = await fs.readFile(path.join(TEST_DIR, "src/components/ui/button.tsx"), "utf8");
+    expect(buttonContents).toMatch(/from\s+["']@\/lib\/utils["']/);
   }, 60000);
 
   it("should add a component with specific dependencies", async () => {
@@ -59,5 +65,15 @@ describe("CLI E2E Tests", () => {
 
     const pkg = await fs.readJSON(path.join(TEST_DIR, "package.json"));
     expect(pkg.dependencies).toHaveProperty("date-fns");
+  }, 60000);
+
+  it("should add dependent ui components when a component imports them", async () => {
+    await fs.remove(path.join(TEST_DIR, "src/components/ui"));
+
+    const output = runCli("add calendar -y");
+    expect(output).toContain('Added "calendar"');
+
+    expect(fs.existsSync(path.join(TEST_DIR, "src/components/ui/calendar.tsx"))).toBe(true);
+    expect(fs.existsSync(path.join(TEST_DIR, "src/components/ui/button.tsx"))).toBe(true);
   }, 60000);
 });

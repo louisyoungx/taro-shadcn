@@ -30,6 +30,51 @@ const COMPONENT_DEPENDENCIES = {
   "form": ["react-hook-form", "@hookform/resolvers", "zod"],
 };
 
+function resolveRegistryPath() {
+  const candidates = [
+    path.join(__dirname, "registry", "ui"),
+    path.join(__dirname, "../docs/src/components/ui"),
+  ];
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
+function resolveUtilsTemplatePath() {
+  const candidates = [
+    path.join(__dirname, "../docs/src/lib/utils.ts"),
+  ];
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
+function parseImportSources(code) {
+  const sources = [];
+  const importFromRe = /\bfrom\s+["']([^"']+)["']/g;
+  const importSideEffectRe = /\bimport\s+["']([^"']+)["']/g;
+  const requireRe = /\brequire\(\s*["']([^"']+)["']\s*\)/g;
+  for (const re of [importFromRe, importSideEffectRe, requireRe]) {
+    let match;
+    while ((match = re.exec(code)) !== null) {
+      sources.push(match[1]);
+    }
+  }
+  return sources;
+}
+
+function getPackageName(specifier) {
+  if (!specifier) return null;
+  if (specifier.startsWith("@")) {
+    const parts = specifier.split("/");
+    if (parts.length >= 2) return `${parts[0]}/${parts[1]}`;
+    return specifier;
+  }
+  return specifier.split("/")[0];
+}
+
 function getPackageManager() {
   const cwd = process.cwd();
   if (fs.existsSync(path.join(cwd, "pnpm-lock.yaml"))) return "pnpm";
@@ -130,11 +175,15 @@ program
     // 2. Create utils.ts
     const utilsDir = path.join(process.cwd(), response.utilsPath);
     await fs.ensureDir(utilsDir);
-    const utilsTemplate = path.join(__dirname, "templates", "utils.ts");
     const utilsTarget = path.join(utilsDir, "index.ts"); // Usually index.ts or utils.ts
 
     if (!fs.existsSync(utilsTarget)) {
-      await fs.copy(utilsTemplate, utilsTarget);
+      const utilsTemplatePath = resolveUtilsTemplatePath();
+      if (!utilsTemplatePath) {
+        console.log(chalk.red("Error: utils template not found."));
+        return;
+      }
+      await fs.copy(utilsTemplatePath, utilsTarget);
       console.log(chalk.green(`✔ Created ${utilsTarget}.`));
     }
 
@@ -184,8 +233,12 @@ program
     const utilsFile = path.join(utilsDir, "index.ts");
     if (!fs.existsSync(utilsFile)) {
       await fs.ensureDir(utilsDir);
-      const utilsTemplate = path.join(__dirname, "templates", "utils.ts");
-      await fs.copy(utilsTemplate, utilsFile);
+      const utilsTemplatePath = resolveUtilsTemplatePath();
+      if (!utilsTemplatePath) {
+        console.log(chalk.red("Error: utils template not found."));
+        return;
+      }
+      await fs.copy(utilsTemplatePath, utilsFile);
       console.log(chalk.green(`✔ Created ${utilsFile}.`));
     }
 
@@ -197,44 +250,95 @@ program
 
     await fs.ensureDir(componentsDir);
 
-    const registryPath = path.join(__dirname, "../components/ui");
-    const allDeps = new Set();
+    const registryPath = resolveRegistryPath();
+    if (!registryPath) {
+      console.log(chalk.red("Error: Component registry not found."));
+      return;
+    }
 
-    for (const component of components) {
-      const sourceFile = path.join(registryPath, `${component}.tsx`);
-      const targetFile = path.join(componentsDir, `${component}.tsx`);
+    const externalDeps = new Set();
+    const seenComponents = new Set();
+
+    const ignoredExternalPackages = new Set([
+      "react",
+      "react-dom",
+      "@tarojs/components",
+      "@tarojs/taro",
+      ...BASE_DEPENDENCIES,
+    ]);
+
+    async function copyComponent(componentName) {
+      if (seenComponents.has(componentName)) return;
+      seenComponents.add(componentName);
+
+      const sourceFile = path.join(registryPath, `${componentName}.tsx`);
+      const targetFile = path.join(componentsDir, `${componentName}.tsx`);
 
       if (!fs.existsSync(sourceFile)) {
-        console.log(chalk.red(`Error: Component "${component}" not found.`));
-        continue;
+        console.log(chalk.red(`Error: Component "${componentName}" not found.`));
+        return;
       }
 
       if (fs.existsSync(targetFile) && !options.overwrite && !options.yes) {
         const { overwrite } = await prompts({
           type: "confirm",
           name: "overwrite",
-          message: `Component "${component}" already exists. Overwrite?`,
+          message: `Component "${componentName}" already exists. Overwrite?`,
           initial: false,
         });
 
         if (!overwrite) {
-          console.log(chalk.yellow(`Skipping "${component}".`));
-          continue;
+          console.log(chalk.yellow(`Skipping "${componentName}".`));
+          return;
         }
       }
 
       await fs.copy(sourceFile, targetFile);
-      console.log(chalk.green(`✔ Added "${component}".`));
+      console.log(chalk.green(`✔ Added "${componentName}".`));
 
-      // Add dependencies
-      const deps = COMPONENT_DEPENDENCIES[component];
-      if (deps) {
-        deps.forEach(d => allDeps.add(d));
+      const code = await fs.readFile(sourceFile, "utf8");
+      const sources = parseImportSources(code);
+
+      for (const src of sources) {
+        if (src.startsWith("@/components/ui/")) {
+          const dep = src.slice("@/components/ui/".length).split("/")[0];
+          const depName = dep.replace(/\.(tsx|ts|jsx|js)$/, "");
+          if (depName) await copyComponent(depName);
+          continue;
+        }
+
+        if (src.startsWith("./") || src.startsWith("../")) {
+          const resolvedBase = path.resolve(path.dirname(sourceFile), src);
+          const candidates = [
+            resolvedBase,
+            `${resolvedBase}.tsx`,
+            `${resolvedBase}.ts`,
+          ];
+          const found = candidates.find((p) => fs.existsSync(p));
+          if (found && path.dirname(found) === registryPath) {
+            const depName = path.basename(found).replace(/\.(tsx|ts)$/, "");
+            if (depName) await copyComponent(depName);
+          }
+          continue;
+        }
+
+        if (src.startsWith("@/")) continue;
+        const pkg = getPackageName(src);
+        if (!pkg) continue;
+        if (ignoredExternalPackages.has(pkg)) continue;
+        externalDeps.add(pkg);
       }
+
+      const deps = COMPONENT_DEPENDENCIES[componentName];
+      if (deps) deps.forEach((d) => externalDeps.add(d));
     }
 
-    if (allDeps.size > 0) {
-      const depsArray = Array.from(allDeps);
+    for (const component of components) {
+      await copyComponent(component);
+    }
+
+    if (externalDeps.size > 0) {
+      const depsArray = Array.from(externalDeps);
       if (options.yes) {
         installDependencies(depsArray);
       } else {
