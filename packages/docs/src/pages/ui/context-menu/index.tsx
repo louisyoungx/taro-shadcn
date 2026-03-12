@@ -28,24 +28,24 @@ export default function ContextMenuPage() {
         <View className="space-y-2">
           <Text className="text-sm font-medium">Basic Context Menu</Text>
           <ContextMenu>
-            <ContextMenuTrigger className="flex h-[150px] w-full items-center justify-center rounded-md border border-dashed text-sm">
+            <ContextMenuTrigger className="flex h-20 w-full items-center justify-center rounded-md border border-dashed text-sm">
               Long press here
             </ContextMenuTrigger>
-            <ContextMenuContent className="w-64">
-              <ContextMenuItem inset>
+            <ContextMenuContent className="w-50">
+              <ContextMenuItem>
                 Back
                 <ContextMenuShortcut>⌘[</ContextMenuShortcut>
               </ContextMenuItem>
-              <ContextMenuItem inset disabled>
+              <ContextMenuItem disabled>
                 Forward
                 <ContextMenuShortcut>⌘]</ContextMenuShortcut>
               </ContextMenuItem>
-              <ContextMenuItem inset>
+              <ContextMenuItem>
                 Reload
                 <ContextMenuShortcut>⌘R</ContextMenuShortcut>
               </ContextMenuItem>
               <ContextMenuSub>
-                <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+                <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
                 <ContextMenuSubContent className="w-48">
                   <ContextMenuItem>
                     Save Page As...
@@ -63,7 +63,6 @@ export default function ContextMenuPage() {
                 onClick={() => setBookmarksChecked(!bookmarksChecked)}
               >
                 Show Bookmarks Bar
-                <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
               </ContextMenuCheckboxItem>
               <ContextMenuCheckboxItem 
                 checked={urlsChecked}
@@ -73,8 +72,7 @@ export default function ContextMenuPage() {
               </ContextMenuCheckboxItem>
               <ContextMenuSeparator />
               <ContextMenuRadioGroup value={person}>
-                <ContextMenuLabel inset>People</ContextMenuLabel>
-                <ContextMenuSeparator />
+                <ContextMenuLabel>People</ContextMenuLabel>
                 <ContextMenuRadioItem 
                   value="pedro" 
                   checked={person === "pedro"}
@@ -97,7 +95,7 @@ export default function ContextMenuPage() {
         <View className="space-y-2">
           <Text className="text-sm font-medium">Simple Context Menu</Text>
           <ContextMenu>
-            <ContextMenuTrigger className="flex h-[100px] w-full items-center justify-center rounded-md border border-dashed text-sm">
+            <ContextMenuTrigger className="flex h-20 w-full items-center justify-center rounded-md border border-dashed text-sm">
               Another area
             </ContextMenuTrigger>
             <ContextMenuContent className="w-48">
