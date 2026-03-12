@@ -97,7 +97,10 @@ const DrawerOverlay = React.forwardRef<
   return (
     <View
       ref={ref}
-      className={cn("fixed inset-0 z-50 bg-black opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0", className)}
+      className={cn(
+        "fixed inset-0 isolate z-50 bg-black bg-opacity-10 transition-opacity duration-100 supports-[backdrop-filter]:backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        className
+      )}
       onClick={() => context?.onOpenChange?.(false)}
       {...props}
     />

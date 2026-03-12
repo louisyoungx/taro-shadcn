@@ -153,6 +153,18 @@ const PC_WIDESCREEN_PHONE_FRAME = `
   }
 }
 
+/* PC 宽屏适配 - Toast 定位到手机框范围内 */
+@media (min-width: 769px) {
+  body .toaster {
+    left: 50% !important;
+    right: auto !important;
+    width: 375px !important;
+    max-width: 375px !important;
+    transform: translateX(-50%) !important;
+    box-sizing: border-box !important;
+  }
+}
+
 /* PC 宽屏适配 - 手机框样式（无 TabBar 页面，通过 JS 添加 no-tabbar 类） */
 @media (min-width: 769px) {
   body.no-tabbar #app {

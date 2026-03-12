@@ -55,16 +55,9 @@ export default function CardPage() {
                 <Input id="name" placeholder="Name of your project" />
               </View>
               <View className="flex flex-col gap-2">
-                <Label for="framework">Framework</Label>
-                <Select
-                  defaultValue="next"
-                  value={undefined}
-                  onValueChange={undefined}
-                  open={undefined}
-                  defaultOpen={undefined}
-                  onOpenChange={undefined}
-                >
-                  <SelectTrigger id="framework">
+                <Label>Framework</Label>
+                <Select defaultValue="next">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent>

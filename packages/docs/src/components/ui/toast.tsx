@@ -267,7 +267,7 @@ const Toaster = ({
       >
         <View
           className={cn(
-            "toaster-list relative w-full md:max-w-[420px] flex",
+            "toaster-list relative w-full flex",
             isTop ? "flex-col-reverse" : "flex-col"
           )}
           style={listStyle}
