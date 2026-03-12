@@ -4,6 +4,8 @@
 
 [📖 官方文档](https://taro-shadcn.rocke.top)
 
+[📦 npm 包](https://www.npmjs.com/package/taro-shadcn)
+
 [![Taro 4](https://img.shields.io/badge/Taro-4.1.9-blue.svg)](https://docs.taro.zone/)
 [![React 18](https://img.shields.io/badge/React-18.0.0-61dafb.svg)](https://reactjs.org/)
 [![Tailwind CSS 4](https://img.shields.io/badge/TailwindCSS-4.1.18-38b2ac.svg)](https://tailwindcss.com/)

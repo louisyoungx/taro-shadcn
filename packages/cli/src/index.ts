@@ -1,15 +1,27 @@
-#!/usr/bin/env node
+import { Command } from "commander";
+import fs from "fs-extra";
+import path from "path";
+import chalk from "chalk";
+import prompts from "prompts";
+import { execSync } from "child_process";
 
-const { Command } = require("commander");
-const fs = require("fs-extra");
-const path = require("path");
-const chalk = require("chalk");
-const prompts = require("prompts");
-const { execSync } = require("child_process");
+type ComponentsConfig = {
+  style: string;
+  tailwind: {
+    config: string;
+    css: string;
+    baseColor: string;
+    cssVariables: boolean;
+  };
+  aliases: {
+    components: string;
+    utils: string;
+  };
+};
 
 const program = new Command();
 
-const DEFAULT_COMPONENTS_JSON = {
+const DEFAULT_COMPONENTS_JSON: ComponentsConfig = {
   style: "default",
   tailwind: {
     config: "tailwind.config.ts",
@@ -25,9 +37,9 @@ const DEFAULT_COMPONENTS_JSON = {
 
 const BASE_DEPENDENCIES = ["clsx", "tailwind-merge", "class-variance-authority", "lucide-react-taro"];
 
-const COMPONENT_DEPENDENCIES = {
-  "calendar": ["date-fns"],
-  "form": ["react-hook-form", "@hookform/resolvers", "zod"],
+const COMPONENT_DEPENDENCIES: Record<string, string[]> = {
+  calendar: ["date-fns"],
+  form: ["react-hook-form", "@hookform/resolvers", "zod"],
 };
 
 function resolveRegistryPath() {
@@ -43,6 +55,7 @@ function resolveRegistryPath() {
 
 function resolveUtilsTemplatePath() {
   const candidates = [
+    path.join(__dirname, "templates", "utils.ts"),
     path.join(__dirname, "../docs/src/lib/utils.ts"),
   ];
   for (const p of candidates) {
@@ -51,13 +64,13 @@ function resolveUtilsTemplatePath() {
   return null;
 }
 
-function parseImportSources(code) {
-  const sources = [];
+function parseImportSources(code: string) {
+  const sources: string[] = [];
   const importFromRe = /\bfrom\s+["']([^"']+)["']/g;
   const importSideEffectRe = /\bimport\s+["']([^"']+)["']/g;
   const requireRe = /\brequire\(\s*["']([^"']+)["']\s*\)/g;
   for (const re of [importFromRe, importSideEffectRe, requireRe]) {
-    let match;
+    let match: RegExpExecArray | null;
     while ((match = re.exec(code)) !== null) {
       sources.push(match[1]);
     }
@@ -65,7 +78,7 @@ function parseImportSources(code) {
   return sources;
 }
 
-function getPackageName(specifier) {
+function getPackageName(specifier: string) {
   if (!specifier) return null;
   if (specifier.startsWith("@")) {
     const parts = specifier.split("/");
@@ -82,18 +95,18 @@ function getPackageManager() {
   return "npm";
 }
 
-function installDependencies(deps) {
+function installDependencies(deps: string[]) {
   const cwd = process.cwd();
   const pkgPath = path.join(cwd, "package.json");
   let missingDeps = deps;
 
   if (fs.existsSync(pkgPath)) {
     try {
-      const pkg = fs.readJSONSync(pkgPath);
+      const pkg = fs.readJSONSync(pkgPath) as { dependencies?: Record<string, string>; devDependencies?: Record<string, string> };
       const allDeps = { ...(pkg.dependencies || {}), ...(pkg.devDependencies || {}) };
-      missingDeps = deps.filter(d => !allDeps[d]);
-    } catch (e) {
-      // Ignore read errors
+      missingDeps = deps.filter((d) => !allDeps[d]);
+    } catch {
+      // ignore
     }
   }
 
@@ -104,21 +117,34 @@ function installDependencies(deps) {
   console.log(chalk.blue(`Installing dependencies: ${missingDeps.join(", ")}...`));
   try {
     execSync(command, { stdio: "inherit", cwd });
-  } catch (error) {
+  } catch {
     console.log(chalk.red(`Failed to install dependencies. Please run: ${command}`));
   }
 }
 
-program
-  .name("taro-shadcn")
-  .description("Taro Shadcn UI CLI")
-  .version("0.0.1");
+function getCliVersion() {
+  try {
+    const pkg = fs.readJSONSync(path.join(__dirname, "package.json")) as { version?: string };
+    if (pkg.version) return pkg.version;
+  } catch {
+    // ignore
+  }
+  try {
+    const pkg = fs.readJSONSync(path.join(__dirname, "..", "package.json")) as { version?: string };
+    if (pkg.version) return pkg.version;
+  } catch {
+    // ignore
+  }
+  return "0.0.0";
+}
+
+program.name("taro-shadcn").description("Taro Shadcn UI CLI").version(getCliVersion());
 
 program
   .command("init")
   .description("Initialize your project and install dependencies")
   .option("-y, --yes", "Skip confirmation prompt.", false)
-  .action(async (options) => {
+  .action(async (options: { yes?: boolean }) => {
     const cwd = process.cwd();
     const pkgPath = path.join(cwd, "package.json");
 
@@ -128,21 +154,21 @@ program
     }
 
     try {
-      const pkg = fs.readJSONSync(pkgPath);
+      const pkg = fs.readJSONSync(pkgPath) as { dependencies?: Record<string, string> };
       if (!pkg.dependencies?.["@tarojs/taro"]) {
         console.log(chalk.yellow("Warning: This project does not seem to be a Taro project."));
       }
-    } catch (e) {
-      // Ignore read errors
+    } catch {
+      // ignore
     }
 
-    let response = {
+    let response: { componentsPath: string; utilsPath: string } = {
       componentsPath: DEFAULT_COMPONENTS_JSON.aliases.components,
       utilsPath: DEFAULT_COMPONENTS_JSON.aliases.utils,
     };
 
     if (!options.yes) {
-      response = await prompts([
+      const res = (await prompts([
         {
           type: "text",
           name: "componentsPath",
@@ -155,10 +181,14 @@ program
           message: "Where is your utils directory?",
           initial: DEFAULT_COMPONENTS_JSON.aliases.utils,
         },
-      ]);
+      ])) as { componentsPath?: string; utilsPath?: string };
+      response = {
+        componentsPath: res.componentsPath || DEFAULT_COMPONENTS_JSON.aliases.components,
+        utilsPath: res.utilsPath || DEFAULT_COMPONENTS_JSON.aliases.utils,
+      };
     }
 
-    const config = {
+    const config: ComponentsConfig = {
       ...DEFAULT_COMPONENTS_JSON,
       aliases: {
         components: response.componentsPath,
@@ -166,16 +196,12 @@ program
       },
     };
 
-    // 1. Create components.json
-    await fs.writeJSON(path.join(process.cwd(), "components.json"), config, {
-      spaces: 2,
-    });
+    await fs.writeJSON(path.join(process.cwd(), "components.json"), config, { spaces: 2 });
     console.log(chalk.green("✔ Created components.json."));
 
-    // 2. Create utils.ts
     const utilsDir = path.join(process.cwd(), response.utilsPath);
     await fs.ensureDir(utilsDir);
-    const utilsTarget = path.join(utilsDir, "index.ts"); // Usually index.ts or utils.ts
+    const utilsTarget = path.join(utilsDir, "index.ts");
 
     if (!fs.existsSync(utilsTarget)) {
       const utilsTemplatePath = resolveUtilsTemplatePath();
@@ -187,16 +213,15 @@ program
       console.log(chalk.green(`✔ Created ${utilsTarget}.`));
     }
 
-    // 3. Install base dependencies
-    let install = options.yes;
+    let install = !!options.yes;
     if (!options.yes) {
-      const res = await prompts({
+      const res = (await prompts({
         type: "confirm",
         name: "install",
         message: "Do you want to install base dependencies?",
         initial: true,
-      });
-      install = res.install;
+      })) as { install?: boolean };
+      install = !!res.install;
     }
 
     if (install) {
@@ -212,7 +237,7 @@ program
   .argument("[components...]", "The components to add.")
   .option("-y, --yes", "Skip confirmation prompt.", false)
   .option("-o, --overwrite", "Overwrite existing files.", false)
-  .action(async (components, options) => {
+  .action(async (components: string[], options: { yes?: boolean; overwrite?: boolean }) => {
     if (!components || components.length === 0) {
       console.log(chalk.red("Error: No components specified."));
       return;
@@ -220,15 +245,12 @@ program
 
     const configPath = path.join(process.cwd(), "components.json");
     if (!fs.existsSync(configPath)) {
-      console.log(
-        chalk.red("Error: components.json not found. Run 'init' first.")
-      );
+      console.log(chalk.red("Error: components.json not found. Run 'init' first."));
       return;
     }
 
-    const config = await fs.readJSON(configPath);
+    const config = (await fs.readJSON(configPath)) as ComponentsConfig;
 
-    // Ensure utils.ts exists
     const utilsDir = path.join(process.cwd(), config.aliases.utils);
     const utilsFile = path.join(utilsDir, "index.ts");
     if (!fs.existsSync(utilsFile)) {
@@ -242,12 +264,7 @@ program
       console.log(chalk.green(`✔ Created ${utilsFile}.`));
     }
 
-    const componentsDir = path.join(
-      process.cwd(),
-      config.aliases.components,
-      "ui"
-    );
-
+    const componentsDir = path.join(process.cwd(), config.aliases.components, "ui");
     await fs.ensureDir(componentsDir);
 
     const registryPath = resolveRegistryPath();
@@ -256,10 +273,10 @@ program
       return;
     }
 
-    const externalDeps = new Set();
-    const seenComponents = new Set();
+    const externalDeps = new Set<string>();
+    const seenComponents = new Set<string>();
 
-    const ignoredExternalPackages = new Set([
+    const ignoredExternalPackages = new Set<string>([
       "react",
       "react-dom",
       "@tarojs/components",
@@ -267,7 +284,7 @@ program
       ...BASE_DEPENDENCIES,
     ]);
 
-    async function copyComponent(componentName) {
+    const copyComponent = async (componentName: string) => {
       if (seenComponents.has(componentName)) return;
       seenComponents.add(componentName);
 
@@ -280,14 +297,14 @@ program
       }
 
       if (fs.existsSync(targetFile) && !options.overwrite && !options.yes) {
-        const { overwrite } = await prompts({
+        const res = (await prompts({
           type: "confirm",
           name: "overwrite",
           message: `Component "${componentName}" already exists. Overwrite?`,
           initial: false,
-        });
+        })) as { overwrite?: boolean };
 
-        if (!overwrite) {
+        if (!res.overwrite) {
           console.log(chalk.yellow(`Skipping "${componentName}".`));
           return;
         }
@@ -309,11 +326,7 @@ program
 
         if (src.startsWith("./") || src.startsWith("../")) {
           const resolvedBase = path.resolve(path.dirname(sourceFile), src);
-          const candidates = [
-            resolvedBase,
-            `${resolvedBase}.tsx`,
-            `${resolvedBase}.ts`,
-          ];
+          const candidates = [resolvedBase, `${resolvedBase}.tsx`, `${resolvedBase}.ts`];
           const found = candidates.find((p) => fs.existsSync(p));
           if (found && path.dirname(found) === registryPath) {
             const depName = path.basename(found).replace(/\.(tsx|ts)$/, "");
@@ -331,7 +344,7 @@ program
 
       const deps = COMPONENT_DEPENDENCIES[componentName];
       if (deps) deps.forEach((d) => externalDeps.add(d));
-    }
+    };
 
     for (const component of components) {
       await copyComponent(component);
@@ -342,13 +355,13 @@ program
       if (options.yes) {
         installDependencies(depsArray);
       } else {
-        const { install } = await prompts({
+        const res = (await prompts({
           type: "confirm",
           name: "install",
           message: `Install following dependencies: ${depsArray.join(", ")}?`,
           initial: true,
-        });
-        if (install) {
+        })) as { install?: boolean };
+        if (res.install) {
           installDependencies(depsArray);
         }
       }
