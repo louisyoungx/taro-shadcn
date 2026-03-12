@@ -50,11 +50,10 @@ const RadioGroupItem = React.forwardRef<
     <View
       ref={ref}
       className={cn(
-        "aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
-        checked && "border-[10px]",
+        "aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+        checked && "border-10",
         className
       )}
-      hoverClass="ring-2 ring-ring ring-offset-2 ring-offset-background"
       onClick={() => context?.onValueChange?.(value)}
       {...props}
     />

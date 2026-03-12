@@ -91,6 +91,12 @@ taro-input-core input {
     outline: none;
 }
 
+taro-input-core.taro-otp-hidden-input input {
+    color: transparent;
+    caret-color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
 /* 全局按钮样式重置 */
 taro-button-core,
 button {

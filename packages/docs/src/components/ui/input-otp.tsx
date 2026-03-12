@@ -47,7 +47,23 @@ const InputOTP = React.forwardRef<
         )}
       >
         <Input
-          className="absolute inset-0 z-10 opacity-0 h-full w-full"
+          className="z-10 taro-otp-hidden-input"
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0,
+            zIndex: 10,
+            backgroundColor: "transparent",
+            borderWidth: 0,
+            padding: 0,
+            margin: 0,
+            outline: "none",
+            color: "transparent",
+            caretColor: "transparent",
+          }}
           value={value}
           onInput={handleChange}
           onFocus={() => setIsFocused(true)}

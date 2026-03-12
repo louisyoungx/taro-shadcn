@@ -121,6 +121,7 @@ const SelectTrigger = React.forwardRef<
   return (
     <View
       ref={ref}
+      {...props}
       id={context?.triggerId}
       className={cn(
         "flex w-fit items-center justify-between gap-2 rounded-lg border border-input bg-transparent pr-2 pl-3 text-sm whitespace-nowrap transition-colors outline-none select-none focus:border-ring focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-4",
@@ -135,7 +136,6 @@ const SelectTrigger = React.forwardRef<
         e.stopPropagation()
         context?.onOpenChange?.(!context.open)
       }}
-      {...props}
     >
       {children}
       <ChevronDown className="text-muted-foreground" size={16} />
