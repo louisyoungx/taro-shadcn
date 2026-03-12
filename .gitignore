@@ -42,4 +42,5 @@ key/
 AGENTS.md
 
 packages/cli/tests/test-project/
+packages/cli/tests/test-project-auto-init/
 packages/cli/README.md
