@@ -67,7 +67,7 @@ const SheetTrigger = React.forwardRef<
     return (
         <View
           ref={ref}
-          className={className}
+          className={cn("w-fit", className)}
           onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(true)

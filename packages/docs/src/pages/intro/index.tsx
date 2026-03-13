@@ -18,6 +18,14 @@ import logo from '@/assets/logo.png'
 
 const Index: FC = () => {
   const handleNavigate = (url: string) => {
+    // 在微信小程序中，跳转到 tabBar 页面必须使用 switchTab
+    const tabPages = ['/pages/intro/index', '/pages/list/index', '/pages/about/index']
+    
+    if (tabPages.includes(url)) {
+      Taro.switchTab({ url })
+      return
+    }
+    
     Taro.navigateTo({ url })
   }
 

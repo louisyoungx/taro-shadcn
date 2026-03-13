@@ -65,7 +65,7 @@ const PopoverTrigger = React.forwardRef<
         <View
           ref={ref}
           id={context?.triggerId}
-          className={className}
+          className={cn("w-fit", className)}
           onClick={(e) => {
                 e.stopPropagation()
                 context?.onOpenChange?.(!context.open)
