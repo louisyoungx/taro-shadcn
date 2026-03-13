@@ -1,7 +1,7 @@
 import { View, Text } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
 import { useState, useMemo, useEffect } from 'react'
-import { Copy, Terminal } from 'lucide-react-taro'
+import { Copy, Terminal, Code, ChevronDown, ChevronUp } from 'lucide-react-taro'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
@@ -38,6 +38,7 @@ const ComponentDetail: FC = () => {
   const router = useRouter()
   const { name } = router.params
   const [packageManager, setPackageManager] = useState<PackageManager>('npm')
+  const [codeExpanded, setCodeExpanded] = useState(true)
 
   const doc = useMemo(() => {
     if (!name) return { ...defaultDoc, code: '' }
@@ -128,7 +129,25 @@ const ComponentDetail: FC = () => {
         </Card>
 
         {/* 代码 */}
-        <CodeBlock code={doc.code} />
+        <Card className="mb-4">
+          <CardHeader>
+            <View className="flex flex-row items-center justify-between">
+              <View className="flex flex-row items-center gap-2">
+                <Code size={16} color="#737373" />
+                <CardTitle className="text-base">代码</CardTitle>
+              </View>
+              <Button variant="ghost" size="sm" onClick={() => setCodeExpanded(!codeExpanded)}>
+                <Text className="text-xs">{codeExpanded ? '收起' : '展开'}</Text>
+                {codeExpanded ? <ChevronUp size={14} color="#737373" /> : <ChevronDown size={14} color="#737373" />}
+              </Button>
+            </View>
+          </CardHeader>
+          {codeExpanded && (
+            <CardContent>
+              <CodeBlock scrollAreaClassName="h-100" code={doc.code} language="tsx" />
+            </CardContent>
+           )}
+        </Card>
 
         {/* Props */}
         <Card>
