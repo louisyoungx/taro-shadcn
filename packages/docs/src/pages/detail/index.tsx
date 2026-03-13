@@ -1,11 +1,12 @@
 import { View, Text } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
 import { useState, useMemo, useEffect } from 'react'
-import { Copy, Terminal, Code, ChevronDown, ChevronUp } from 'lucide-react-taro'
+import { Copy, Terminal } from 'lucide-react-taro'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { CodeBlock } from '@/components/ui/code-block'
 import type { FC } from 'react'
 import { 
   type PackageManager, 
@@ -36,7 +37,6 @@ const packageManagers: { value: PackageManager; label: string }[] = [
 const ComponentDetail: FC = () => {
   const router = useRouter()
   const { name } = router.params
-  const [codeExpanded, setCodeExpanded] = useState(false)
   const [packageManager, setPackageManager] = useState<PackageManager>('npm')
 
   const doc = useMemo(() => {
@@ -128,37 +128,7 @@ const ComponentDetail: FC = () => {
         </Card>
 
         {/* 代码 */}
-        <Card className="mb-4">
-          <CardHeader>
-            <View className="flex flex-row items-center justify-between">
-              <View className="flex flex-row items-center gap-2">
-                <Code size={16} color="#737373" />
-                <CardTitle className="text-base">代码</CardTitle>
-              </View>
-              <Button variant="ghost" size="sm" onClick={() => setCodeExpanded(!codeExpanded)}>
-                <Text className="text-xs">{codeExpanded ? '收起' : '展开'}</Text>
-                {codeExpanded ? <ChevronUp size={14} color="#737373" /> : <ChevronDown size={14} color="#737373" />}
-              </Button>
-            </View>
-          </CardHeader>
-          {codeExpanded && (
-            <CardContent>
-              <View className="relative">
-                <ScrollArea orientation="horizontal" className="bg-muted rounded-lg p-4 pt-10">
-                  <Text className="text-xs font-mono text-muted-foreground whitespace-pre">{doc.code}</Text>
-                </ScrollArea>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="absolute top-2 right-2 h-8 w-8"
-                  onClick={copyCode}
-                >
-                  <Copy size={16} color="#a3a3a3" />
-                </Button>
-              </View>
-            </CardContent>
-          )}
-        </Card>
+        <CodeBlock code={doc.code} />
 
         {/* Props */}
         <Card>

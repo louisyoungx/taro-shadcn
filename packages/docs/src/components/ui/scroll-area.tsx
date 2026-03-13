@@ -14,9 +14,13 @@ const ScrollArea = React.forwardRef<
   return (
     <ScrollView
       ref={ref}
-      className={cn("relative overflow-hidden", className)}
+      className={cn("relative", className)}
       scrollY={scrollY}
       scrollX={scrollX}
+      style={{
+        overflowX: scrollX ? 'auto' : 'hidden',
+        overflowY: scrollY ? 'auto' : 'hidden',
+      }}
       {...props}
     >
         {children}

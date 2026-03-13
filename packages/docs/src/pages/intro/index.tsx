@@ -135,7 +135,7 @@ const Index: FC = () => {
                 <Copy size={14} color="#737373" />
               </View>
             </View>
-            <ScrollArea orientation="horizontal">
+            <ScrollArea orientation="horizontal" className="w-full">
               <Text className="block text-sm font-mono text-foreground whitespace-nowrap">
                 pnpm dlx taro-shadcn@latest add button
               </Text>

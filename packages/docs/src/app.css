@@ -59,6 +59,7 @@ root-portal {
     --sidebar-border: lab(90.952% 0 -0.0000119209);
     --sidebar-ring: lab(66.128% -0.0000298023 0.0000119209);
     --surface: lab(97.68% -0.0000298023 0.0000119209);
+    --code: var(--surface);
     --code-highlight: lab(95.36% 0 0);
     --code-number: lab(48.96% 0 0);
     --selection: lab(2.75381% 0 0);
@@ -95,6 +96,7 @@ root-portal {
     --sidebar-ring: lab(34.924% 0 0);
     --surface: lab(7.22637% -0.0000149012 0);
     --surface-foreground: lab(66.128% -0.0000298023 0.0000119209);
+    --code: var(--surface);
     --code-highlight: lab(15.32% 0 0);
     --code-number: lab(67.52% -0.0000298023 0);
     --selection: lab(90.952% 0 -0.0000119209);
@@ -138,6 +140,7 @@ root-portal {
     --color-background: var(--background);
     --color-selection: var(--selection);
     --color-selection-foreground: var(--selection-foreground);
+    --color-code: var(--code);
     --radius-full: 9999px;
 }
 
