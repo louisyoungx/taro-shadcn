@@ -12,6 +12,7 @@ import {
 } from 'lucide-react-taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { isH5 } from '@/lib/platform'
 import type { FC } from 'react'
 
@@ -123,9 +124,10 @@ const Index: FC = () => {
           快速开始
         </Text>
 
-        <Card className="border border-border">
-          <CardContent className="p-3">
-            <View className="flex items-center justify-between mb-2">
+        <View className="space-y-2">
+          <Card className="border border-border">
+            <CardContent className="p-3">
+              <View className="flex items-center justify-between mb-2">
               <View className="flex items-center gap-2">
                 <Terminal size={14} color="#737373" />
                 <Text className="text-xs text-muted-foreground">添加组件</Text>
@@ -134,11 +136,31 @@ const Index: FC = () => {
                 <Copy size={14} color="#737373" />
               </View>
             </View>
-            <Text className="block text-sm font-mono text-foreground">
-              pnpm dlx taro-shadcn@latest add button
-            </Text>
+            <ScrollArea orientation="horizontal">
+              <Text className="block text-sm font-mono text-foreground whitespace-nowrap">
+                pnpm dlx taro-shadcn@latest add button
+              </Text>
+            </ScrollArea>
           </CardContent>
-        </Card>
+          </Card>
+
+          <Card className="border border-border">
+            <CardContent className="p-3">
+              <View className="flex items-center justify-between mb-2">
+                <View className="flex items-center gap-2">
+                  <Terminal size={14} color="#737373" />
+                  <Text className="text-xs text-muted-foreground">添加 Skill</Text>
+                </View>
+                <View onClick={() => handleCopy('npx skills add louisyoungx/taro-shadcn')}>
+                  <Copy size={14} color="#737373" />
+                </View>
+              </View>
+              <Text className="block text-sm font-mono text-foreground">
+                npx skills add louisyoungx/taro-shadcn
+              </Text>
+            </CardContent>
+          </Card>
+        </View>
       </View>
 
       {/* Stats Section */}

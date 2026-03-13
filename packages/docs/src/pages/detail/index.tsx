@@ -5,6 +5,7 @@ import { Copy, Terminal, Code, ChevronDown, ChevronUp } from 'lucide-react-taro'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import type { FC } from 'react'
 import { 
   type PackageManager, 
@@ -75,36 +76,36 @@ const ComponentDetail: FC = () => {
           </CardContent>
         </Card>
 
-        {/* 安装命令 */}
-        <Card className="mb-4">
-          <CardHeader className="pb-2">
+        <Card className="mb-6">
+          <CardHeader>
             <View className="flex flex-row items-center justify-between">
-              <CardTitle className="text-sm">安装命令</CardTitle>
+              <CardTitle className="text-base">安装</CardTitle>
+              <View className="flex flex-row items-center gap-1">
+                {packageManagers.map((pm) => (
+                  <Button
+                    key={pm.value}
+                    variant={packageManager === pm.value ? 'secondary' : 'ghost'}
+                    size="sm"
+                    className="h-7 px-2"
+                    onClick={() => setPackageManager(pm.value)}
+                  >
+                    <Text className="text-xs">{pm.label}</Text>
+                  </Button>
+                ))}
+              </View>
             </View>
           </CardHeader>
-          <CardContent className="pt-0">
-            {/* 包管理器切换 */}
-            <View className="flex flex-row gap-1 mb-3 bg-muted rounded-lg p-1">
-              {packageManagers.map((pm) => (
-                <View
-                  key={pm.value}
-                  className={`flex-1 py-1 px-2 rounded-md flex items-center justify-center ${packageManager === pm.value ? 'bg-background shadow-sm' : ''}`}
-                  onClick={() => setPackageManager(pm.value)}
-                >
-                  <Text className={`text-xs ${packageManager === pm.value ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
-                    {pm.label}
-                  </Text>
-                </View>
-              ))}
-            </View>
+          <CardContent>
             {/* 命令显示 */}
             <View className="bg-muted rounded-lg p-3 flex flex-row items-center justify-between">
               <View className="flex flex-row items-center gap-2 flex-1 overflow-hidden">
-                <Terminal size={16} color="#666" />
-                <Text className="text-xs text-muted-foreground truncate">{installCmd}</Text>
+                <Terminal size={16} color="#737373" className="shrink-0" />
+                <ScrollArea orientation="horizontal" className="flex-1">
+                  <Text className="text-xs text-muted-foreground whitespace-nowrap">{installCmd}</Text>
+                </ScrollArea>
               </View>
               <Button variant="ghost" size="icon" className="shrink-0" onClick={copyInstallCmd}>
-                <Copy size={16} color="currentColor" />
+                <Copy size={16} color="#737373" />
               </Button>
             </View>
           </CardContent>
@@ -116,7 +117,7 @@ const ComponentDetail: FC = () => {
             <View className="flex flex-row items-center justify-between">
               <CardTitle className="text-base">示例</CardTitle>
               <Button variant="ghost" size="sm" onClick={copyCode}>
-                <Copy size={14} color="currentColor" />
+                <Copy size={14} color="#737373" />
                 <Text className="text-xs ml-1">复制代码</Text>
               </Button>
             </View>
@@ -131,19 +132,29 @@ const ComponentDetail: FC = () => {
           <CardHeader>
             <View className="flex flex-row items-center justify-between">
               <View className="flex flex-row items-center gap-2">
-                <Code size={16} color="currentColor" />
+                <Code size={16} color="#737373" />
                 <CardTitle className="text-base">代码</CardTitle>
               </View>
               <Button variant="ghost" size="sm" onClick={() => setCodeExpanded(!codeExpanded)}>
                 <Text className="text-xs">{codeExpanded ? '收起' : '展开'}</Text>
-                {codeExpanded ? <ChevronUp size={14} color="currentColor" /> : <ChevronDown size={14} color="currentColor" />}
+                {codeExpanded ? <ChevronUp size={14} color="#737373" /> : <ChevronDown size={14} color="#737373" />}
               </Button>
             </View>
           </CardHeader>
           {codeExpanded && (
             <CardContent>
-              <View className="bg-muted rounded-lg p-4">
-                <Text className="text-xs font-mono text-muted-foreground whitespace-pre-wrap">{doc.code}</Text>
+              <View className="relative">
+                <ScrollArea orientation="horizontal" className="bg-muted rounded-lg p-4 pt-10">
+                  <Text className="text-xs font-mono text-muted-foreground whitespace-pre">{doc.code}</Text>
+                </ScrollArea>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="absolute top-2 right-2 h-8 w-8"
+                  onClick={copyCode}
+                >
+                  <Copy size={16} color="#a3a3a3" />
+                </Button>
               </View>
             </CardContent>
           )}
@@ -160,9 +171,9 @@ const ComponentDetail: FC = () => {
                 {doc.props.map((prop, index) => (
                   <View key={index} className="flex flex-col gap-1">
                     <View className="flex flex-row items-center gap-2">
-                      <Text className="text-sm font-mono font-medium">{prop.name}</Text>
+                      <Text className="text-sm font-mono font-medium break-all">{prop.name}</Text>
                     </View>
-                    <Text className="text-xs text-muted-foreground font-mono">{prop.type}</Text>
+                    <Text className="text-xs text-muted-foreground font-mono break-all">{prop.type}</Text>
                     <Text className="text-sm text-muted-foreground">{prop.description}</Text>
                     {index < doc.props.length - 1 && <Separator className="mt-2" />}
                   </View>
