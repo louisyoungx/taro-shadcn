@@ -15,7 +15,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env.local') })
 const generateTTProjectConfig = () => {
     const config = {
         miniprogramRoot: './',
-        projectname: 'coze-mini-program',
+        projectname: 'Taro Shadcn UI',
         appid: process.env.TARO_APP_TT_APPID || '',
         setting: {
             urlCheck: false,
@@ -73,7 +73,7 @@ export default defineConfig<'vite'>(async (merge, _env) => {
     }
 
     const baseConfig: UserConfigExport<'vite'> = {
-        projectName: 'coze-mini-program',
+        projectName: 'Taro Shadcn UI',
         date: '2026-1-13',
         alias: {
             '@': path.resolve(__dirname, '..', 'src'),
@@ -97,13 +97,18 @@ export default defineConfig<'vite'>(async (merge, _env) => {
             TARO_ENV: JSON.stringify(process.env.TARO_ENV),
         },
         copy: {
-            patterns: [],
+            patterns: [
+                {
+                    from: 'src/static',
+                    to: `${outputRoot}/static`,
+                },
+            ],
             options: {},
         },
         ...(process.env.TARO_ENV === 'tt' && {
             tt: {
                 appid: process.env.TARO_APP_TT_APPID,
-                projectName: 'coze-mini-program',
+                projectName: 'Taro Shadcn UI',
             },
         }),
         jsMinimizer: 'esbuild',
@@ -225,7 +230,7 @@ export default defineConfig<'vite'>(async (merge, _env) => {
             },
         },
         rn: {
-            appName: 'coze-mini-program',
+            appName: 'Taro Shadcn UI',
             postcss: {
                 cssModules: {
                     enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
