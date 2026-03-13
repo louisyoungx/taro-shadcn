@@ -6,13 +6,16 @@ import {
   Code,
   Package
 } from 'lucide-react-taro'
-import { Card, CardContent } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
+import { isH5 } from '@/lib/platform'
 import type { FC } from 'react'
 
 const About: FC = () => {
   const handleCopyLink = (link: string) => {
+    if (isH5()) {
+      window.open(link, '_blank')
+      return
+    }
     Taro.setClipboardData({
       data: link
     })
@@ -23,6 +26,10 @@ const About: FC = () => {
   }
 
   const handleOpenLink = (url: string) => {
+    if (isH5()) {
+      window.open(url, '_blank')
+      return
+    }
     Taro.setClipboardData({
       data: url
     })
@@ -53,33 +60,20 @@ const About: FC = () => {
 
       {/* Content */}
       <View className="px-6">
+        {/* Tech Stack */}
+        <View className="mb-6">
+          <View className="flex flex-wrap gap-2">
+            <Badge variant="secondary">Taro 4</Badge>
+            <Badge variant="secondary">React 18</Badge>
+            <Badge variant="secondary">TypeScript</Badge>
+            <Badge variant="secondary">Tailwind CSS</Badge>
+            <Badge variant="secondary">Zustand</Badge>
+          </View>
+        </View>
+
         <Text className="block text-sm text-muted-foreground leading-relaxed mb-6">
           基于 shadcn/ui 设计系统的 Taro 小程序组件库，提供 48+ 精心设计的组件，完美支持 H5 和微信小程序双端运行。
         </Text>
-
-        {/* Author Section */}
-        <View className="mb-6">
-          <Text className="block text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wide">作者</Text>
-          <Card className="border-0 shadow-none bg-muted">
-            <CardContent className="p-3 space-y-2">
-              <View className="flex items-center justify-between">
-                <Text className="text-sm text-muted-foreground">作者</Text>
-                <Text className="text-sm font-medium text-foreground">Louis Young</Text>
-              </View>
-              <Separator />
-              <View className="flex items-center justify-between">
-                <Text className="text-sm text-muted-foreground">GitHub</Text>
-                <View 
-                  className="flex items-center gap-1"
-                  onClick={() => handleOpenLink('https://github.com/louisyoungx')}
-                >
-                  <Text className="text-sm text-foreground">@louisyoungx</Text>
-                  <ExternalLink size={12} color="#737373" />
-                </View>
-              </View>
-            </CardContent>
-          </Card>
-        </View>
 
         {/* Links Section */}
         <View className="mb-6">
@@ -120,34 +114,40 @@ const About: FC = () => {
           </View>
         </View>
 
-        {/* Tech Stack */}
-        <View className="mb-6">
-          <Text className="block text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wide">技术栈</Text>
-          <View className="flex flex-wrap gap-2">
-            <Badge variant="secondary">Taro 4</Badge>
-            <Badge variant="secondary">React 18</Badge>
-            <Badge variant="secondary">TypeScript</Badge>
-            <Badge variant="secondary">Tailwind CSS</Badge>
-            <Badge variant="secondary">Zustand</Badge>
-          </View>
-        </View>
-
         {/* License Section */}
         <View className="mb-6">
           <Text className="block text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wide">协议</Text>
           <View className="bg-muted rounded p-3">
             <Text className="block text-sm font-medium text-foreground mb-1">MIT License</Text>
             <Text className="block text-xs text-muted-foreground">
-              Copyright (c) 2024 Louis Young
+              Copyleft © {new Date().getFullYear()} taro-shadcn
             </Text>
           </View>
+        </View>
+
+        {/* Author Section */}
+        <View className="mb-6">
+          <Text className="block text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wide">作者</Text>
+          <View 
+            className="flex items-center justify-between p-3 bg-muted rounded" 
+            onClick={() => handleOpenLink('https://github.com/louisyoungx')} 
+          > 
+            <View className="flex items-center gap-2"> 
+              <Github size={16} color="#737373" /> 
+              <Text className="text-sm text-foreground">GitHub</Text> 
+            </View> 
+            <View className="flex items-center gap-1">
+              <Text className="text-sm text-foreground pr-1">@louisyoungx</Text> 
+              <ExternalLink size={14} color="#a3a3a3" /> 
+            </View>
+          </View> 
         </View>
       </View>
 
       {/* Footer */}
       <View className="px-6 py-6 text-center">
         <Text className="block text-xs text-muted-foreground">
-          © 2024 taro-shadcn
+          Copyleft © {new Date().getFullYear()} taro-shadcn
         </Text>
       </View>
     </View>

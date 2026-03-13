@@ -12,6 +12,7 @@ import {
 } from 'lucide-react-taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { isH5 } from '@/lib/platform'
 import type { FC } from 'react'
 
 const Index: FC = () => {
@@ -22,6 +23,15 @@ const Index: FC = () => {
   const handleCopy = (text: string) => {
     Taro.setClipboardData({ data: text })
     Taro.showToast({ title: '已复制', icon: 'success' })
+  }
+
+  const handleOpenLink = (url: string) => {
+    if (isH5()) {
+      window.open(url, '_blank')
+      return
+    }
+    Taro.setClipboardData({ data: url })
+    Taro.showToast({ title: '链接已复制', icon: 'success' })
   }
 
   return (
@@ -54,7 +64,7 @@ const Index: FC = () => {
           <Button 
             variant="outline"
             className="flex-1 h-10"
-            onClick={() => Taro.setClipboardData({ data: 'https://github.com/louisyoungx/taro-shadcn' })}
+            onClick={() => handleOpenLink('https://github.com/louisyoungx/taro-shadcn')}
           >
             <Text>GitHub</Text>
             <ChevronRight size={14} color="#0a0a0a" />
@@ -154,7 +164,7 @@ const Index: FC = () => {
       {/* Footer */}
       <View className="px-6 py-6">
         <Text className="block text-center text-xs text-muted-foreground">
-          Made by Louis Young
+          Copyleft © {new Date().getFullYear()} taro-shadcn
         </Text>
       </View>
     </View>

@@ -51,8 +51,10 @@ const getTabBarPages = (): Set<string> => {
 
 const getHomePage = (): string => {
   const app = Taro.getApp();
-  return app?.config?.pages?.[0] || 'pages/intro/index';
+  return app?.config?.pages?.[0] || 'pages/index/index';
 };
+
+const cleanPath = (path: string): string => path.replace(/^\//, '');
 
 const computeLeftIcon = (
   route: string,
@@ -62,8 +64,11 @@ const computeLeftIcon = (
 ): LeftIcon => {
   if (!route) return LeftIcon.None;
 
-  const isHomePage = route === homePage || route === `/${homePage}`;
-  const isTabBarPage = tabBarPages.has(route);
+  const cleanRoute = cleanPath(route);
+  const cleanHomePage = cleanPath(homePage);
+  const isHomePage = cleanRoute === cleanHomePage;
+  const isTabBarPage =
+    tabBarPages.has(cleanRoute) || tabBarPages.has(`/${cleanRoute}`);
   const hasHistory = historyLength > 1;
 
   if (isTabBarPage || isHomePage) return LeftIcon.None;
@@ -77,15 +82,27 @@ export const H5NavBar = () => {
 
   const updateNavState = useCallback(() => {
     const pages = Taro.getCurrentPages();
+    if (pages.length === 0) {
+      setNavState(prev => ({ ...prev, visible: false }));
+      return;
+    }
+
     const currentPage = pages[pages.length - 1];
     const route = currentPage?.route || '';
+    if (!route) return;
+
     const pageConfig: NavConfig = (currentPage as any)?.config || {};
     const globalConfig = getGlobalWindowConfig();
     const tabBarPages = getTabBarPages();
     const homePage = getHomePage();
 
-    const isHomePage = route === homePage || route === `/${homePage}`;
-    const isTabBarPage = tabBarPages.has(route);
+    const cleanRoute = cleanPath(route);
+    const cleanHomePage = cleanPath(homePage);
+
+    const isHomePage = cleanRoute === cleanHomePage;
+    const isTabBarPage =
+      tabBarPages.has(cleanRoute) || tabBarPages.has(`/${cleanRoute}`);
+
     const shouldHideNav =
       tabBarPages.size <= 1 &&
       pages.length <= 1 &&
@@ -94,7 +111,7 @@ export const H5NavBar = () => {
     setNavState({
       visible: !shouldHideNav,
       title:
-        (typeof document !== 'undefined' ? document.title : '') ||
+        document.title ||
         pageConfig.navigationBarTitleText ||
         globalConfig.navigationBarTitleText ||
         '',
@@ -112,7 +129,7 @@ export const H5NavBar = () => {
         pageConfig.transparentTitle || globalConfig.transparentTitle || 'none',
       leftIcon: shouldHideNav
         ? LeftIcon.None
-        : computeLeftIcon(route, tabBarPages, pages.length, homePage),
+        : computeLeftIcon(cleanRoute, tabBarPages, pages.length, cleanHomePage),
     });
   }, []);
 
@@ -129,15 +146,26 @@ export const H5NavBar = () => {
   useEffect(() => {
     if (TARO_ENV !== 'h5') return;
 
-    const titleEl = document.querySelector('title') || document.head;
-    const observer = new MutationObserver(() => updateNavState());
-    observer.observe(titleEl, {
+    let timer: NodeJS.Timeout | null = null;
+    const observer = new MutationObserver(() => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        updateNavState();
+      }, 50);
+    });
+
+    observer.observe(document.head, {
       subtree: true,
       childList: true,
       characterData: true,
     });
 
-    return () => observer.disconnect();
+    updateNavState();
+
+    return () => {
+      observer.disconnect();
+      if (timer) clearTimeout(timer);
+    };
   }, [updateNavState]);
 
   const shouldRender =
