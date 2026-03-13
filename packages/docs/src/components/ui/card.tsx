@@ -61,7 +61,7 @@ const CardContent = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View>
 >(({ className, ...props }, ref) => (
-  <View ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+  <View ref={ref} className={cn("p-6 pt-0 first:pt-6", className)} {...props} />
 ))
 CardContent.displayName = "CardContent"
 
@@ -71,7 +71,7 @@ const CardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <View
     ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
+    className={cn("flex items-center p-6 pt-0 first:pt-6", className)}
     {...props}
   />
 ))

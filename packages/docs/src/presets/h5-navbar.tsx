@@ -94,6 +94,7 @@ export const H5NavBar = () => {
     setNavState({
       visible: !shouldHideNav,
       title:
+        (typeof document !== 'undefined' ? document.title : '') ||
         pageConfig.navigationBarTitleText ||
         globalConfig.navigationBarTitleText ||
         '',

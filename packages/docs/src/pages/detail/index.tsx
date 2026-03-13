@@ -39,12 +39,12 @@ const ComponentDetail: FC = () => {
   const [packageManager, setPackageManager] = useState<PackageManager>('npm')
 
   const doc = useMemo(() => {
-    if (!name) return defaultDoc
+    if (!name) return { ...defaultDoc, code: '' }
     const baseDoc = componentDocs[name] || defaultDoc
     const registryEntry = uiRegistry[name as string]
     return {
       ...baseDoc,
-      code: registryEntry?.code || baseDoc.code
+      code: registryEntry?.code || ''
     }
   }, [name])
 
@@ -67,12 +67,9 @@ const ComponentDetail: FC = () => {
 
   return (
     <View className="flex flex-col min-h-screen bg-background">
-      <View className="flex-1 p-4 pb-8">
+      <View className="flex-1 p-4">
         {/* 简介 */}
         <Card className="mb-4">
-          <CardHeader>
-            <CardTitle className="text-base">简介</CardTitle>
-          </CardHeader>
           <CardContent>
             <Text className="text-sm text-muted-foreground">{doc.description}</Text>
           </CardContent>

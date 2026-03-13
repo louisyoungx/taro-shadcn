@@ -32,8 +32,8 @@ export default defineAppConfig({
             {
                 pagePath: 'pages/about/index',
                 text: '关于',
-                iconPath: './assets/tabbar/user.png',
-                selectedIconPath: './assets/tabbar/user-active.png',
+                iconPath: './assets/tabbar/info.png',
+                selectedIconPath: './assets/tabbar/info-active.png',
             },
         ],
     },
