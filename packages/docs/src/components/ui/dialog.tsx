@@ -112,10 +112,14 @@ const DialogOverlay = React.forwardRef<
 })
 DialogOverlay.displayName = "DialogOverlay"
 
+interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof View> {
+    closeClassName?: string
+}
+
 const DialogContent = React.forwardRef<
     React.ElementRef<typeof View>,
-    React.ComponentPropsWithoutRef<typeof View>
->(({ className, children, style, ...props }, ref) => {
+    DialogContentProps
+>(({ className, children, style, closeClassName, ...props }, ref) => {
     const context = React.useContext(DialogContext)
     const offset = useKeyboardOffset()
     const state = context?.open ? "open" : "closed"
@@ -143,7 +147,11 @@ const DialogContent = React.forwardRef<
               >
                   {children}
                   <View 
-                    className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+                    data-slot="dialog-close"
+                    className={cn(
+                        "absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
+                        closeClassName
+                    )}
                     data-state={state}
                     onClick={(e) => {
                           e.stopPropagation()

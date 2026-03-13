@@ -1,6 +1,6 @@
 import * as React from "react"
 import { View } from "@tarojs/components"
-import { ChevronDown } from "lucide-react-taro"
+import { ChevronsUpDown } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
 
 const AccordionContext = React.createContext<{
@@ -118,7 +118,7 @@ const AccordionTriggerInternal = React.forwardRef<
               {...props}
             >
                 {children}
-                <ChevronDown className={cn("shrink-0 transition-transform duration-200", isOpen && "rotate-180")} size={16} />
+                <ChevronsUpDown className={cn("shrink-0 transition-transform duration-200", isOpen && "rotate-180")} size={16} />
             </View>
         </View>
     )

@@ -9,6 +9,7 @@ import {
   ToggleLeft,
   SlidersHorizontal,
   ChevronDown,
+  ChevronsUpDown,
   Calendar,
   Tag,
   Keyboard,
@@ -107,7 +108,7 @@ const componentsList: ComponentItem[] = [
   
   // 导航组件
   { name: 'tabs', title: 'Tabs', description: '标签页组件', icon: FolderOpen, category: '导航' },
-  { name: 'accordion', title: 'Accordion', description: '折叠面板组件', icon: ChevronDown, category: '导航' },
+  { name: 'accordion', title: 'Accordion', description: '折叠面板组件', icon: ChevronsUpDown, category: '导航' },
   { name: 'collapsible', title: 'Collapsible', description: '可折叠组件', icon: ChevronRight, category: '导航' },
   { name: 'pagination', title: 'Pagination', description: '分页组件', icon: ChevronRight, category: '导航' },
   { name: 'navigation-menu', title: 'NavigationMenu', description: '导航菜单组件', icon: Navigation, category: '导航' },

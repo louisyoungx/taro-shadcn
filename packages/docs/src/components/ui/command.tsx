@@ -133,7 +133,10 @@ const CommandDialog = ({ children, ...props }) => {
         if (!React.isValidElement(child)) return child
         if (child.type === CommandInput) {
           if (child.props?.focus === false) return child
-          return React.cloneElement(child as any, { focus: open })
+          return React.cloneElement(child as any, { 
+            focus: open,
+            className: cn(child.props?.className, "pr-11")
+          })
         }
         if (!child.props?.children) return child
         return React.cloneElement(child as any, undefined, enhance(child.props.children))
@@ -144,7 +147,10 @@ const CommandDialog = ({ children, ...props }) => {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange} {...rest}>
-      <DialogContent className="overflow-hidden p-0 shadow-lg">
+      <DialogContent 
+        className="overflow-hidden p-0 shadow-lg"
+        closeClassName="top-3"
+      >
         <Command>{enhancedChildren}</Command>
       </DialogContent>
     </Dialog>
