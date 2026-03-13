@@ -99,8 +99,13 @@ export default defineConfig<'vite'>(async (merge, _env) => {
         copy: {
             patterns: [
                 {
-                    from: 'src/static',
-                    to: `${outputRoot}/static`,
+                    from: path.resolve(__dirname, '..', 'src/assets/logo.png'),
+                    to: path.resolve(
+                        __dirname,
+                        '..',
+                        outputRoot,
+                        'static/logo.png',
+                    ),
                 },
             ],
             options: {},

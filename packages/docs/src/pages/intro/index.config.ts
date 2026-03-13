@@ -1,3 +1,3 @@
 export default definePageConfig({
-    navigationBarTitleText: 'taro-shadcn',
+    navigationBarTitleText: 'Taro Shadcn',
 })

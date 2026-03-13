@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { isH5 } from '@/lib/platform'
 import type { FC } from 'react'
+import logo from '@/assets/logo.png'
 
 const Index: FC = () => {
   const handleNavigate = (url: string) => {
@@ -39,13 +40,11 @@ const Index: FC = () => {
       {/* Hero Section */}
       <View className="px-6 pt-16 pb-6">
         <View className="flex items-center justify-center mb-4">
-          <View className="w-14 h-14 bg-foreground rounded-lg flex items-center justify-center">
-            <Image src="/static/logo.png" className="w-10 h-10" />
-          </View>
+          <Image src={logo} className="w-14 h-14" />
         </View>
         
         <Text className="block text-2xl font-bold text-center text-foreground mb-2">
-          taro-shadcn
+          Taro Shadcn
         </Text>
         
         <Text className="block text-sm text-center text-muted-foreground mb-6">
