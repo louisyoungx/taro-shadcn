@@ -1,6 +1,6 @@
 
 import { View } from "@tarojs/components";
-import { PageLayout } from "@/components/page-layout";
+import { PageLayout } from "@/biz/page-layout";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal, CircleAlert } from "lucide-react-taro";
 

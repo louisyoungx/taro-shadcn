@@ -13,7 +13,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { components, getIcon } from "@/lib/routes";
+import { components, getIcon } from "@/biz/routes";
 import "./index.css";
 
 export default function IndexPage() {

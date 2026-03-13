@@ -1,6 +1,6 @@
 
 import { View } from "@tarojs/components";
-import { PageLayout } from "@/components/page-layout";
+import { PageLayout } from "@/biz/page-layout";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";

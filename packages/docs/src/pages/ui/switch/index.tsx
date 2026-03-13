@@ -1,6 +1,6 @@
 
 import { View } from "@tarojs/components";
-import { PageLayout } from "@/components/page-layout";
+import { PageLayout } from "@/biz/page-layout";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 

@@ -1,6 +1,6 @@
 
 import { View, Text } from "@tarojs/components";
-import { PageLayout } from "@/components/page-layout";
+import { PageLayout } from "@/biz/page-layout";
 import { Toggle } from "@/components/ui/toggle";
 import { Bold, Italic, Underline } from "lucide-react-taro";
 

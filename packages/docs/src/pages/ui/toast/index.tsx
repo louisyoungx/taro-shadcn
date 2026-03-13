@@ -1,5 +1,5 @@
 import { View } from "@tarojs/components";
-import { PageLayout } from "@/components/page-layout";
+import { PageLayout } from "@/biz/page-layout";
 import { Button } from "@/components/ui/button";
 import { Toaster, toast } from "@/components/ui/toast";
 import { Switch } from "@/components/ui/switch";

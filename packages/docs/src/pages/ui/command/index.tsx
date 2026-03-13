@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { PageLayout } from "@/components/page-layout";
+import { PageLayout } from "@/biz/page-layout";
 import { Button } from "@/components/ui/button";
 import {
   Command,

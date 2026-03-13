@@ -1,7 +1,7 @@
 import { View } from "@tarojs/components"
 import { useState } from "react"
 
-import { PageLayout } from "@/components/page-layout"
+import { PageLayout } from "@/biz/page-layout"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {

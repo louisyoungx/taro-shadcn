@@ -1,6 +1,6 @@
 
 import { View, Image } from "@tarojs/components";
-import { PageLayout } from "@/components/page-layout";
+import { PageLayout } from "@/biz/page-layout";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export default function AspectRatioPage() {

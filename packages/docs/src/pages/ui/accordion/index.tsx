@@ -1,5 +1,5 @@
 
-import { PageLayout } from "@/components/page-layout";
+import { PageLayout } from "@/biz/page-layout";
 import {
   Accordion,
   AccordionContent,

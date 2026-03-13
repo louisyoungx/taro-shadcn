@@ -1,6 +1,6 @@
 
 import { View } from "@tarojs/components";
-import { PageLayout } from "@/components/page-layout";
+import { PageLayout } from "@/biz/page-layout";
 import { Progress } from "@/components/ui/progress";
 import { Slider } from "@/components/ui/slider";
 import * as React from "react";
