@@ -1,5 +1,6 @@
-import { View, Text } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import Taro from '@tarojs/taro'
+import logo from '@/assets/tabbar/logo.png'
 import { 
   Github, 
   ExternalLink, 
@@ -45,7 +46,7 @@ const About: FC = () => {
       <View className="px-6 pt-16 pb-8">
         <View className="flex items-center justify-center mb-4">
           <View className="w-14 h-14 bg-foreground rounded-lg flex items-center justify-center">
-            <Package size={28} color="#fff" />
+            <Image src={logo} className="w-10 h-10" />
           </View>
         </View>
         
