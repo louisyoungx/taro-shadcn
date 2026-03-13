@@ -1,5 +1,6 @@
 import * as React from "react"
 import { View, Input, ScrollView } from "@tarojs/components"
+import Taro from "@tarojs/taro"
 import { Search } from "lucide-react-taro"
 import { cn } from "@/lib/utils"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
@@ -117,10 +118,34 @@ const Command = React.forwardRef<
 Command.displayName = "Command"
 
 const CommandDialog = ({ children, ...props }) => {
+  const { open: openProp, defaultOpen, onOpenChange, ...rest } = props as any
+  const [openState, setOpenState] = React.useState(defaultOpen || false)
+  const open = openProp !== undefined ? openProp : openState
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (openProp === undefined) setOpenState(newOpen)
+    onOpenChange?.(newOpen)
+  }
+
+  const enhancedChildren = React.useMemo(() => {
+    const enhance = (node: React.ReactNode): React.ReactNode =>
+      React.Children.map(node, (child) => {
+        if (!React.isValidElement(child)) return child
+        if (child.type === CommandInput) {
+          if (child.props?.focus === false) return child
+          return React.cloneElement(child as any, { focus: open })
+        }
+        if (!child.props?.children) return child
+        return React.cloneElement(child as any, undefined, enhance(child.props.children))
+      })
+
+    return enhance(children)
+  }, [children, open])
+
   return (
-    <Dialog {...props}>
+    <Dialog open={open} onOpenChange={handleOpenChange} {...rest}>
       <DialogContent className="overflow-hidden p-0 shadow-lg">
-        <Command>{children}</Command>
+        <Command>{enhancedChildren}</Command>
       </DialogContent>
     </Dialog>
   )
@@ -133,6 +158,8 @@ const CommandInput = React.forwardRef<
   const context = React.useContext(CommandContext)
   const [localValue, setLocalValue] = React.useState(context?.search ?? "")
   const lastSyncedSearchRef = React.useRef(context?.search ?? "")
+  const [inputFocus, setInputFocus] = React.useState(false)
+  const focusTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
   React.useEffect(() => {
     // 只有当 context.search 与上次同步的值不同，且与当前输入值也不同时，才进行强制同步（通常是外部重置了搜索内容）
@@ -141,6 +168,36 @@ const CommandInput = React.forwardRef<
       lastSyncedSearchRef.current = context?.search ?? ""
     }
   }, [context?.search, localValue])
+
+  React.useEffect(() => {
+    if (focusTimerRef.current) clearTimeout(focusTimerRef.current)
+    focusTimerRef.current = null
+
+    if (!focus) {
+      setInputFocus(false)
+      return
+    }
+
+    setInputFocus(false)
+
+    const schedule = () => {
+      focusTimerRef.current = setTimeout(() => {
+        setInputFocus(true)
+        focusTimerRef.current = null
+      }, 0)
+    }
+
+    if (typeof (Taro as any)?.nextTick === "function") {
+      ;(Taro as any).nextTick(schedule)
+    } else {
+      schedule()
+    }
+
+    return () => {
+      if (focusTimerRef.current) clearTimeout(focusTimerRef.current)
+      focusTimerRef.current = null
+    }
+  }, [focus])
 
   return (
     <View
@@ -162,7 +219,7 @@ const CommandInput = React.forwardRef<
           lastSyncedSearchRef.current = v
           context?.setSearch(v)
         }}
-        focus={focus}
+        focus={inputFocus}
         {...props}
       />
     </View>

@@ -56,26 +56,37 @@ const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View> & {
       value: string
+      disabled?: boolean
   }
->(({ className, value, ...props }, ref) => {
+>(({ className, value, onClick, disabled, ...props }, ref) => {
     const context = React.useContext(TabsContext)
     const isActive = context?.value === value
     
+    const handleClick = (e: any) => {
+        if (disabled) return
+        context?.onValueChange?.(value)
+        onClick?.(e)
+    }
+
   return (
     <View
       ref={ref}
+      onClick={handleClick}
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1 text-sm font-medium ring-offset-background transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
         isActive && "bg-background text-foreground shadow-sm",
+        disabled && "opacity-50 pointer-events-none",
         className
         )}
-      hoverClass="border-ring ring-2 ring-ring ring-offset-2 ring-offset-background"
+      hoverClass={
+        disabled
+          ? undefined
+          : "border-ring ring-2 ring-ring ring-offset-2 ring-offset-background"
+      }
       {...props}
     />
   )
 })
-TabsTrigger.displayName = "TabsTrigger"
-TabsTrigger.displayName = "TabsTrigger"
 TabsTrigger.displayName = "TabsTrigger"
 
 const TabsContent = React.forwardRef<

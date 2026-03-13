@@ -29,7 +29,7 @@ type CommonProps = {
   showOutsideDays?: boolean
   weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6
   disabled?: ((date: Date) => boolean) | Date[]
-  captionLayout?: "dropdown" | "buttons" | "dropdown-buttons"
+  captionLayout?: "label" | "dropdown"
   fromYear?: number
   toYear?: number
 }
@@ -78,7 +78,7 @@ function Calendar({
   showOutsideDays = true,
   weekStartsOn = 0,
   disabled,
-  captionLayout = "buttons",
+  captionLayout = "dropdown",
   fromYear,
   toYear,
   ...props
@@ -107,12 +107,8 @@ function Calendar({
     [month, onMonthChange]
   )
 
-  const captionHasDropdown =
-    captionLayout === "dropdown" || captionLayout === "dropdown-buttons"
-  const captionHasButtons =
-    captionLayout === "buttons" ||
-    captionLayout === "dropdown" ||
-    captionLayout === "dropdown-buttons"
+  const captionHasDropdown = captionLayout === "dropdown"
+  const captionHasButtons = true
 
   const yearOptions = React.useMemo(() => {
     const baseYear = new Date().getFullYear()
