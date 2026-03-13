@@ -1,0 +1,81 @@
+
+import { View } from "@tarojs/components";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+export function PaginationDemo() {
+  return (
+    <View className="grid gap-10">
+        <View className="grid gap-2">
+          <View className="text-sm text-muted-foreground">Default</View>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink>1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink isActive>
+                  2
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink>3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </View>
+
+        <View className="grid gap-2">
+          <View className="text-sm text-muted-foreground">Simple</View>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </View>
+
+        <View className="grid gap-2">
+          <View className="text-sm text-muted-foreground">Numbers Only</View>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationLink>1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink isActive>2</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink>3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink>4</PaginationLink>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </View>
+      </View>
+  );
+}
+
+export default PaginationDemo;
