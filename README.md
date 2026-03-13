@@ -11,6 +11,8 @@
 
 **Taro Shadcn UI** 是一个生产就绪的 UI 组件库，构建于 [Taro 4](https://docs.taro.zone/)、[React](https://reactjs.org/) 和 [Tailwind CSS 4](https://tailwindcss.com/) 之上。它提供了 [shadcn/ui](https://ui.shadcn.com/) 优雅的设计和开发体验，并专门针对小程序生态系统进行了优化。
 
+[查看官方文档](https://taro-shadcn.rocke.top)
+
 ## ✨ 特性
 
 - 🚀 **专为 Taro 4 打造**: 针对最新的 Taro 4 框架进行了优化，支持微信小程序、字节跳动小程序和 H5。
@@ -98,52 +100,52 @@ pnpm dlx taro-shadcn@latest add button accordion
 | ToggleGroup    | 切换按钮组         | [预览][ui-toggle-group]    | `pnpm dlx taro-shadcn@latest add toggle-group`    |
 | Tooltip        | 文字提示           | [预览][ui-tooltip]         | `pnpm dlx taro-shadcn@latest add tooltip`         |
 
-[ui-accordion]: https://taro-shadcn.rocke.top/#/pages/ui/accordion/index
-[ui-alert]: https://taro-shadcn.rocke.top/#/pages/ui/alert/index
-[ui-alert-dialog]: https://taro-shadcn.rocke.top/#/pages/ui/alert-dialog/index
-[ui-aspect-ratio]: https://taro-shadcn.rocke.top/#/pages/ui/aspect-ratio/index
-[ui-avatar]: https://taro-shadcn.rocke.top/#/pages/ui/avatar/index
-[ui-badge]: https://taro-shadcn.rocke.top/#/pages/ui/badge/index
-[ui-breadcrumb]: https://taro-shadcn.rocke.top/#/pages/ui/breadcrumb/index
-[ui-button]: https://taro-shadcn.rocke.top/#/pages/ui/button/index
-[ui-button-group]: https://taro-shadcn.rocke.top/#/pages/ui/button-group/index
-[ui-calendar]: https://taro-shadcn.rocke.top/#/pages/ui/calendar/index
-[ui-card]: https://taro-shadcn.rocke.top/#/pages/ui/card/index
-[ui-carousel]: https://taro-shadcn.rocke.top/#/pages/ui/carousel/index
-[ui-checkbox]: https://taro-shadcn.rocke.top/#/pages/ui/checkbox/index
-[ui-collapsible]: https://taro-shadcn.rocke.top/#/pages/ui/collapsible/index
-[ui-command]: https://taro-shadcn.rocke.top/#/pages/ui/command/index
-[ui-context-menu]: https://taro-shadcn.rocke.top/#/pages/ui/context-menu/index
-[ui-dialog]: https://taro-shadcn.rocke.top/#/pages/ui/dialog/index
-[ui-drawer]: https://taro-shadcn.rocke.top/#/pages/ui/drawer/index
-[ui-dropdown-menu]: https://taro-shadcn.rocke.top/#/pages/ui/dropdown-menu/index
-[ui-field]: https://taro-shadcn.rocke.top/#/pages/ui/field/index
-[ui-hover-card]: https://taro-shadcn.rocke.top/#/pages/ui/hover-card/index
-[ui-input]: https://taro-shadcn.rocke.top/#/pages/ui/input/index
-[ui-input-group]: https://taro-shadcn.rocke.top/#/pages/ui/input-group/index
-[ui-input-otp]: https://taro-shadcn.rocke.top/#/pages/ui/input-otp/index
-[ui-label]: https://taro-shadcn.rocke.top/#/pages/ui/label/index
-[ui-menubar]: https://taro-shadcn.rocke.top/#/pages/ui/menubar/index
-[ui-navigation-menu]: https://taro-shadcn.rocke.top/#/pages/ui/navigation-menu/index
-[ui-pagination]: https://taro-shadcn.rocke.top/#/pages/ui/pagination/index
-[ui-popover]: https://taro-shadcn.rocke.top/#/pages/ui/popover/index
-[ui-progress]: https://taro-shadcn.rocke.top/#/pages/ui/progress/index
-[ui-radio-group]: https://taro-shadcn.rocke.top/#/pages/ui/radio-group/index
-[ui-resizable]: https://taro-shadcn.rocke.top/#/pages/ui/resizable/index
-[ui-scroll-area]: https://taro-shadcn.rocke.top/#/pages/ui/scroll-area/index
-[ui-select]: https://taro-shadcn.rocke.top/#/pages/ui/select/index
-[ui-separator]: https://taro-shadcn.rocke.top/#/pages/ui/separator/index
-[ui-sheet]: https://taro-shadcn.rocke.top/#/pages/ui/sheet/index
-[ui-skeleton]: https://taro-shadcn.rocke.top/#/pages/ui/skeleton/index
-[ui-slider]: https://taro-shadcn.rocke.top/#/pages/ui/slider/index
-[ui-switch]: https://taro-shadcn.rocke.top/#/pages/ui/switch/index
-[ui-table]: https://taro-shadcn.rocke.top/#/pages/ui/table/index
-[ui-tabs]: https://taro-shadcn.rocke.top/#/pages/ui/tabs/index
-[ui-textarea]: https://taro-shadcn.rocke.top/#/pages/ui/textarea/index
-[ui-toast]: https://taro-shadcn.rocke.top/#/pages/ui/toast/index
-[ui-toggle]: https://taro-shadcn.rocke.top/#/pages/ui/toggle/index
-[ui-toggle-group]: https://taro-shadcn.rocke.top/#/pages/ui/toggle-group/index
-[ui-tooltip]: https://taro-shadcn.rocke.top/#/pages/ui/tooltip/index
+[ui-accordion]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=accordion
+[ui-alert]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=alert
+[ui-alert-dialog]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=alert-dialog
+[ui-aspect-ratio]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=aspect-ratio
+[ui-avatar]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=avatar
+[ui-badge]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=badge
+[ui-breadcrumb]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=breadcrumb
+[ui-button]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=button
+[ui-button-group]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=button-group
+[ui-calendar]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=calendar
+[ui-card]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=card
+[ui-carousel]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=carousel
+[ui-checkbox]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=checkbox
+[ui-collapsible]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=collapsible
+[ui-command]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=command
+[ui-context-menu]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=context-menu
+[ui-dialog]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=dialog
+[ui-drawer]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=drawer
+[ui-dropdown-menu]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=dropdown-menu
+[ui-field]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=field
+[ui-hover-card]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=hover-card
+[ui-input]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=input
+[ui-input-group]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=input-group
+[ui-input-otp]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=input-otp
+[ui-label]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=label
+[ui-menubar]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=menubar
+[ui-navigation-menu]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=navigation-menu
+[ui-pagination]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=pagination
+[ui-popover]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=popover
+[ui-progress]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=progress
+[ui-radio-group]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=radio-group
+[ui-resizable]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=resizable
+[ui-scroll-area]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=scroll-area
+[ui-select]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=select
+[ui-separator]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=separator
+[ui-sheet]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=sheet
+[ui-skeleton]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=skeleton
+[ui-slider]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=slider
+[ui-switch]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=switch
+[ui-table]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=table
+[ui-tabs]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=tabs
+[ui-textarea]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=textarea
+[ui-toast]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=toast
+[ui-toggle]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=toggle
+[ui-toggle-group]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=toggle-group
+[ui-tooltip]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=tooltip
 
 
 ## 📄 许可证
