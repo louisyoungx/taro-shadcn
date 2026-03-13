@@ -49,15 +49,20 @@ const getTabBarPages = (): Set<string> => {
   );
 };
 
+const getHomePage = (): string => {
+  const app = Taro.getApp();
+  return app?.config?.pages?.[0] || 'pages/intro/index';
+};
+
 const computeLeftIcon = (
   route: string,
   tabBarPages: Set<string>,
   historyLength: number,
+  homePage: string,
 ): LeftIcon => {
   if (!route) return LeftIcon.None;
 
-  const isHomePage =
-    route === 'pages/index/index' || route === '/pages/index/index';
+  const isHomePage = route === homePage || route === `/${homePage}`;
   const isTabBarPage = tabBarPages.has(route);
   const hasHistory = historyLength > 1;
 
@@ -77,9 +82,9 @@ export const H5NavBar = () => {
     const pageConfig: NavConfig = (currentPage as any)?.config || {};
     const globalConfig = getGlobalWindowConfig();
     const tabBarPages = getTabBarPages();
+    const homePage = getHomePage();
 
-    const isHomePage =
-      route === 'pages/index/index' || route === '/pages/index/index';
+    const isHomePage = route === homePage || route === `/${homePage}`;
     const isTabBarPage = tabBarPages.has(route);
     const shouldHideNav =
       tabBarPages.size <= 1 &&
@@ -106,7 +111,7 @@ export const H5NavBar = () => {
         pageConfig.transparentTitle || globalConfig.transparentTitle || 'none',
       leftIcon: shouldHideNav
         ? LeftIcon.None
-        : computeLeftIcon(route, tabBarPages, pages.length),
+        : computeLeftIcon(route, tabBarPages, pages.length, homePage),
     });
   }, []);
 
@@ -165,7 +170,10 @@ export const H5NavBar = () => {
   };
 
   const handleBack = () => Taro.navigateBack();
-  const handleGoHome = () => Taro.reLaunch({ url: '/pages/index/index' });
+  const handleGoHome = () => {
+    const homePage = getHomePage();
+    Taro.reLaunch({ url: `/${homePage}` });
+  };
 
   return (
     <>

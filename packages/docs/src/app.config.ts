@@ -1,6 +1,9 @@
 export default defineAppConfig({
     pages: [
-        'pages/index/index',
+        'pages/intro/index',
+        'pages/list/index',
+        'pages/about/index',
+        'pages/detail/index',
         'pages/ui/button/index',
         'pages/ui/button-group/index',
         'pages/ui/avatar/index',
@@ -51,7 +54,33 @@ export default defineAppConfig({
     window: {
         backgroundTextStyle: 'light',
         navigationBarBackgroundColor: '#fff',
-        navigationBarTitleText: 'shadcn/ui',
+        navigationBarTitleText: 'taro-shadcn',
         navigationBarTextStyle: 'black',
+    },
+    tabBar: {
+        color: '#737373',
+        selectedColor: '#0a0a0a',
+        backgroundColor: '#ffffff',
+        borderStyle: 'black',
+        list: [
+            {
+                pagePath: 'pages/intro/index',
+                text: '介绍',
+                iconPath: './assets/tabbar/sparkles.png',
+                selectedIconPath: './assets/tabbar/sparkles-active.png',
+            },
+            {
+                pagePath: 'pages/list/index',
+                text: '组件',
+                iconPath: './assets/tabbar/layout-grid.png',
+                selectedIconPath: './assets/tabbar/layout-grid-active.png',
+            },
+            {
+                pagePath: 'pages/about/index',
+                text: '关于',
+                iconPath: './assets/tabbar/user.png',
+                selectedIconPath: './assets/tabbar/user-active.png',
+            },
+        ],
     },
 })

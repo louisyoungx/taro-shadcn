@@ -61,13 +61,13 @@ export default function NavigationMenuPage() {
               <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
               <NavigationMenuContent className="p-2">
                 <View className="w-96 max-w-[calc(100vw-32px)] space-y-2">
-                  <ListItem href="/pages/index/index" title="Introduction">
+                  <ListItem href="/pages/intro/index" title="Introduction">
                     Re-usable components built with Tailwind CSS.
                   </ListItem>
-                  <ListItem href="/pages/index/index" title="Installation">
+                  <ListItem href="/pages/intro/index" title="Installation">
                     How to install dependencies and structure your app.
                   </ListItem>
-                  <ListItem href="/pages/index/index" title="Typography">
+                  <ListItem href="/pages/intro/index" title="Typography">
                     Styles for headings, paragraphs, lists...etc
                   </ListItem>
                 </View>
@@ -120,7 +120,7 @@ export default function NavigationMenuPage() {
             <NavigationMenuItem>
               <NavigationMenuLink
                 className={navigationMenuTriggerStyle()}
-                onClick={() => Taro.navigateTo({ url: "/pages/index/index" })}
+                onClick={() => Taro.navigateTo({ url: "/pages/intro/index" })}
               >
                 Docs
               </NavigationMenuLink>

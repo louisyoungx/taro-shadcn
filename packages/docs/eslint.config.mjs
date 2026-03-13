@@ -117,14 +117,14 @@ export default [
     },
   },
   {
-    files: ['src/pages/index/index.tsx'],
+    files: ['src/pages/intro/index.tsx'],
     rules: {
       'no-restricted-syntax': [
         'error',
         {
           selector: 'JSXText[value=/应用开发中/]',
           message:
-            '工程规范：检测到首页 (src/pages/index/index) 仍为默认占位页面，这会导致用户无法进入新增页面，请根据用户需求开发实际的首页功能和界面。如果已经开发了新的首页，也需要删除旧首页，并更新 src/app.config.ts 文件',
+            '工程规范：检测到首页 (src/pages/intro/index) 仍为默认占位页面，这会导致用户无法进入新增页面，请根据用户需求开发实际的首页功能 and 界面。如果已经开发了新的首页，也需要删除旧首页，并更新 src/app.config.ts 文件',
         },
       ],
     },
