@@ -1,19 +1,25 @@
+<p align="center">
+  <a href="https://taro-shadcn.rocke.top">
+    <img src="https://github.com/louisyoungx/taro-shadcn/blob/main/packages/docs/src/assets/logo.png" alt="Lucide - Beautiful & consistent icon toolkit made by the community. Open-source project and a fork of Feather Icons." width="120">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/louisyoungx/taro-shadcn/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/taro-shadcn?style=flat-square&color=black" alt="license"></a>
+  <a href="https://www.npmjs.com/package/taro-shadcn"><img src="https://img.shields.io/npm/v/taro-shadcn?style=flat-square&color=black" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/taro-shadcn"><img src="https://img.shields.io/npm/dm/taro-shadcn?style=flat-square&color=black" alt="npm downloads"></a>
+  <a href="https://taro-shadcn.rocke.top"><img src="https://img.shields.io/badge/Docs-latest-black.svg?style=flat-square" alt="docs"></a>
+</p>
+
 # Taro Shadcn UI
 
 > **基于 Taro 4 为小程序带来 shadcn/ui 体验。**
-
-[![Docs](https://img.shields.io/badge/Docs-latest-0ea5e9.svg)](https://taro-shadcn.rocke.top)
-[![npm](https://img.shields.io/npm/v/taro-shadcn?label=npm&color=cb3837)](https://www.npmjs.com/package/taro-shadcn)
-[![Taro 4](https://img.shields.io/badge/Taro-4.1.9-blue.svg)](https://docs.taro.zone/)
-[![React 18](https://img.shields.io/badge/React-18.0.0-61dafb.svg)](https://reactjs.org/)
-[![Tailwind CSS 4](https://img.shields.io/badge/TailwindCSS-4.1.18-38b2ac.svg)](https://tailwindcss.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Taro Shadcn UI** 是一个生产就绪的 UI 组件库，构建于 [Taro 4](https://docs.taro.zone/)、[React](https://reactjs.org/) 和 [Tailwind CSS 4](https://tailwindcss.com/) 之上。它提供了 [shadcn/ui](https://ui.shadcn.com/) 优雅的设计和开发体验，并专门针对小程序生态系统进行了优化。
 
 [查看官方文档](https://taro-shadcn.rocke.top)
 
-## ✨ 特性
+## 特性
 
 - 🚀 **专为 Taro 4 打造**: 针对最新的 Taro 4 框架进行了优化，支持微信小程序、字节跳动小程序和 H5。
 - 📱 **100% 小程序兼容**: 对 Radix UI 或其他重型 DOM 库零依赖。所有组件均使用 Taro 原生组件和 Hook 重新构建。
@@ -32,9 +38,7 @@
 npx skills add louisyoungx/taro-shadcn
 ```
 
-## 🚀 快速开始
-
-### 🛠️ 添加组件
+## 快速开始
 
 向项目添加特定组件。CLI 将自动检测并安装所需的依赖项：
 
@@ -42,7 +46,7 @@ npx skills add louisyoungx/taro-shadcn
 pnpm dlx taro-shadcn@latest add button accordion
 ```
 
-## 🧩 组件
+## 组件
 
 [在线预览所有组件](https://taro-shadcn.rocke.top/)
 
