@@ -71,7 +71,7 @@ const PaginationPrevious = ({
     {...props}
   >
     <ChevronLeft size={16} />
-    <Text>Previous</Text>
+    <Text>上一页</Text>
   </PaginationLink>
 )
 PaginationPrevious.displayName = "PaginationPrevious"
@@ -86,7 +86,7 @@ const PaginationNext = ({
     className={cn("gap-1 pr-3", className)}
     {...props}
   >
-    <Text>Next</Text>
+    <Text>下一页</Text>
     <ChevronRight size={16} />
   </PaginationLink>
 )
