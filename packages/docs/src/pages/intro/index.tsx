@@ -37,8 +37,8 @@ const Index: FC = () => {
   return (
     <View className="min-h-screen bg-background">
       {/* Hero Section */}
-      <View className="px-6 pt-16 pb-8">
-        <View className="flex items-center justify-center mb-5">
+      <View className="px-6 pt-16 pb-6">
+        <View className="flex items-center justify-center mb-4">
           <View className="w-14 h-14 bg-foreground rounded-lg flex items-center justify-center">
             <Image src="/static/logo.png" className="w-10 h-10" />
           </View>

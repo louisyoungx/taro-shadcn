@@ -71,11 +71,7 @@ const ComponentDetail: FC = () => {
     <View className="flex flex-col min-h-screen bg-background">
       <View className="flex-1 p-4">
         {/* 简介 */}
-        <Card className="mb-4">
-          <CardContent>
-            <Text className="text-sm text-muted-foreground">{doc.description}</Text>
-          </CardContent>
-        </Card>
+        <View className="px-2 pb-6 pt-4 text-sm text-muted-foreground">{doc.description}</View>
 
         <Card className="mb-6">
           <CardHeader>

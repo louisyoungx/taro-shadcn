@@ -42,7 +42,7 @@ const About: FC = () => {
   return (
     <View className="min-h-screen bg-background">
       {/* Header */}
-      <View className="px-6 pt-16 pb-8">
+      <View className="px-6 pt-16 pb-6">
         <View className="flex items-center justify-center mb-4">
           <View className="w-14 h-14 bg-foreground rounded-lg flex items-center justify-center">
             <Image src="/static/logo.png" className="w-10 h-10" />
@@ -51,10 +51,6 @@ const About: FC = () => {
         
         <Text className="block text-2xl font-bold text-center text-foreground mb-1">
           taro-shadcn
-        </Text>
-        
-        <Text className="block text-sm text-center text-muted-foreground">
-          v1.0.0
         </Text>
       </View>
 
@@ -137,7 +133,7 @@ const About: FC = () => {
               <Text className="text-sm text-foreground">GitHub</Text> 
             </View> 
             <View className="flex items-center gap-1">
-              <Text className="text-sm text-foreground pr-1">@louisyoungx</Text> 
+              <Text className="text-sm text-muted-foreground pr-1">@louisyoungx</Text>
               <ExternalLink size={14} color="#a3a3a3" /> 
             </View>
           </View> 
