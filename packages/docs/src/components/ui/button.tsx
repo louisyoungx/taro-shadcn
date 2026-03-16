@@ -43,6 +43,7 @@ export interface ButtonProps
 
 const Button = React.forwardRef<React.ElementRef<typeof View>, ButtonProps>(
   ({ className, variant, size, asChild = false, disabled, ...props }, ref) => {
+    const tabIndex = (props as { tabIndex?: number }).tabIndex ?? (disabled ? -1 : 0)
     return (
       <View
         className={cn(
@@ -50,6 +51,7 @@ const Button = React.forwardRef<React.ElementRef<typeof View>, ButtonProps>(
           disabled && "opacity-50 pointer-events-none"
         )}
         ref={ref}
+        {...({ tabIndex } as { tabIndex?: number })}
         hoverClass={
           disabled
             ? undefined

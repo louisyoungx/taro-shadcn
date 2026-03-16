@@ -3,26 +3,6 @@
 /* stylelint-disable number-max-precision */
 @import url('weapp-tailwindcss');
 
-*,
-::before,
-::after,
-::backdrop {
-    --tw-shadow: 0 0 #0000;
-    --tw-shadow-color: initial;
-    --tw-shadow-alpha: 100%;
-    --tw-inset-shadow: 0 0 #0000;
-    --tw-inset-shadow-color: initial;
-    --tw-inset-shadow-alpha: 100%;
-    --tw-ring-color: initial;
-    --tw-ring-shadow: 0 0 #0000;
-    --tw-inset-ring-color: initial;
-    --tw-inset-ring-shadow: 0 0 #0000;
-    --tw-ring-inset: initial;
-    --tw-ring-offset-width: 0px;
-    --tw-ring-offset-color: #fff;
-    --tw-ring-offset-shadow: 0 0 #0000;
-}
-
 /* 小程序页面容器高度设置，确保垂直居中生效 */
 page {
     height: 100%;
@@ -64,6 +44,20 @@ root-portal {
     --code-number: lab(48.96% 0 0);
     --selection: lab(2.75381% 0 0);
     --selection-foreground: lab(100% 0 0);
+    --tw-shadow: 0 0 #0000;
+    --tw-shadow-color: initial;
+    --tw-shadow-alpha: 100%;
+    --tw-inset-shadow: 0 0 #0000;
+    --tw-inset-shadow-color: initial;
+    --tw-inset-shadow-alpha: 100%;
+    --tw-ring-color: initial;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-inset-ring-color: initial;
+    --tw-inset-ring-shadow: 0 0 #0000;
+    --tw-ring-inset: initial;
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: #fff;
+    --tw-ring-offset-shadow: 0 0 #0000;
 }
 
 .dark {

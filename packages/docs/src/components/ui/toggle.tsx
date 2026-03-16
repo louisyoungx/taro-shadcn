@@ -48,6 +48,7 @@ const Toggle = React.forwardRef<
         onPressedChange?.(newPressed)
         props.onClick?.(e)
     }
+  const tabIndex = (props as { tabIndex?: number }).tabIndex ?? (disabled ? -1 : 0)
 
   return (
     <View
@@ -59,6 +60,7 @@ const Toggle = React.forwardRef<
         )}
       data-state={pressed ? "on" : "off"}
       data-disabled={disabled ? "" : undefined}
+      {...({ tabIndex } as { tabIndex?: number })}
       hoverClass={
         disabled
           ? undefined

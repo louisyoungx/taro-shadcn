@@ -17,6 +17,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TaroInput>, InputProps>(
     React.useEffect(() => {
       if (autoFocus || focus) setIsFocused(true)
     }, [autoFocus, focus])
+
     return (
       <View
         className={cn(

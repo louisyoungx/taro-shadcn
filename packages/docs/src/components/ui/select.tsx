@@ -115,8 +115,11 @@ SelectValue.displayName = "SelectValue"
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View> & { size?: "sm" | "default" }
->(({ className, size = "default", children, onClick, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof View> & {
+    size?: "sm" | "default"
+    disabled?: boolean
+  }
+>(({ className, size = "default", disabled, children, onClick, ...props }, ref) => {
   const context = React.useContext(SelectContext)
   return (
     <View
@@ -131,7 +134,13 @@ const SelectTrigger = React.forwardRef<
           "border-ring ring-2 ring-ring ring-offset-2 ring-offset-background",
         className
       )}
+      hoverClass={
+        disabled
+          ? undefined
+          : "border-ring ring-2 ring-ring ring-offset-2 ring-offset-background"
+      }
       onClick={(e) => {
+        if (disabled) return
         onClick?.(e)
         e.stopPropagation()
         context?.onOpenChange?.(!context.open)
