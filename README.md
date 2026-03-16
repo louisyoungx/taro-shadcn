@@ -50,59 +50,57 @@ pnpm dlx taro-shadcn@latest add button accordion
 
 [在线预览所有组件](https://taro-shadcn.rocke.top/)
 
-> 组件源文件（registry）：`packages/docs/src/components/ui/*.tsx`  
-> 文档页面路由：`packages/docs/src/app.config.ts`
+> 组件源代码（registry）：`packages/docs/src/components/ui/*.tsx`  
 
-| 组件名称       | 描述               | 在线预览                   | 安装命令                                          |
-| -------------- | ------------------ | -------------------------- | ------------------------------------------------- |
-| Accordion      | 折叠面板           | [预览][ui-accordion]       | `pnpm dlx taro-shadcn@latest add accordion`       |
-| Alert          | 警告提示           | [预览][ui-alert]           | `pnpm dlx taro-shadcn@latest add alert`           |
-| AlertDialog    | 警告对话框         | [预览][ui-alert-dialog]    | `pnpm dlx taro-shadcn@latest add alert-dialog`    |
-| AspectRatio    | 固定宽高比容器     | [预览][ui-aspect-ratio]    | `pnpm dlx taro-shadcn@latest add aspect-ratio`    |
-| Avatar         | 头像               | [预览][ui-avatar]          | `pnpm dlx taro-shadcn@latest add avatar`          |
-| Badge          | 徽标/标签          | [预览][ui-badge]           | `pnpm dlx taro-shadcn@latest add badge`           |
-| Breadcrumb     | 面包屑导航         | [预览][ui-breadcrumb]      | `pnpm dlx taro-shadcn@latest add breadcrumb`      |
-| Button         | 按钮               | [预览][ui-button]          | `pnpm dlx taro-shadcn@latest add button`          |
-| ButtonGroup    | 按钮组             | [预览][ui-button-group]    | `pnpm dlx taro-shadcn@latest add button-group`    |
-| Calendar       | 日历选择           | [预览][ui-calendar]        | `pnpm dlx taro-shadcn@latest add calendar`        |
-| Card           | 卡片容器           | [预览][ui-card]            | `pnpm dlx taro-shadcn@latest add card`            |
-| Carousel       | 轮播               | [预览][ui-carousel]        | `pnpm dlx taro-shadcn@latest add carousel`        |
-| Checkbox       | 复选框             | [预览][ui-checkbox]        | `pnpm dlx taro-shadcn@latest add checkbox`        |
-| Collapsible    | 可折叠区域         | [预览][ui-collapsible]     | `pnpm dlx taro-shadcn@latest add collapsible`     |
-| Command        | 命令面板/快捷搜索  | [预览][ui-command]         | `pnpm dlx taro-shadcn@latest add command`         |
-| ContextMenu    | 右键菜单           | [预览][ui-context-menu]    | `pnpm dlx taro-shadcn@latest add context-menu`    |
-| Dialog         | 对话框             | [预览][ui-dialog]          | `pnpm dlx taro-shadcn@latest add dialog`          |
-| Drawer         | 抽屉               | [预览][ui-drawer]          | `pnpm dlx taro-shadcn@latest add drawer`          |
-| DropdownMenu   | 下拉菜单           | [预览][ui-dropdown-menu]   | `pnpm dlx taro-shadcn@latest add dropdown-menu`   |
-| Field          | 表单字段容器       | [预览][ui-field]           | `pnpm dlx taro-shadcn@latest add field`           |
-| HoverCard      | 悬浮卡片           | [预览][ui-hover-card]      | `pnpm dlx taro-shadcn@latest add hover-card`      |
-| Input          | 输入框             | [预览][ui-input]           | `pnpm dlx taro-shadcn@latest add input`           |
-| InputGroup     | 输入组             | [预览][ui-input-group]     | `pnpm dlx taro-shadcn@latest add input-group`     |
-| InputOTP       | 验证码输入         | [预览][ui-input-otp]       | `pnpm dlx taro-shadcn@latest add input-otp`       |
-| Label          | 标签               | [预览][ui-label]           | `pnpm dlx taro-shadcn@latest add label`           |
-| Menubar        | 菜单栏             | [预览][ui-menubar]         | `pnpm dlx taro-shadcn@latest add menubar`         |
-| NavigationMenu | 导航菜单           | [预览][ui-navigation-menu] | `pnpm dlx taro-shadcn@latest add navigation-menu` |
-| Pagination     | 分页               | [预览][ui-pagination]      | `pnpm dlx taro-shadcn@latest add pagination`      |
-| Popover        | 气泡弹层           | [预览][ui-popover]         | `pnpm dlx taro-shadcn@latest add popover`         |
-| Portal         | 传送门（挂载到根） | —                          | `pnpm dlx taro-shadcn@latest add portal`          |
-| Progress       | 进度条             | [预览][ui-progress]        | `pnpm dlx taro-shadcn@latest add progress`        |
-| RadioGroup     | 单选组             | [预览][ui-radio-group]     | `pnpm dlx taro-shadcn@latest add radio-group`     |
-| Resizable      | 可调整大小面板     | [预览][ui-resizable]       | `pnpm dlx taro-shadcn@latest add resizable`       |
-| ScrollArea     | 滚动区域           | [预览][ui-scroll-area]     | `pnpm dlx taro-shadcn@latest add scroll-area`     |
-| Select         | 选择器             | [预览][ui-select]          | `pnpm dlx taro-shadcn@latest add select`          |
-| Separator      | 分隔线             | [预览][ui-separator]       | `pnpm dlx taro-shadcn@latest add separator`       |
-| Sheet          | 侧边面板           | [预览][ui-sheet]           | `pnpm dlx taro-shadcn@latest add sheet`           |
-| Skeleton       | 骨架屏             | [预览][ui-skeleton]        | `pnpm dlx taro-shadcn@latest add skeleton`        |
-| Slider         | 滑块               | [预览][ui-slider]          | `pnpm dlx taro-shadcn@latest add slider`          |
-| Sonner         | Toast 通知         | [预览][ui-toast]           | `pnpm dlx taro-shadcn@latest add sonner`          |
-| Switch         | 开关               | [预览][ui-switch]          | `pnpm dlx taro-shadcn@latest add switch`          |
-| Table          | 表格               | [预览][ui-table]           | `pnpm dlx taro-shadcn@latest add table`           |
-| Tabs           | 标签页             | [预览][ui-tabs]            | `pnpm dlx taro-shadcn@latest add tabs`            |
-| Textarea       | 多行输入           | [预览][ui-textarea]        | `pnpm dlx taro-shadcn@latest add textarea`        |
-| Toast          | 吐司提示           | [预览][ui-toast]           | `pnpm dlx taro-shadcn@latest add toast`           |
-| Toggle         | 切换按钮           | [预览][ui-toggle]          | `pnpm dlx taro-shadcn@latest add toggle`          |
-| ToggleGroup    | 切换按钮组         | [预览][ui-toggle-group]    | `pnpm dlx taro-shadcn@latest add toggle-group`    |
-| Tooltip        | 文字提示           | [预览][ui-tooltip]         | `pnpm dlx taro-shadcn@latest add tooltip`         |
+| 组件名称       | 描述              | 在线预览                   | 安装命令                                          |
+| -------------- | ----------------- | -------------------------- | ------------------------------------------------- |
+| Accordion      | 折叠面板          | [预览][ui-accordion]       | `pnpm dlx taro-shadcn@latest add accordion`       |
+| Alert          | 警告提示          | [预览][ui-alert]           | `pnpm dlx taro-shadcn@latest add alert`           |
+| AlertDialog    | 警告对话框        | [预览][ui-alert-dialog]    | `pnpm dlx taro-shadcn@latest add alert-dialog`    |
+| AspectRatio    | 固定宽高比容器    | [预览][ui-aspect-ratio]    | `pnpm dlx taro-shadcn@latest add aspect-ratio`    |
+| Avatar         | 头像              | [预览][ui-avatar]          | `pnpm dlx taro-shadcn@latest add avatar`          |
+| Badge          | 徽标/标签         | [预览][ui-badge]           | `pnpm dlx taro-shadcn@latest add badge`           |
+| Breadcrumb     | 面包屑导航        | [预览][ui-breadcrumb]      | `pnpm dlx taro-shadcn@latest add breadcrumb`      |
+| Button         | 按钮              | [预览][ui-button]          | `pnpm dlx taro-shadcn@latest add button`          |
+| ButtonGroup    | 按钮组            | [预览][ui-button-group]    | `pnpm dlx taro-shadcn@latest add button-group`    |
+| Calendar       | 日历选择          | [预览][ui-calendar]        | `pnpm dlx taro-shadcn@latest add calendar`        |
+| Card           | 卡片容器          | [预览][ui-card]            | `pnpm dlx taro-shadcn@latest add card`            |
+| Carousel       | 轮播              | [预览][ui-carousel]        | `pnpm dlx taro-shadcn@latest add carousel`        |
+| Checkbox       | 复选框            | [预览][ui-checkbox]        | `pnpm dlx taro-shadcn@latest add checkbox`        |
+| Collapsible    | 可折叠区域        | [预览][ui-collapsible]     | `pnpm dlx taro-shadcn@latest add collapsible`     |
+| Command        | 命令面板/快捷搜索 | [预览][ui-command]         | `pnpm dlx taro-shadcn@latest add command`         |
+| ContextMenu    | 右键菜单          | [预览][ui-context-menu]    | `pnpm dlx taro-shadcn@latest add context-menu`    |
+| Dialog         | 对话框            | [预览][ui-dialog]          | `pnpm dlx taro-shadcn@latest add dialog`          |
+| Drawer         | 抽屉              | [预览][ui-drawer]          | `pnpm dlx taro-shadcn@latest add drawer`          |
+| DropdownMenu   | 下拉菜单          | [预览][ui-dropdown-menu]   | `pnpm dlx taro-shadcn@latest add dropdown-menu`   |
+| Field          | 表单字段容器      | [预览][ui-field]           | `pnpm dlx taro-shadcn@latest add field`           |
+| HoverCard      | 悬浮卡片          | [预览][ui-hover-card]      | `pnpm dlx taro-shadcn@latest add hover-card`      |
+| Input          | 输入框            | [预览][ui-input]           | `pnpm dlx taro-shadcn@latest add input`           |
+| InputGroup     | 输入组            | [预览][ui-input-group]     | `pnpm dlx taro-shadcn@latest add input-group`     |
+| InputOTP       | 验证码输入        | [预览][ui-input-otp]       | `pnpm dlx taro-shadcn@latest add input-otp`       |
+| Label          | 标签              | [预览][ui-label]           | `pnpm dlx taro-shadcn@latest add label`           |
+| Menubar        | 菜单栏            | [预览][ui-menubar]         | `pnpm dlx taro-shadcn@latest add menubar`         |
+| NavigationMenu | 导航菜单          | [预览][ui-navigation-menu] | `pnpm dlx taro-shadcn@latest add navigation-menu` |
+| Pagination     | 分页              | [预览][ui-pagination]      | `pnpm dlx taro-shadcn@latest add pagination`      |
+| Popover        | 气泡弹层          | [预览][ui-popover]         | `pnpm dlx taro-shadcn@latest add popover`         |
+| Progress       | 进度条            | [预览][ui-progress]        | `pnpm dlx taro-shadcn@latest add progress`        |
+| RadioGroup     | 单选组            | [预览][ui-radio-group]     | `pnpm dlx taro-shadcn@latest add radio-group`     |
+| Resizable      | 可调整大小面板    | [预览][ui-resizable]       | `pnpm dlx taro-shadcn@latest add resizable`       |
+| ScrollArea     | 滚动区域          | [预览][ui-scroll-area]     | `pnpm dlx taro-shadcn@latest add scroll-area`     |
+| Select         | 选择器            | [预览][ui-select]          | `pnpm dlx taro-shadcn@latest add select`          |
+| Separator      | 分隔线            | [预览][ui-separator]       | `pnpm dlx taro-shadcn@latest add separator`       |
+| Sheet          | 侧边面板          | [预览][ui-sheet]           | `pnpm dlx taro-shadcn@latest add sheet`           |
+| Skeleton       | 骨架屏            | [预览][ui-skeleton]        | `pnpm dlx taro-shadcn@latest add skeleton`        |
+| Slider         | 滑块              | [预览][ui-slider]          | `pnpm dlx taro-shadcn@latest add slider`          |
+| Sonner         | Toast 通知        | [预览][ui-toast]           | `pnpm dlx taro-shadcn@latest add sonner`          |
+| Switch         | 开关              | [预览][ui-switch]          | `pnpm dlx taro-shadcn@latest add switch`          |
+| Table          | 表格              | [预览][ui-table]           | `pnpm dlx taro-shadcn@latest add table`           |
+| Tabs           | 标签页            | [预览][ui-tabs]            | `pnpm dlx taro-shadcn@latest add tabs`            |
+| Textarea       | 多行输入          | [预览][ui-textarea]        | `pnpm dlx taro-shadcn@latest add textarea`        |
+| Toast          | 吐司提示          | [预览][ui-toast]           | `pnpm dlx taro-shadcn@latest add toast`           |
+| Toggle         | 切换按钮          | [预览][ui-toggle]          | `pnpm dlx taro-shadcn@latest add toggle`          |
+| ToggleGroup    | 切换按钮组        | [预览][ui-toggle-group]    | `pnpm dlx taro-shadcn@latest add toggle-group`    |
+| Tooltip        | 文字提示          | [预览][ui-tooltip]         | `pnpm dlx taro-shadcn@latest add tooltip`         |
 
 [ui-accordion]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=accordion
 [ui-alert]: https://taro-shadcn.rocke.top/#/pages/detail/index?name=alert
@@ -154,4 +152,4 @@ pnpm dlx taro-shadcn@latest add button accordion
 
 ## 📄 许可证
 
-[MIT LICENSE](LICENSE)。
+[MIT LICENSE](LICENSE)
