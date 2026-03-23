@@ -92,6 +92,12 @@ export default [
             ":matches(JSXAttribute[name.name='className'], CallExpression[callee.name=/^(cn|cva)$/]) :matches(Literal[value=/\\[[^\\]]*&[^\\]]*~[^\\]]*\\]/], TemplateElement[value.raw=/\\[[^\\]]*&[^\\]]*~[^\\]]*\\]/])",
           message: '微信小程序兼容性：WXSS 不支持 ~（会导致预览上传失败）。',
         },
+        {
+          selector:
+            "JSXAttribute[name.name='color'][value.type='Literal'][value.value='currentColor'], JSXAttribute[name.name='color'] > JSXExpressionContainer > Literal[value='currentColor']",
+          message:
+            'lucide-react-taro 规范：禁止使用 color="currentColor"，小程序端不会按预期继承颜色。请改为显式颜色值，或通过 LucideTaroProvider 提供默认颜色。',
+        },
       ],
       'no-restricted-properties': [
         'error',
@@ -125,6 +131,56 @@ export default [
           selector: 'JSXText[value=/应用开发中/]',
           message:
             '工程规范：检测到首页 (src/pages/intro/index) 仍为默认占位页面，这会导致用户无法进入新增页面，请根据用户需求开发实际的首页功能 and 界面。如果已经开发了新的首页，也需要删除旧首页，并更新 src/app.config.ts 文件',
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/pages/**/*.tsx'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            "ImportDeclaration[source.value='@tarojs/components'] ImportSpecifier[imported.name='Button']",
+          message:
+            "组件约束：Button 优先使用 '@/components/ui/button'，不要在页面中直接使用 '@tarojs/components' 的 Button。",
+        },
+        {
+          selector:
+            "ImportDeclaration[source.value='@tarojs/components'] ImportSpecifier[imported.name='Input']",
+          message:
+            "组件约束：Input 优先使用 '@/components/ui/input'，不要在页面中直接使用 '@tarojs/components' 的 Input。",
+        },
+        {
+          selector:
+            "ImportDeclaration[source.value='@tarojs/components'] ImportSpecifier[imported.name='Textarea']",
+          message:
+            "组件约束：Textarea 优先使用 '@/components/ui/textarea'，不要在页面中直接使用 '@tarojs/components' 的 Textarea。",
+        },
+        {
+          selector:
+            "ImportDeclaration[source.value='@tarojs/components'] ImportSpecifier[imported.name='Label']",
+          message:
+            "组件约束：Label 优先使用 '@/components/ui/label'，不要在页面中直接使用 '@tarojs/components' 的 Label。",
+        },
+        {
+          selector:
+            "ImportDeclaration[source.value='@tarojs/components'] ImportSpecifier[imported.name='Switch']",
+          message:
+            "组件约束：Switch 优先使用 '@/components/ui/switch'，不要在页面中直接使用 '@tarojs/components' 的 Switch。",
+        },
+        {
+          selector:
+            "ImportDeclaration[source.value='@tarojs/components'] ImportSpecifier[imported.name='Slider']",
+          message:
+            "组件约束：Slider 优先使用 '@/components/ui/slider'，不要在页面中直接使用 '@tarojs/components' 的 Slider。",
+        },
+        {
+          selector:
+            "ImportDeclaration[source.value='@tarojs/components'] ImportSpecifier[imported.name='Progress']",
+          message:
+            "组件约束：Progress 优先使用 '@/components/ui/progress'，不要在页面中直接使用 '@tarojs/components' 的 Progress。",
         },
       ],
     },
