@@ -158,7 +158,7 @@ const DialogContent = React.forwardRef<
                           context?.onOpenChange?.(false)
                       }}
                   >
-                      <X size={16} />
+                      <X size={16} color="inherit" />
                       <View className="sr-only">Close</View>
                   </View>
               </View>

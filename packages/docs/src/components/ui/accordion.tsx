@@ -118,7 +118,7 @@ const AccordionTriggerInternal = React.forwardRef<
               {...props}
             >
                 {children}
-                <ChevronsUpDown className={cn("shrink-0 transition-transform duration-200", isOpen && "rotate-180")} size={16} />
+                <ChevronsUpDown className={cn("shrink-0 transition-transform duration-200", isOpen && "rotate-180")} size={16} color="inherit" />
             </View>
         </View>
     )

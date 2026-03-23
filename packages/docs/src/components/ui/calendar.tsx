@@ -216,7 +216,7 @@ function Calendar({
             className="h-8 w-8"
             onClick={() => setMonth(subMonths(visibleMonth, 1))}
           >
-            <ChevronLeft size={16} />
+            <ChevronLeft size={16} color="inherit" />
           </Button>
         ) : (
           <View className="h-8 w-8" />
@@ -234,7 +234,7 @@ function Calendar({
                 <Text className="text-sm font-medium">
                   {visibleMonth.getFullYear()}
                 </Text>
-                <ChevronDown size={16} className="opacity-50" />
+                <ChevronDown size={16} className="opacity-50" color="inherit" />
               </Button>
             </Picker>
             <Picker
@@ -250,7 +250,7 @@ function Calendar({
                   {String(visibleMonth.getMonth() + 1).padStart(2, "0")}
                   月
                 </Text>
-                <ChevronDown size={16} className="opacity-50" />
+                <ChevronDown size={16} className="opacity-50" color="inherit" />
               </Button>
             </Picker>
           </View>
@@ -267,7 +267,7 @@ function Calendar({
             className="h-8 w-8"
             onClick={() => setMonth(addMonths(visibleMonth, 1))}
           >
-            <ChevronRight size={16} />
+            <ChevronRight size={16} color="inherit" />
           </Button>
         ) : (
           <View className="h-8 w-8" />

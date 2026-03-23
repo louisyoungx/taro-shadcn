@@ -392,7 +392,7 @@ const ToastItem = ({
     return null
   }, [item.type, richColors])
 
-  const iconColor = palette?.color
+  const iconColor = palette?.color ?? "inherit"
 
   const isCollapsedStack = !isExpanded && !isFront
   const lift = isTop ? 1 : -1

@@ -34,13 +34,13 @@ export function ButtonGroupDemo() {
           <View className="text-sm text-muted-foreground">With Icons</View>
           <ButtonGroup>
             <Button variant="outline" size="icon">
-              <Cloud size={16} />
+              <Cloud size={16} color="inherit" />
             </Button>
             <Button variant="outline" size="icon">
-              <LifeBuoy size={16} />
+              <LifeBuoy size={16} color="inherit" />
             </Button>
             <Button variant="outline" size="icon">
-              <Github size={16} />
+              <Github size={16} color="inherit" />
             </Button>
           </ButtonGroup>
         </View>
@@ -51,7 +51,7 @@ export function ButtonGroupDemo() {
             <Button variant="outline">Save</Button>
             <ButtonGroupSeparator />
             <Button variant="outline" size="icon">
-              <ChevronDown size={16} />
+              <ChevronDown size={16} color="inherit" />
             </Button>
           </ButtonGroup>
         </View>

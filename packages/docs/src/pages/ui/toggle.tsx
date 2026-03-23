@@ -10,7 +10,7 @@ export function ToggleDemo() {
           <Text className="text-sm font-medium text-muted-foreground">Default</Text>
           <View className="flex flex-row gap-4">
             <Toggle aria-label="Toggle bold">
-              <Bold size={16} />
+              <Bold size={16} color="inherit" />
             </Toggle>
           </View>
         </View>
@@ -19,7 +19,7 @@ export function ToggleDemo() {
           <Text className="text-sm font-medium text-muted-foreground">Outline</Text>
           <View className="flex flex-row gap-4">
             <Toggle variant="outline" aria-label="Toggle italic">
-              <Italic size={16} />
+              <Italic size={16} color="inherit" />
             </Toggle>
           </View>
         </View>
@@ -28,11 +28,11 @@ export function ToggleDemo() {
           <Text className="text-sm font-medium text-muted-foreground">With Text</Text>
           <View className="flex flex-row gap-4">
             <Toggle aria-label="Toggle italic">
-              <Italic className="mr-2" size={16} />
+              <Italic className="mr-2" size={16} color="inherit" />
               <Text>Italic</Text>
             </Toggle>
             <Toggle variant="outline" aria-label="Toggle italic">
-              <Italic className="mr-2" size={16} />
+              <Italic className="mr-2" size={16} color="inherit" />
               <Text>Italic</Text>
             </Toggle>
           </View>
@@ -42,10 +42,10 @@ export function ToggleDemo() {
           <Text className="text-sm font-medium text-muted-foreground">Small</Text>
           <View className="flex flex-row gap-4">
             <Toggle size="sm" aria-label="Toggle small">
-              <Italic size={12} />
+              <Italic size={12} color="inherit" />
             </Toggle>
             <Toggle size="sm" variant="outline" aria-label="Toggle small">
-              <Italic size={12} />
+              <Italic size={12} color="inherit" />
             </Toggle>
           </View>
         </View>
@@ -54,10 +54,10 @@ export function ToggleDemo() {
           <Text className="text-sm font-medium text-muted-foreground">Large</Text>
           <View className="flex flex-row gap-4">
             <Toggle size="lg" aria-label="Toggle large">
-              <Italic size={20} />
+              <Italic size={20} color="inherit" />
             </Toggle>
             <Toggle size="lg" variant="outline" aria-label="Toggle large">
-              <Italic size={20} />
+              <Italic size={20} color="inherit" />
             </Toggle>
           </View>
         </View>
@@ -66,10 +66,10 @@ export function ToggleDemo() {
           <Text className="text-sm font-medium text-muted-foreground">Disabled</Text>
           <View className="flex flex-row gap-4">
             <Toggle disabled aria-label="Toggle disabled">
-              <Underline size={16} />
+              <Underline size={16} color="inherit" />
             </Toggle>
             <Toggle disabled variant="outline" aria-label="Toggle disabled">
-              <Underline size={16} />
+              <Underline size={16} color="inherit" />
             </Toggle>
           </View>
         </View>

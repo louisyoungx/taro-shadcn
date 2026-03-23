@@ -70,7 +70,7 @@ const PaginationPrevious = ({
     className={cn("gap-1 pl-3", className)}
     {...props}
   >
-    <ChevronLeft size={16} />
+    <ChevronLeft size={16} color="inherit" />
     <Text>上一页</Text>
   </PaginationLink>
 )
@@ -87,7 +87,7 @@ const PaginationNext = ({
     {...props}
   >
     <Text>下一页</Text>
-    <ChevronRight size={16} />
+    <ChevronRight size={16} color="inherit" />
   </PaginationLink>
 )
 PaginationNext.displayName = "PaginationNext"
@@ -101,7 +101,7 @@ const PaginationEllipsis = ({
     className={cn("flex h-9 w-9 items-center justify-center", className)}
     {...props}
   >
-    <Ellipsis size={16} />
+    <Ellipsis size={16} color="inherit" />
     <View className="sr-only">More pages</View>
   </View>
 )

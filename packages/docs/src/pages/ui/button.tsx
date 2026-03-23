@@ -46,7 +46,7 @@ export function ButtonDemo() {
         <View className="space-y-2">
           <View className="text-sm text-muted-foreground">Icon Button</View>
           <Button variant="outline" size="icon">
-            <ChevronRight size={16} />
+            <ChevronRight size={16} color="inherit" />
           </Button>
         </View>
       </View>

@@ -24,7 +24,7 @@ export function CollapsibleDemo() {
           </Text>
           <CollapsibleTrigger >
             <Button variant="ghost" size="sm" className="w-9 p-0">
-              <ChevronsUpDown size={16} />
+              <ChevronsUpDown size={16} color="inherit" />
               <Text className="sr-only">Toggle</Text>
             </Button>
           </CollapsibleTrigger>

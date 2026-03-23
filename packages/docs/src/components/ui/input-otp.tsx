@@ -128,7 +128,7 @@ const InputOTPSeparator = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof View>
 >(({ ...props }, ref) => (
   <View ref={ref} {...props}>
-    <Dot />
+    <Dot size={24} color="inherit" />
   </View>
 ))
 InputOTPSeparator.displayName = "InputOTPSeparator"

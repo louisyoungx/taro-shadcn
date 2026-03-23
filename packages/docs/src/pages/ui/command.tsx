@@ -58,22 +58,22 @@ export function CommandManyItems() {
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Navigation">
             <CommandItem onSelect={handleSelect}>
-              <House size={iconSize} />
+              <House size={iconSize} color="inherit" />
               <Text>Home</Text>
               <CommandShortcut>⌘H</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <Inbox size={iconSize} />
+              <Inbox size={iconSize} color="inherit" />
               <Text>Inbox</Text>
               <CommandShortcut>⌘I</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <FileText size={iconSize} />
+              <FileText size={iconSize} color="inherit" />
               <Text>Documents</Text>
               <CommandShortcut>⌘D</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <Folder size={iconSize} />
+              <Folder size={iconSize} color="inherit" />
               <Text>Folders</Text>
               <CommandShortcut>⌘F</CommandShortcut>
             </CommandItem>
@@ -81,32 +81,32 @@ export function CommandManyItems() {
           <CommandSeparator />
           <CommandGroup heading="Actions">
             <CommandItem onSelect={handleSelect}>
-              <Plus size={iconSize} />
+              <Plus size={iconSize} color="inherit" />
               <Text>New File</Text>
               <CommandShortcut>⌘N</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <FolderPlus size={iconSize} />
+              <FolderPlus size={iconSize} color="inherit" />
               <Text>New Folder</Text>
               <CommandShortcut>⇧⌘N</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <Copy size={iconSize} />
+              <Copy size={iconSize} color="inherit" />
               <Text>Copy</Text>
               <CommandShortcut>⌘C</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <Scissors size={iconSize} />
+              <Scissors size={iconSize} color="inherit" />
               <Text>Cut</Text>
               <CommandShortcut>⌘X</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <ClipboardPaste size={iconSize} />
+              <ClipboardPaste size={iconSize} color="inherit" />
               <Text>Paste</Text>
               <CommandShortcut>⌘V</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <Trash size={iconSize} />
+              <Trash size={iconSize} color="inherit" />
               <Text>Delete</Text>
               <CommandShortcut>⌫</CommandShortcut>
             </CommandItem>
@@ -114,20 +114,20 @@ export function CommandManyItems() {
           <CommandSeparator />
           <CommandGroup heading="View">
             <CommandItem onSelect={handleSelect}>
-              <LayoutGrid size={iconSize} />
+              <LayoutGrid size={iconSize} color="inherit" />
               <Text>Grid View</Text>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <List size={iconSize} />
+              <List size={iconSize} color="inherit" />
               <Text>List View</Text>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <ZoomIn size={iconSize} />
+              <ZoomIn size={iconSize} color="inherit" />
               <Text>Zoom In</Text>
               <CommandShortcut>⌘+</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <ZoomOut size={iconSize} />
+              <ZoomOut size={iconSize} color="inherit" />
               <Text>Zoom Out</Text>
               <CommandShortcut>⌘-</CommandShortcut>
             </CommandItem>
@@ -135,45 +135,45 @@ export function CommandManyItems() {
           <CommandSeparator />
           <CommandGroup heading="Account">
             <CommandItem onSelect={handleSelect}>
-              <User size={iconSize} />
+              <User size={iconSize} color="inherit" />
               <Text>Profile</Text>
               <CommandShortcut>⌘P</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <CreditCard size={iconSize} />
+              <CreditCard size={iconSize} color="inherit" />
               <Text>Billing</Text>
               <CommandShortcut>⌘B</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <Settings size={iconSize} />
+              <Settings size={iconSize} color="inherit" />
               <Text>Settings</Text>
               <CommandShortcut>⌘S</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <Bell size={iconSize} />
+              <Bell size={iconSize} color="inherit" />
               <Text>Notifications</Text>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <CircleQuestionMark size={iconSize} />
+              <CircleQuestionMark size={iconSize} color="inherit" />
               <Text>Help & Support</Text>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Tools">
             <CommandItem onSelect={handleSelect}>
-              <Calculator size={iconSize} />
+              <Calculator size={iconSize} color="inherit" />
               <Text>Calculator</Text>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <Calendar size={iconSize} />
+              <Calendar size={iconSize} color="inherit" />
               <Text>Calendar</Text>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <Image size={iconSize} />
+              <Image size={iconSize} color="inherit" />
               <Text>Image Editor</Text>
             </CommandItem>
             <CommandItem onSelect={handleSelect}>
-              <Code size={iconSize} />
+              <Code size={iconSize} color="inherit" />
               <Text>Code Editor</Text>
             </CommandItem>
           </CommandGroup>
@@ -196,32 +196,32 @@ export function CommandDemo() {
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup heading="Suggestions">
                 <CommandItem>
-                  <Calendar size={iconSize} />
+                  <Calendar size={iconSize} color="inherit" />
                   <Text>Calendar</Text>
                 </CommandItem>
                 <CommandItem>
-                  <Smile size={iconSize} />
+                  <Smile size={iconSize} color="inherit" />
                   <Text>Search Emoji</Text>
                 </CommandItem>
                 <CommandItem disabled>
-                  <Calculator size={iconSize} />
+                  <Calculator size={iconSize} color="inherit" />
                   <Text>Calculator</Text>
                 </CommandItem>
               </CommandGroup>
               <CommandSeparator />
               <CommandGroup heading="Settings">
                 <CommandItem>
-                  <User size={iconSize} />
+                  <User size={iconSize} color="inherit" />
                   <Text>Profile</Text>
                   <CommandShortcut>⌘P</CommandShortcut>
                 </CommandItem>
                 <CommandItem>
-                  <CreditCard size={iconSize} />
+                  <CreditCard size={iconSize} color="inherit" />
                   <Text>Billing</Text>
                   <CommandShortcut>⌘B</CommandShortcut>
                 </CommandItem>
                 <CommandItem>
-                  <Settings size={iconSize} />
+                  <Settings size={iconSize} color="inherit" />
                   <Text>Settings</Text>
                   <CommandShortcut>⌘S</CommandShortcut>
                 </CommandItem>

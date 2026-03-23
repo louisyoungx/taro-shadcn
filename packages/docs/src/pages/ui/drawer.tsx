@@ -45,7 +45,7 @@ export function DrawerDemo() {
                       onClick={() => onClick(-10)}
                       disabled={goal <= 200}
                     >
-                      <Minus size={16} />
+                      <Minus size={16} color="inherit" />
                       <Text className="sr-only">Decrease</Text>
                     </Button>
                     <View className="flex-1 text-center">
@@ -63,7 +63,7 @@ export function DrawerDemo() {
                       onClick={() => onClick(10)}
                       disabled={goal >= 400}
                     >
-                      <Plus size={16} />
+                      <Plus size={16} color="inherit" />
                       <Text className="sr-only">Increase</Text>
                     </Button>
                   </View>

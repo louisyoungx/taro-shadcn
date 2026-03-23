@@ -210,7 +210,7 @@ const CommandInput = React.forwardRef<
       className="flex h-11 items-center border-b px-3"
       data-slot="command-input-wrapper"
     >
-      <Search className="mr-2 shrink-0 opacity-50" size={16} />
+      <Search className="mr-2 shrink-0 opacity-50" size={16} color="inherit" />
       <Input
         ref={ref}
         className={cn(

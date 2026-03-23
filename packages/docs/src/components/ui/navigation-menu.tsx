@@ -108,6 +108,8 @@ const NavigationMenuTrigger = React.forwardRef<
           "relative top-[1px] ml-1 h-3 w-3 transition duration-200",
           isOpen && "rotate-180"
         )}
+        size={12}
+        color="inherit"
         aria-hidden="true"
       />
     </View>

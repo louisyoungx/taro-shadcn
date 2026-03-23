@@ -81,7 +81,7 @@ export function CardDemo() {
           </CardHeader>
           <CardContent className="grid gap-4">
             <View className="flex items-center rounded-md border p-4">
-              <BellRing size={24} className="mr-4" />
+              <BellRing size={24} className="mr-4" color="inherit" />
               <View className="flex-1 space-y-1">
                 <View className="text-sm font-medium leading-none">
                   Push Notifications
@@ -114,7 +114,7 @@ export function CardDemo() {
           </CardContent>
           <CardFooter>
             <Button className="w-full">
-              <Check className="mr-2" size={16} /> Mark all as read
+              <Check className="mr-2" size={16} color="inherit" /> Mark all as read
             </Button>
           </CardFooter>
         </Card>

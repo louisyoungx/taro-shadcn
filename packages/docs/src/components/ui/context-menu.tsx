@@ -307,7 +307,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
       {...props}
     >
       <View className="pointer-events-none absolute right-2 flex items-center justify-center">
-        {checked && <Check size={16} />}
+        {checked && <Check size={16} color="inherit" />}
       </View>
       {children}
     </View>
@@ -351,7 +351,7 @@ const ContextMenuRadioItem = React.forwardRef<
       {...props}
     >
       <View className="pointer-events-none absolute right-2 flex items-center justify-center">
-        {checked && <Circle className="fill-current" size={8} />}
+        {checked && <Circle className="fill-current" size={8} color="inherit" />}
       </View>
       {children}
     </View>
@@ -494,7 +494,7 @@ const ContextMenuSubTrigger = React.forwardRef<
       }}
     >
       {children}
-      <ChevronRight className="ml-auto opacity-50" size={16} />
+      <ChevronRight className="ml-auto opacity-50" size={16} color="inherit" />
     </View>
   )
 })

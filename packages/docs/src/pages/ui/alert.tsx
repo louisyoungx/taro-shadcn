@@ -7,7 +7,7 @@ export function AlertDemo() {
   return (
     <View className="space-y-4">
         <Alert>
-          <Terminal size={16} />
+          <Terminal size={16} color="inherit" />
           <AlertTitle>Heads up!</AlertTitle>
           <AlertDescription>
             You can add components to your app using the cli.

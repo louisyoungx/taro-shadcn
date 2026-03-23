@@ -85,7 +85,7 @@ const BreadcrumbSeparator = ({
     className={cn("[&>svg]:w-4 [&>svg]:h-4 flex items-center", className)}
     {...props}
   >
-    {children ?? <ChevronRight size={16} />}
+    {children ?? <ChevronRight size={16} color="inherit" />}
   </View>
 )
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator"

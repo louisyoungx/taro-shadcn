@@ -147,7 +147,7 @@ const SelectTrigger = React.forwardRef<
       }}
     >
       {children}
-      <ChevronDown className="text-muted-foreground" size={16} />
+      <ChevronDown className="text-muted-foreground" size={16} color="inherit" />
     </View>
   )
 })
@@ -155,14 +155,14 @@ SelectTrigger.displayName = "SelectTrigger"
 
 const SelectScrollUpButton = ({ className, ...props }: React.ComponentPropsWithoutRef<typeof View>) => (
     <View className={cn("flex cursor-default items-center justify-center py-1", className)} {...props}>
-        <ChevronUp size={16} />
+        <ChevronUp size={16} color="inherit" />
     </View>
 )
 SelectScrollUpButton.displayName = "SelectScrollUpButton"
 
 const SelectScrollDownButton = ({ className, ...props }: React.ComponentPropsWithoutRef<typeof View>) => (
     <View className={cn("flex cursor-default items-center justify-center py-1", className)} {...props}>
-        <ChevronDown size={16} />
+        <ChevronDown size={16} color="inherit" />
     </View>
 )
 SelectScrollDownButton.displayName = "SelectScrollDownButton"
@@ -404,7 +404,7 @@ const SelectItem = React.forwardRef<
       </View>
       {isSelected ? (
         <View className="pointer-events-none absolute right-2 flex h-4 w-4 items-center justify-center">
-          <Check size={16} />
+          <Check size={16} color="inherit" />
         </View>
       ) : null}
     </View>

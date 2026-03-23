@@ -95,21 +95,21 @@ export function NavigationMenuDemo() {
                     className="flex flex-row items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
                     onClick={() => Taro.showToast({ title: "Backlog", icon: "none" })}
                   >
-                    <CircleAlert size={16} />
+                    <CircleAlert size={16} color="inherit" />
                     <Text>Backlog</Text>
                   </NavigationMenuLink>
                   <NavigationMenuLink
                     className="flex flex-row items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
                     onClick={() => Taro.showToast({ title: "To Do", icon: "none" })}
                   >
-                    <CircleDashed size={16} />
+                    <CircleDashed size={16} color="inherit" />
                     <Text>To Do</Text>
                   </NavigationMenuLink>
                   <NavigationMenuLink
                     className="flex flex-row items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
                     onClick={() => Taro.showToast({ title: "Done", icon: "none" })}
                   >
-                    <CircleCheck size={16} />
+                    <CircleCheck size={16} color="inherit" />
                     <Text>Done</Text>
                   </NavigationMenuLink>
                 </View>

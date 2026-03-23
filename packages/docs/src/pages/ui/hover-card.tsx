@@ -33,7 +33,7 @@ export function HoverCardDemo() {
                     The React Framework – created and maintained by @vercel.
                   </View>
                   <View className="flex items-center pt-2">
-                    <CalendarDays className="mr-2 opacity-70" size={16} />
+                    <CalendarDays className="mr-2 opacity-70" size={16} color="inherit" />
                     <View className="text-xs text-muted-foreground">
                       Joined December 2021
                     </View>
