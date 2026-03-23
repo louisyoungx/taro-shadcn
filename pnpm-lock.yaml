@@ -95,8 +95,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       lucide-react-taro:
-        specifier: ^1.4.0
-        version: 1.4.0(@tarojs/components@4.1.9(@tarojs/helper@4.1.9)(@types/react@18.3.27)(postcss@8.5.8)(rollup@4.59.0)(webpack@5.97.1(@swc/core@1.3.96)))(react@18.3.1)
+        specifier: ^1.4.1
+        version: 1.4.1(@tarojs/components@4.1.9(@tarojs/helper@4.1.9)(@types/react@18.3.27)(postcss@8.5.8)(rollup@4.59.0)(webpack@5.97.1(@swc/core@1.3.96)))(react@18.3.1)
       react:
         specifier: ^18.0.0
         version: 18.3.1
@@ -7204,8 +7204,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide-react-taro@1.4.0:
-    resolution: {integrity: sha512-Z9t/TqZNHfRVqXOg+MUeGC+TT6/w/rj+cR0Cyr8+RF1RkV8aC4YDbT99yTKWCQGx6mJQToWaPyOmwTYef5HCmA==}
+  lucide-react-taro@1.4.1:
+    resolution: {integrity: sha512-XdY+YJ7T7O0VRixaVswdy5tfu91MjNHlOpaY2TGxOWZOQB5IRYLgmJfpTMui2b6SSockiN7viKBGnf408K2oTA==}
     hasBin: true
     peerDependencies:
       '@tarojs/components': '>=3.0.0'
@@ -17973,7 +17973,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-react-taro@1.4.0(@tarojs/components@4.1.9(@tarojs/helper@4.1.9)(@types/react@18.3.27)(postcss@8.5.8)(rollup@4.59.0)(webpack@5.97.1(@swc/core@1.3.96)))(react@18.3.1):
+  lucide-react-taro@1.4.1(@tarojs/components@4.1.9(@tarojs/helper@4.1.9)(@types/react@18.3.27)(postcss@8.5.8)(rollup@4.59.0)(webpack@5.97.1(@swc/core@1.3.96)))(react@18.3.1):
     dependencies:
       '@tarojs/components': 4.1.9(@tarojs/helper@4.1.9)(@types/react@18.3.27)(postcss@8.5.8)(rollup@4.59.0)(webpack@5.97.1(@swc/core@1.3.96))
       commander: 14.0.3
