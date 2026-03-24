@@ -258,7 +258,7 @@ const Toaster = ({
     <Portal>
       <View
         className={cn(
-          "toaster fixed z-[100] flex p-4 w-full pointer-events-none",
+          "toaster fixed z-[2147483647] flex w-full pointer-events-none p-4",
           getPositionStyle(position),
           className
         )}
