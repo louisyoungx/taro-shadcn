@@ -122,7 +122,7 @@ jobs:
           fi
 
           git add "${files[@]}"
-          git commit -m "chore(release): v${{ steps.release-version.outputs.value }}"
+          git commit -m "release: v${{ steps.release-version.outputs.value }}"
 
       - name: Push version commit
         run: git push origin HEAD:${{ github.ref_name }}
