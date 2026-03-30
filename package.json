@@ -1,5 +1,5 @@
 {
-  "name": "taro-shadcn",
+  "name": "taro-shadcn-monorepo",
   "private": true,
   "description": "Taro Shadcn UI Component Library Workspace",
   "scripts": {
@@ -8,7 +8,10 @@
     "validate": "pnpm --filter @taro-shadcn/docs validate",
     "lint": "pnpm --filter \"*\" lint",
     "tsc": "pnpm --filter \"*\" tsc",
+    "test": "pnpm run test:ci",
+    "test:ci": "pnpm --filter taro-shadcn typecheck && pnpm --filter taro-shadcn test",
     "test:cli": "pnpm --filter taro-shadcn test",
+    "release": "node scripts/release.js",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "echo skip weapp-tw patch"
   },
