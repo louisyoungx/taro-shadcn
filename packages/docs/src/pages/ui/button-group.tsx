@@ -5,7 +5,7 @@ import {
   ButtonGroupSeparator,
   ButtonGroupText,
 } from "@/components/ui/button-group"
-import { ChevronDown, Cloud, Github, LifeBuoy } from "lucide-react-taro"
+import { ChevronDown, Cloud, LifeBuoy, Package } from "lucide-react-taro"
 
 export function ButtonGroupDemo() {
   return (
@@ -40,7 +40,7 @@ export function ButtonGroupDemo() {
               <LifeBuoy size={16} color="inherit" />
             </Button>
             <Button variant="outline" size="icon">
-              <Github size={16} color="inherit" />
+              <Package size={16} color="inherit" />
             </Button>
           </ButtonGroup>
         </View>

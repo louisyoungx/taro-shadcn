@@ -1,7 +1,6 @@
 import { View, Text, Image } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { 
-  Github, 
   ExternalLink, 
   Code,
   Package
@@ -79,7 +78,7 @@ const About: FC = () => {
               onClick={() => handleCopyLink('https://github.com/louisyoungx/taro-shadcn')}
             >
               <View className="flex items-center gap-2">
-                <Github size={16} color="#737373" />
+                <Package size={16} color="#737373" />
                 <Text className="text-sm text-foreground">GitHub 仓库</Text>
               </View>
               <ExternalLink size={14} color="#a3a3a3" />
@@ -128,7 +127,7 @@ const About: FC = () => {
             onClick={() => handleOpenLink('https://github.com/louisyoungx')} 
           > 
             <View className="flex items-center gap-2"> 
-              <Github size={16} color="#737373" /> 
+              <Code size={16} color="#737373" /> 
               <Text className="text-sm text-foreground">GitHub</Text> 
             </View> 
             <View className="flex items-center gap-1">
