@@ -46,22 +46,6 @@ npx skills add louisyoungx/taro-shadcn
 pnpm dlx taro-shadcn@latest add button accordion
 ```
 
-## 发布 CLI
-
-仓库已提供用于 `taro-shadcn` CLI 的 GitHub Actions 发包流程：
-
-1. 在 npm 包 `taro-shadcn` 的设置中为当前 GitHub 仓库配置 Trusted Publisher。
-2. 确保需要发布的代码已经合入 `main`，并且 `CI` 工作流通过。
-3. 打开 GitHub Actions 中的 `Release` 工作流，手动选择 `patch`、`minor`、`major` 或 `custom`。
-4. 工作流会自动 bump `packages/cli/package.json` 版本、运行测试、通过 npm Trusted Publishing 发布、推送版本提交、创建 tag 和 GitHub Release。
-
-如果需要在本地执行同样的版本 bump 与发布链路，也可以运行：
-
-```bash
-pnpm release patch
-pnpm release 1.2.3
-```
-
 ## 组件
 
 [在线预览所有组件](https://taro-shadcn.rocke.top/)
